@@ -1,10 +1,30 @@
-#include <vector>
-#include <map>
-#include <queue>
-#include <algorithm>
+// Copyright 2016 Qi Wang
+// Date: 2016-10-22
+class Solution {
+ public:
+  bool canFinish(int numCourses, vector<pair<int, int>>& prerequisites) {
+    vector<list<int>> map(numCourses);
+    vector<int> inDegree(numCourses, 0);
+    for (auto& p : prerequisites) {
+      map[p.first].push_back(p.second);
+      ++inDegree[p.second];
+    }
+    queue<int> zeroInDegreeQ;
+    for (int i = 0; i < numCourses; ++i)
+      if (inDegree[i] == 0) zeroInDegreeQ.push(i);
+    while (!zeroInDegreeQ.empty()) {
+      int u = zeroInDegreeQ.front();
+      zeroInDegreeQ.pop();
+      for (int v : map[u])
+        if (--inDegree[v] == 0) zeroInDegreeQ.push(v);
+    }
+    return all_of(inDegree.begin(), inDegree.end(), [](int degree) {
+      return degree == 0;
+    });
+  }
+};
 
-using namespace std;
-
+// Date: 2015-08
 class Solution
 {
 public:
