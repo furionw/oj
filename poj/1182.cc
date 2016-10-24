@@ -36,12 +36,15 @@ int main() {
       continue;
     }
     // nontrivial case
-    int s1 = find(a1), s2 = find(a2);    
+    int s1 = find(a1), s2 = find(a2);
     if (s1 != s2) {
       nodes[s2].parent = s1;
-      nodes[s2].relation = 
+      nodes[s2].relation = (2 + op + nodes[a1].relation - nodes[a2].relation) % 3;
     } else {
-      // op == EAT
+      // Already in the same set
+      if ((op == SAME && nodes[a1].relation != nodes[a2].relation)
+          || (op == EAT && (3 + nodes[a2].relation - nodes[a1].relation) % 3 == 1))
+        ++res;
     }
   }
 }
