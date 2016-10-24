@@ -1,8 +1,29 @@
-#include <iostream>
-#include <string>
-#include <vector>
-
-using namespace std;
+// Copyright 2016 Qi Wang
+// Manacher algorithm finding longest palindrome substring in O(n) time
+// Date: 2016-10-04
+class Solution {
+ public:
+  string longestPalindrome(string s) {
+    string str(2 * s.size() + 1, 0);
+    for (size_t i = 0; i < s.size(); ++i)
+      str[2 * i + 1] = s[i];
+    vector<size_t> p(str.size(), 0);
+    size_t mirrorRight = 0, mirrorCenter;
+    size_t maxCenter = 0;
+    for (size_t i = 1; i < str.size(); ++i) {
+      p[i] = mirrorRight > i ? min(mirrorRight - i, p[2 * mirrorCenter - i]): 0;
+      for (; i + p[i] + 1 < str.size() && i - p[i] - 1 >= 0
+          && str[i + p[i] + 1] == str[i - p[i] - 1]; ++p[i]) {}
+      if (i + p[i] > mirrorRight) {
+        mirrorRight = i + p[i];
+        mirrorCenter = i;
+      }
+      // update maxCenter
+      maxCenter = p[i] > p[maxCenter] ? i : maxCenter;
+    }
+    return s.substr((maxCenter - p[maxCenter]) >> 1, p[maxCenter]);
+  }
+};
 
 // old one
 class Solution 

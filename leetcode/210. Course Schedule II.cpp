@@ -1,10 +1,30 @@
-#include <vector>
-#include <queue>
-#include <algorithm>
-#include <map>
+// Copyright 2016 Qi Wang
+// Date: 2016-10-24
+class Solution {
+ public:
+  vector<int> findOrder(int numCourses, vector<pair<int, int>>& prerequisites) {
+    vector<list<int>> map(numCourses);
+    vector<int> inDegree(numCourses, 0);
+    for (auto& p : prerequisites) {
+      map[p.first].push_back(p.second);
+      ++inDegree[p.second];
+    }
+    queue<int> zeroInDegreeQ;
+    for (int i = 0; i < numCourses; ++i)
+      if (inDegree[i] == 0) zeroInDegreeQ.push(i);
+    vector<int> res;
+    while (!zeroInDegreeQ.empty()) {
+      int u = zeroInDegreeQ.front();
+      zeroInDegreeQ.pop();
+      res.insert(res.begin(), u);
+      for (int v : map[u])
+        if (--inDegree[v] == 0) zeroInDegreeQ.push(v);
+    }
+    return res.size() == numCourses ? res : vector<int>();
+  }
+};
 
-using namespace std;
-
+// Date: 2015-08
 class Solution 
 {
 public:
