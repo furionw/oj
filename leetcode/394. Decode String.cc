@@ -16,8 +16,6 @@ class Solution {
         for (; isDigit(str[idx]); ++idx) {}
         int t = stoi(str.substr(digitBegin, idx - digitBegin));
         encodeStr += decodeString(t, str, ++idx);
-        cout << encodeStr << endl;
-        cout << str[idx] << endl;
       } else {
         // trivial character. We just append it to the end of the "encodeStr"
         encodeStr += str[idx];
@@ -25,11 +23,8 @@ class Solution {
     }
     string res;
     while (times--) res += encodeStr;
-    cout << "res: " << res << endl;
     return res;
   }
 
-  inline bool isDigit(char c) const {
-    return '0' <= c && c <= '9';
-  }
+  inline bool isDigit(char c) const { return '0' <= c && c <= '9'; }
 };
