@@ -78,6 +78,8 @@ int main() {
   // Run well in OS X
   constexpr int MAXN = 1e6 + 5;
   std::unique_ptr<SegmentTree<int, MAXN>> root(new SegmentTree<int, MAXN>(n));
+  // Supported by C++14
+  // auto root = std::make_unique<SegmentTree<int, MAXN>>(n);
   int q;
   scanf("%d", &q);
   while (q--) {
