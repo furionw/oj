@@ -1,3 +1,18 @@
+// Copyright 2016 Qi Wang
+// Date: 2016-10-30
+class Solution {
+ public:
+  bool hasPathSum(TreeNode* root, int sum) {
+    return root == nullptr
+        ? false
+        : root->left == nullptr && root->right == nullptr
+            ? root->val == sum
+            : hasPathSum(root->left, sum - root->val)
+                || hasPathSum(root->right, sum - root->val);
+  }
+};
+
+// Date: 2014-08
 class Solution 
 {
 public:
