@@ -1,4 +1,26 @@
 // Copyright 2016 Qi Wang
+// Date: 2016-11-02
+class Solution {
+ public:
+  vector<string> summaryRanges(vector<int>& nums) {
+    vector<string> res;
+    if (nums.empty()) return res;
+    int beginNum = nums.front(), len = 1;
+    for (auto it = nums.begin() + 1; it != nums.end(); ++it)
+      if (*it == beginNum + len) {
+        ++len;
+      } else {
+        res.emplace_back(to_string(beginNum) + 
+            (len != 1 ? "->" + to_string(beginNum + len - 1) : ""));
+        beginNum = *it;
+        len = 1;
+      }
+    res.emplace_back(to_string(beginNum) + 
+        (len != 1 ? "->" + to_string(beginNum + len - 1) : ""));
+    return res;
+  }
+};
+
 // Date: 2016-10-05
 class Solution {
  public:
