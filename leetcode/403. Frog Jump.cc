@@ -1,5 +1,5 @@
 // Copyright 2016 Qi Wang
-// Date: 2016-11-06
+// Date: 2016-11-07
 class Solution {
  public:
   bool canCross(vector<int>& stones) {
