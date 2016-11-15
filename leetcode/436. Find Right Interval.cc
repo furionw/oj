@@ -7,8 +7,8 @@
 class Solution {
  public:
   vector<int> findRightInterval(vector<Interval>& intervals) {
-    int idxs[intervals.size()];
     int n = intervals.size();
+    int idxs[n];
     for (int i = 0; i < n; ++i)
       idxs[i] = i;
     sort(idxs, idxs + n, [&intervals](int lhs, int rhs) {
