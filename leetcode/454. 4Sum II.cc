@@ -24,7 +24,3 @@ class Solution {
     return res;
   }
 };
-
-
-
-// check check check old problems
