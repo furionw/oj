@@ -13,7 +13,7 @@ class Solution {
       for (int j = 0; j < 3; ++j)
         res[i] = min(res[i], multiplicators[j] * res[idxs[j]]);
       for (int j = 0; j < 3; ++j)
-        for (; multiplicators[j] * res[idxs[j]] <= res[i]; ++idxs[j]) {}
+        idxs[j] += multiplicators[j] * res[idxs[j]] == res[i];
     }
     return res[n - 1];
   }
