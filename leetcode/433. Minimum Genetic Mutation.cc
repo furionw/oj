@@ -5,26 +5,21 @@ inline string generate(const string& gene, int i) {
 }
 
 template<int TIMES>
-struct loop {
-  static inline void f(const string& gene,
-      map<string, list<string>>& mutationTbl) {
-    loop<TIMES - 1>::f(gene, mutationTbl);
-    mutationTbl[generate(gene, TIMES)].push_back(gene);
-  }
-};
+inline void loop(const string& gene, map<string, list<string>>& mutationTbl) {
+  loop<TIMES - 1>(gene, mutationTbl);
+  mutationTbl[generate(gene, TIMES)].push_back(gene);
+}
 
 template<>
-struct loop<0> {
-  static inline void f(const string& gene,
-      map<string, list<string>>& mutationTbl) {}
-};
+inline void loop<0>(const string& gene,
+    map<string, list<string>>& mutationTbl) {}
 
 class Solution {
  public:
   int minMutation(string start, string end, vector<string>& bank) {
     map<string, list<string>> mutationTbl;
     for (auto& gene : bank)
-      loop<8>::f(gene, mutationTbl);
+      loop<8>(gene, mutationTbl);
     queue<pair<string, int>> q;
     set<string> vi;
     q.emplace(start, 0);
