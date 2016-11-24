@@ -1,5 +1,54 @@
 // Copyright 2016 Qi Wang
-// Date: 2016-11-123
+// Introduce splice() accoding to Ming Lin's advice
+// Date: 2016-11-24
+class LRUCache {
+ private:
+  struct Block {
+    Block(int k, int v) : key(k), value(v) {}
+    int key;
+    int value;
+  };
+
+ public:
+  LRUCache(int c) : capacity_(c) {}
+    
+  int get(int key) {
+    auto it = blockM_.find(key);
+    if (it != blockM_.end()) {
+      // Move node to the head, meaning it's the most recently used
+      blockL_.splice(blockL_.begin(), blockL_, it->second);
+      // "it" remains its validity after splicing. More detail could be fetched
+      // from "Iterator Validity" -- http://www.cplusplus.com/reference/list/list/splice/
+      return it->second->value;
+    } else {
+      return -1;
+    }
+  }
+    
+  void set(int key, int value) {
+    auto it = blockM_.find(key);
+    if (it != blockM_.end()) {
+      blockL_.splice(blockL_.begin(), blockL_, it->second);
+      // Note that we have illustrate the iterator validity before
+      it->second->value = value;
+    } else {
+      // Remove the tail when the list's capacity is full
+      if (blockL_.size() == capacity_) {
+        blockM_.erase(blockL_.back().key);
+        blockL_.pop_back();
+      }
+      blockM_[key] = blockL_.emplace(blockL_.begin(), key, value);
+    }
+  }
+
+ private:
+  list<Block> blockL_;
+  unordered_map<int, list<Block>::iterator> blockM_;
+  int capacity_;
+};
+
+// Method 1
+// Date: 2016-11-23
 class LRUCache {
  private:
   struct Block {
@@ -25,9 +74,9 @@ class LRUCache {
     if (it != blockM_.end()) {
       moveToTail(it)->value = value;
     } else {
-      // Remove the front of the list when block size is going to exceed the
-      // capacity
+      // Remove the least recently used block when the cache's capacity is full
       if (blockL_.size() == capacity_) {
+        // The LRU block is at the front of the list in this implementation
         blockM_.erase(blockL_.front().key);
         blockL_.pop_front();
       }
