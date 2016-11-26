@@ -1,10 +1,22 @@
 // Copyright 2016 Stephen Wong
-
-// Date: 2016-09-29
+// http://www.cnblogs.com/grandyang/p/4233035.html
+// Date: 2016-11-26
 class Solution {
  public:
   int calculateMinimumHP(vector<vector<int>>& dungeon) {
-    
+    int n = dungeon.size(), m = dungeon[0].size();
+    // Add an extra element in dp array to eliminate branch in the inner loop.
+    int dp[m + 1];
+    // DP init
+    dp[m] = INT_MAX;
+    dp[m - 1] = max(1, -dungeon[n - 1][m - 1] + 1);
+    for (int j = m - 2; j >= 0; --j)
+      dp[j] = max(1, dp[j + 1] - dungeon[n - 1][j]);
+    // dp deduct
+    for (int i = n - 2; i >= 0; --i)
+      for (int j = m - 1; j >= 0; --j)
+        dp[j] = max(1, min(dp[j], dp[j + 1]) - dungeon[i][j]);
+    return dp[0];
   }
 };
 
