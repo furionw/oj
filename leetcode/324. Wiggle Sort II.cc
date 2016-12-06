@@ -9,7 +9,7 @@ class Solution {
   void wiggleSort(vector<int>& nums) {
     
   }
-}
+};
 
 // Method 1
 // Date: 2016-12-05
