@@ -27,11 +27,11 @@ class Heap {
   }
 
  private:
-  inline int parent(int idx) const { return idx / 2; }
+  inline int parent(int idx) const { return idx >> 1; }
 
-  inline int left(int idx) const { return 2 * idx; }
+  inline int left(int idx) const { return idx << 1; }
 
-  inline int right(int idx) const { return 2 * idx + 1; }
+  inline int right(int idx) const { return (idx << 1) + 1; }
 
   void max_heapify(int idx) {
     int max_idx = idx;
