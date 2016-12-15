@@ -6,8 +6,8 @@ class Solution {
  public:
   ListNode* sortList(ListNode* head) {
     if (!head || !head->next) return head;
-    auto slow = head, fast = head->next;
-    for (; fast->next && fast->next->next;
+    auto slow = head;
+    for (auto fast = head; fast->next && fast->next->next;
         slow = slow->next, fast = fast->next->next) {}
     auto rHead = slow->next;
     slow->next = nullptr;
