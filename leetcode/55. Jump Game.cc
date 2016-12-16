@@ -1,4 +1,17 @@
 // Copyright 2016 Qi Wang
+// Date: 2016-12-16
+class Solution {
+ public:
+  bool canJump(vector<int>& nums) {
+    if (nums.empty()) return true;
+    int furthest = 0;
+    for (int i = 0; i <= furthest && furthest < static_cast<int>(nums.size());
+        ++i)
+      furthest = max(furthest, i + nums[i]);
+    return furthest >= nums.size() - 1;
+  }
+};
+
 // Date: 2016-11-25
 class Solution {
  public:
@@ -12,19 +25,18 @@ class Solution {
 };
 
 // Date: 2014-06
-class Solution 
-{
-public:
-    bool canJump(int A[], int n) 
+class Solution {
+ public:
+  bool canJump(int A[], int n) 
+  {
+    for (int i=0, bound=0; i <= bound; ++ i)
     {
-      for (int i=0, bound=0; i <= bound; ++ i)
+      bound = max(A[i]+i, bound);
+      if (bound >= n-1)
       {
-        bound = max(A[i]+i, bound);
-        if (bound >= n-1)
-        {
-          return true;
-        }
+        return true;
       }
-      return false;
     }
+    return false;
+  }
 };

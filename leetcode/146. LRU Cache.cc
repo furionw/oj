@@ -1,4 +1,49 @@
 // Copyright 2016 Qi Wang
+// 4th time
+// 66ms, beats 89% cpp solutions
+// Date: 2016-12-16
+class LRUCache {
+ private:
+  struct Block {
+    Block(int k, int v) : key(k), val(v) {}
+    int key, val;
+  };
+
+ public:
+  LRUCache(int capacity) : CAPACITY_(capacity) {}
+
+  int get(int key) {
+    auto it = kToBlk_.find(key);
+    if (it == kToBlk_.end()) return -1;
+    blks_.splice(blks_.begin(), blks_, it->second);
+    return blks_.front().val;
+  }
+
+  void set(int key, int value) {
+    auto it = kToBlk_.find(key);
+    // exists
+    if (it != kToBlk_.end()) {
+      blks_.splice(blks_.begin(), blks_, it->second);
+      blks_.front().val = value;
+    // no exists
+    } else {
+      if (blks_.size() == CAPACITY_) {
+        kToBlk_.erase(blks_.back().key);
+        blks_.pop_back();
+      }
+      kToBlk_[key] = blks_.emplace(blks_.begin(), key, value);
+    }
+  }
+
+ private:
+  // Qi makes his progress by using "const" declarator here, comparing to the
+  // previous solutions
+  const int CAPACITY_;
+  list<Block> blks_;
+  unordered_map<int, list<Block>::iterator> kToBlk_;
+};
+
+// 3rd time
 // Introduce splice() accoding to Ming Lin's advice
 // Date: 2016-11-24
 class LRUCache {

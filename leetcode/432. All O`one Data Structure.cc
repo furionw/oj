@@ -1,4 +1,82 @@
 // Copyright 2016 Qi Wang
+// Date: 2016-12-16
+// 2rd time
+class AllOne {
+  private:
+  struct KeyValue {
+    KeyValue(string k, int v) : key(k), val(v) {}
+    string key;
+    int val;
+  };
+
+ public:
+  // Inserts a new key <Key> with value 1. Or increments an existing key by 1.
+  void inc(string key) {
+    auto it = kToKv_.find(key);
+    // new key
+    if (it == kToKv_.end()) {
+      if (kvTbl_.empty() || kvTbl_.front().front().val != 1)
+        vToKvs_[1] = kvTbl_.emplace(kvTbl_.begin());
+      kToKv_[key] = vToKvs_[1]->emplace(vToKvs_[1]->begin(), key, 1);
+    // existing key
+    } else {
+      // value of key is incremented here
+      int val = it->second->val++;
+      auto kvListIt = vToKvs_[val];
+      auto nextKvListIt = kvListIt;
+      ++nextKvListIt;
+      if (nextKvListIt == kvTbl_.end() || nextKvListIt->front().val != val + 1)
+        nextKvListIt = vToKvs_[val + 1] = kvTbl_.emplace(nextKvListIt);
+      nextKvListIt->splice(nextKvListIt->begin(), *kvListIt, it->second);
+      if (kvListIt->empty()) {
+        kvTbl_.erase(kvListIt);
+        vToKvs_.erase(val);
+      }
+    }
+  }
+    
+  /** Decrements an existing key by 1. If Key's value is 1, 
+      remove it from the data structure. */
+  void dec(string key) {
+    auto it = kToKv_.find(key);
+    if (it == kToKv_.end()) return;
+    // key’s value is decremented here
+    int val = it->second->val--;
+    if (val == 1) {
+      kToKv_.erase(key);
+      vToKvs_[1]->erase(it->second);
+    } else {
+      // the original list where kv reside for now
+      auto kvListIt = vToKvs_.find(val)->second;
+      auto preKvListIt = kvListIt;
+      if (kvListIt == kvTbl_.begin()
+          || (--preKvListIt)->front().val != val - 1)
+        preKvListIt = vToKvs_[val - 1] = kvTbl_.emplace(kvListIt);
+      preKvListIt->splice(preKvListIt->begin(), *kvListIt, it->second);
+    }
+    if (vToKvs_[val]->empty()) {
+      kvTbl_.erase(vToKvs_[val]);
+      vToKvs_.erase(val);
+    }
+  }
+
+  /** Returns one of the keys with maximal value. */
+  string getMaxKey() {
+    return kvTbl_.empty() ? "" : kvTbl_.back().front().key;
+  }
+
+  /** Returns one of the keys with Minimal value. */
+  string getMinKey() {
+    return kvTbl_.empty() ? "" : kvTbl_.front().front().key;
+  }
+
+ private:
+  unordered_map<int, list<list<KeyValue>>::iterator> vToKvs_;
+  unordered_map<string, list<KeyValue>::iterator> kToKv_;
+  list<list<KeyValue>> kvTbl_;
+};
+
+// 1st time
 // Date: 2016-12-01
 class AllOne {
  private:
