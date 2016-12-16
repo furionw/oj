@@ -1,3 +1,29 @@
+// Copyright 2016 Qi Wang
+// Date: 2016-12-16
+class Solution {
+ public:
+  // It's guaranteed that root != nullptr
+  int maxPathSum(TreeNode* root) {
+    // mps : maximal path sum
+    int mps = INT_MIN;
+    maxPathSum(root, mps);
+    return mps;
+  }
+
+ private:
+  // root : non nullptr
+  int maxPathSum(TreeNode *root, int& mps) {
+    // use question expression here to reduce the depth of recursive calls
+    int lRes = root->left ? maxPathSum(root->left, mps) : 0;
+    int rRes = root->right ? maxPathSum(root->right, mps) : 0;
+    // res : the return value
+    int res = max(0, max(lRes, rRes)) + root->val;
+    mps = max(mps, max(res, lRes + root->val + rRes));
+    return res;
+  }
+};
+
+// Date: 2014-09
 class Solution 
 {
 public:
