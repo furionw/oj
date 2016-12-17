@@ -1,6 +1,7 @@
 // Copyright 2016 Qi Wang
 // Greedy with O(n) time
 // Method 2
+// Date: 2016-12-17
 class Solution {
  public:
   int wiggleMaxLength(vector<int>& nums) {

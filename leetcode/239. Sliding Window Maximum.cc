@@ -1,6 +1,6 @@
 // Copyright 2016 Qi Wang
 // Solved by my own!!!
-// Date: 2016-12-16
+// Date: 2016-12-17
 class Solution {
  public:
   vector<int> maxSlidingWindow(vector<int>& nums, int k) {
