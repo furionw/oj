@@ -1,4 +1,26 @@
 // Copyright 2016 Qi Wang
+// Solved by my own!!!
+// Date: 2016-12-16
+class Solution {
+ public:
+  vector<int> maxSlidingWindow(vector<int>& nums, int k) {
+    if (k == 1) return nums;
+    vector<int> res;
+    list<int> descL;
+    for (int i = 0; i < k - 1; ++i) {
+      while (!descL.empty() && descL.back() < nums[i]) descL.pop_back();
+      descL.push_back(nums[i]);
+    }
+    for (size_t i = k - 1; i < nums.size(); ++i) {
+      if (descL.front() == nums[i - k]) descL.pop_front();
+      while (!descL.empty() && descL.back() < nums[i]) descL.pop_back();
+      descL.push_back(nums[i]);
+      res.push_back(descL.front());
+    }
+    return res;
+  }
+};
+
 // Refer to: http://blog.csdn.net/xudli/article/details/46955257
 // Time complexity: O(n)
 // Date: 2016-11-12
