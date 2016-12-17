@@ -1,4 +1,18 @@
 // Copyright 2016 Qi Wang
+// Method 2: bit manipulation
+// This method is probably slower than the one using counters,
+// 'cause the XOR operation is harmful to the pipeline
+// Date: 2016-12-17
+class Solution {
+ public:
+  char findTheDifference(string s, string t) {
+    char res = 0;
+    for (char c : s) res ^= c;
+    for (char c : t) res ^= c;
+    return res;
+  }
+};
+
 // Date: 2016-10-02
 class Solution {
  public:
