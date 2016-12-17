@@ -1,5 +1,15 @@
 // Copyright 2016 Qi Wang
 // Date: 2016-12-17
+// Here we present a brute force algorithm in order to find the length of the
+// longest substring T of a given string s.
+// Firstly, a two dimensional array was constructed.
+//   - cnts[i + 1] contains 26 counters and each counter represents the number
+//     of a specific character in a specific substring.
+// Take the cnts[i + 1][0] as an example:
+//   - cnts[i +1] contains 26 counters specifying the number of the
+//     corresponding 26 lowercase letters in the first i characters of the given string s
+//   - cnts[i + 1][0] records the number of character ‘a’ in the substring,
+//     which consists of s0, s1, …, si-1
 class Solution {
  public:
   int longestSubstring(string s, int k) {
