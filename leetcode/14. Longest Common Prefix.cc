@@ -1,4 +1,22 @@
 // Copyright 2016 Qi Wang
+// Date: 2016-12-19
+class Solution {
+ public:
+  string longestCommonPrefix(vector<string>& strs) {
+    if (strs.empty()) return "";
+    int len = 0;
+    while (true) {
+      if (len == strs.front().size()) break;
+      char c = strs.front()[len];
+      if (any_of(strs.begin(), strs.end(), [c, len](const string& str) {
+        return str.size() < len || str[len] != c;
+      })) break;
+      ++len;
+    }
+    return strs.front().substr(0, len);
+  }
+};
+
 // Date: 2016-11-07
 class Solution {
  public:

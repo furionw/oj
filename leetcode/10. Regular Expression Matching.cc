@@ -1,3 +1,33 @@
+// Copyright 2016 Qi Wang
+// Date: 2016-12-19
+class Solution {
+ public:
+  bool isMatch(string s, string p) {
+    if (p.empty()) {
+      return s.empty();
+    } else if (s.empty()) {
+      // we have to consume all p with an empty string s.
+      if (p.size() & 1) return false;
+      for (size_t i = 1; i < p.size(); i += 2)
+        if (p[i] != '*') return false;
+      return true;
+    }
+
+    if (p.size() > 1 && p[1] == '*') {
+      return isMatch(s, p.substr(2))  // do not try to match
+          || (isMatch(s[0], p[0]) && isMatch(s.substr(1), p));  // find match
+    } else {
+      return isMatch(s[0], p[0]) && isMatch(s.substr(1), p.substr(1));
+    }
+  }
+
+ private:
+  bool isMatch(char s, char p) const {
+    return s == p || p == '.';
+  }
+};
+
+// Date: 2016-09
 class Solution {
  public:
   bool isMatch(string s, string p) {
