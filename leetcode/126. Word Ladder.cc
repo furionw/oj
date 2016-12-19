@@ -8,7 +8,7 @@ class Solution {
     // boost up the trivial case
     if (beginWord == endWord) return 2;
     queue<pair<string, int>> q;
-    q.emplace(beginWord, 2);
+    q.emplace(beginWord, 1);
     while (!q.empty()) {
       string word = q.front().first;
       int dis = q.front().second;
@@ -17,7 +17,7 @@ class Solution {
         for (char c = 'a'; c <= 'z'; ++c)
           if (c != word[i]) {
             swap(word[i], c);
-            if (word == endWord) return dis;
+            if (word == endWord) return dis + 1;
             if (wordList.find(word) != wordList.end()) {
               q.emplace(word, dis + 1);
               wordList.erase(word);

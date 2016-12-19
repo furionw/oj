@@ -24,9 +24,18 @@ class Solution {
   }
 };
 
-// Method 1
-// DP with O(n^2) time
+// Method 1: DP with O(n^2) time
 // Date: 2016-12-17
+// I present a dynamic programming solution to find the maximal length
+// of a wiggle array.
+// Firstly, I would define the meaning of less and greater array.
+//   - both greater[i] and less[i] represent the case when when we only take the
+//     first i elements of the original array into consideration and take the ith
+//     element as the end. So the wiggle array may look like:
+//       - nums[ i0, i1, ..., ij ] where 0 <= i0, i1, ..., ij < i
+//       - ij == i - 1
+//   - greater[i] means this array has the property nums[i[j]] > nums[i[j-1]]
+//   - less[i] means nums[i[j]] < nums[i[j-1]]
 class Solution {
  public:
   int wiggleMaxLength(vector<int>& nums) {
