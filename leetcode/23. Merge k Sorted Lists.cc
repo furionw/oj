@@ -1,7 +1,40 @@
 // Copyright 2016 Qi Wang
+// Date: 2016-12-21
+class Solution {
+ public:
+  ListNode* mergeKLists(vector<ListNode*>& lists) {
+    if (lists.empty()) return nullptr;
+    if (lists.size() == 1) return lists.front();
+    vector<ListNode*> next;
+    for (size_t i = 0; i + 1 < lists.size(); i += 2)
+      next.push_back(merge(lists[i], lists[i + 1]));
+    if (lists.size() % 2) next.push_back(lists.back());
+    return mergeKLists(next);
+  }
+
+ private:
+  ListNode* merge(ListNode *a, ListNode *b) {
+    // Unlike solution on 2016-11-19, We don't introduce shared_ptr
+    ListNode dummy(0);
+    ListNode *tail = &dummy;
+    for (; a && b; tail = tail->next) {
+      if (a->val < b->val) {
+        tail->next = a;
+        a = a->next;
+      } else {
+        tail->next = b;
+        b = b->next;
+      }
+    }
+    // Unlike solution on 2016-11-19, We use ternary conditional expression here
+    tail->next = a ? a : b;
+    return dummy.next;
+  }
+};
+
 // Method 2: with divide-and-conquer
 // Refer to: http://bangbingsyb.blogspot.com/2014/11/leetcode-merge-k-sorted-lists.html
-// Time: 26ms, beats 90% cpp solutions
+// Time: 26ms, beats 89.1% cpp solutions
 // Time complexity: O(nlogk)
 // Date: 2016-11-19
 class Solution {
