@@ -1,4 +1,44 @@
 // Copyright 2016 Qi Wang
+// Date: 2016-12-20
+class Solution {
+ public:
+  vector<vector<int>> fourSum(vector<int>& nums, int target) {
+    vector<vector<int>> res;
+    // trivial case
+    if (nums.size() < 4) return res;
+    // non-trivial case
+    sort(nums.begin(), nums.end());
+    for (size_t i = 0; i < nums.size() - 3;) {
+      for (size_t j = i + 1; j < nums.size() - 2;) {
+        size_t l = j + 1, r = nums.size() - 1;
+        // Boost up by introducing twoSum instead of calculating nums[i, j, k, l]
+        int twoSum = target - nums[i] - nums[j];
+        while (l < r) {
+          if (twoSum > nums[l] + nums[r]) {
+            ++l;
+          } else if (twoSum < nums[l] + nums[r]) {
+            --r;
+          } else {
+            res.push_back({nums[i], nums[j], nums[l], nums[r]});
+            while (l <= r && nums[l] == nums[l + 1]) ++l;
+            ++l;
+            while (l <= r && nums[r - 1] == nums[r]) --r;
+            --r;
+          }
+        }
+        advance(j, nums);
+      }
+      advance(i, nums);
+    }
+    return res;
+  }
+
+ private:
+  void advance(size_t& idx, const vector<int>& nums) const {
+    for (++idx; idx < nums.size() && nums[idx] == nums[idx - 1]; ++idx) {}
+  }
+};
+
 // Date: 2016-11-13
 class Solution {
  public:
