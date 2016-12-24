@@ -1,4 +1,12 @@
 // Copyright 2016 Stephen Wong
+// Date: 2016-12-21
+class Solution {
+ public:
+  int strStr(string s, string p) {
+    return s.find(p);
+  }
+};
+
 // KMP
 // Date: 2016-09-24
 // Correctness: CLRS 32.4, not read yet
