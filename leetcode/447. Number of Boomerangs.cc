@@ -1,12 +1,32 @@
 // Copyright 2016 Qi Wang
 // Date: 2016-12-25
+// Method 2: hypot, refer to the Top Solutions
+class Solution {
+ public:
+  int numberOfBoomerangs(vector<pair<int, int>>& points) {
+    int res = 0;
+    for (auto& p : points) {
+      // specifying the sz when constructing map can really boost up algo
+      unordered_map<double, int> cnts(points.size());
+      for (auto& q : points)
+        res += cnts[hypot(p.first - q.first, p.second - q.second)]++ << 1;
+    }
+    return res;
+  }
+};
+
+// Date: 2016-12-25
+// Method 1
 class Solution {
  public:
   int numberOfBoomerangs(vector<pair<int, int>>& points) {
     int res = 0;
     for (size_t i = 0; i < points.size(); ++i) {
-      unordered_map<int, int> cnts;
+      // specifying the sz when constructing map can really boost up algo
+      // added after referring to method 2
+      unordered_map<int, int> cnts(points.size());
       for (size_t j = 0; j < points.size(); ++j) {
+        // actually unnecessary, 'cause all pairwise distinct
         if (i == j) continue;
         int xDelta = points[j].first - points[i].first,
             yDelta = points[j].second - points[i].second;
