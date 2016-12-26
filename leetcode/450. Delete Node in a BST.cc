@@ -1,4 +1,43 @@
 // Copyright 2016 Qi Wang
+// Date: 2016-12-26
+class Solution {
+ public:
+  TreeNode* deleteNode(TreeNode* root, int key) {
+    if (!root) return root;
+    if (root->val > key) {
+      root->left = deleteNode(root->left, key);
+    } else if (root->val < key) {
+      root->right = deleteNode(root->right, key);
+    } else {
+      if (!root->left && !root->right) {
+        delete root;
+        root = nullptr;
+      } else if (!root->right) {
+        auto left = root->left;
+        delete root;
+        root = left;
+      } else if (!root->left) {
+        auto right = root->right;
+        delete root;
+        root = right;
+      } else {
+        int max = findMax(root->left);
+        root->val = max;
+        root->left = deleteNode(root->left, max);
+      }
+    }
+    return root;
+  }
+
+ private:
+  int findMax(TreeNode* root) const {
+    int max = root->val;
+    for (; root->right; root = root->right)
+      max = root->right->val;
+    return max;
+  }
+};
+
 // Method 2
 // Refer to: http://code.runnable.com/VUTjJDME6nRv_HOe/delete-node-from-bst-for-c%2B%2B
 // Date: 2016-11-20
