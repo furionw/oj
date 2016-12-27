@@ -11,8 +11,10 @@ class Solution {
         x1 <= x2 && y1 <= y2; ++x1, ++y1, --x2, --y2) {
       for (int j = y1; j <= y2; ++j) res.push_back(matrix[x1][j]);
       for (int i = x1 + 1; i <= x2; ++i) res.push_back(matrix[i][y2]);
-      for (int j = y2 - 1; x1 != x2 && j >= y1; --j) res.push_back(matrix[x2][j]);
-      for (int i = x2 - 1; y1 != y2 && i > x1; --i) res.push_back(matrix[i][y1]);
+      if (x1 != x2)
+        for (int j = y2 - 1; j >= y1; --j) res.push_back(matrix[x2][j]);
+      if (y1 != y2)
+        for (int i = x2 - 1; i > x1; --i) res.push_back(matrix[i][y1]);
     }
     return res;
   }
