@@ -1,4 +1,30 @@
 // Copyright 2016 Qi Wang
+// Date: 2016-12-27
+class Solution {
+ public:
+  vector<int> largestDivisibleSubset(vector<int>& nums) {
+    if (nums.empty()) return vector<int>();
+    sort(nums.begin(), nums.end(), greater<int>());
+    // Here we assume the size of nums is less than INT_MAX
+    int n = static_cast<int>(nums.size());
+    int pre[n], dp[n];
+    int maxIdx = 0;
+    memset(pre, -1, sizeof pre);
+    fill(dp, dp + n, 1);
+    for (int i = 1; i < n; ++i)
+      for (int j = 0; j < i; ++j)
+        if (nums[j] % nums[i] == 0 && dp[j] + 1 > dp[i]) {
+          pre[i] = j;
+          dp[i] = dp[j] + 1;
+          maxIdx = dp[maxIdx] >= dp[i] ? maxIdx : i;
+        }
+    vector<int> res;
+    for (; maxIdx != -1; maxIdx = pre[maxIdx])
+      res.push_back(nums[maxIdx]);
+    return res;
+  }
+};
+
 // Method 3
 class Solution {
  public:

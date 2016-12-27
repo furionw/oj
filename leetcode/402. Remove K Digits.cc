@@ -1,7 +1,6 @@
 // Copyright 2016 Qi Wang
-// Time complexity O(n)
-// Reference: http://www.cnblogs.com/CarryPotMan/p/5384172.html
 // Date: 2016-10-09
+// Time complexity O(n)
 class Solution {
  public:
   string removeKdigits(string num, int k) {
@@ -14,13 +13,16 @@ class Solution {
       }
       if (!nums.empty() || num[i] != '0') nums.push_back(num[i]);
     }
+    // It's really necessary to "- k" when constructing res
+    // 'cause there are some situations where k is positive here!!!
+    // Commented on 2016-12-27
     string res(nums.begin(), nums.end() - k);
     return res != "" ? res : "0";
   }
 };
 
-// Time complexity O(nk)
 // Date: 2016-10-09
+// Time complexity O(nk)
 class Solution {
  public:
   string removeKdigits(string num, int k) {
@@ -30,7 +32,7 @@ class Solution {
       tryToRemoveOneCharacter(num, k);
       if (preK == k) break;
     }
-    num = num.substr(0, num.size() - k);    
+    num = num.substr(0, num.size() - k);
     return num != "" ? num : "0";
   }
 
