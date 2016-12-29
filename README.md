@@ -23,3 +23,8 @@
   - LC 321. Create Maximum Number
   - LC 402. Remove K Digits
     - 321 and 402 are similar
+
+# Bit Manipulation
+
+  - LC 411. Minimum Unique Word Abbreviation
+    - Bit Manipulation && Backtracking
