@@ -28,3 +28,15 @@
 
   - LC 411. Minimum Unique Word Abbreviation
     - Bit Manipulation && Backtracking
+
+# Iterator
+
+  - LC 251. Flatten 2D Vector
+
+# DP
+  
+  - 474. Ones and Zeroes
+
+# Greedy
+
+  - 316. Remove Duplicate Letters
