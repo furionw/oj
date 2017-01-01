@@ -1,6 +1,49 @@
-// Copyright 2016 Qi Wang
-// Date: 2016-12-08
+// Copyright 2017 Qi Wang
+// Date: 2017-01-01
+class Iterator {
+  struct Data;
+  Data* data;
+ public:
+  Iterator(const vector<int>& nums);
+  Iterator(const Iterator& iter);
+  virtual ~Iterator();
+  int next();
+  bool hasNext() const;
+};
 
+class PeekingIterator : public Iterator {
+ public:
+  PeekingIterator(const vector<int>& nums) : Iterator(nums) {}
+
+  int peek() {
+    if (!hasPeeked_) {
+      hasPeeked_ = true;
+      peekedElem_ = Iterator::next();
+    }
+    return peekedElem_;
+  }
+
+  int next() {
+    if (hasPeeked_) {
+      hasPeeked_ = false;
+      return peekedElem_;
+    } else {
+      return Iterator::next();
+    }
+  }
+
+  bool hasNext() const {
+    return hasPeeked_ || Iterator::hasNext();
+  }
+
+ private:
+  // rename variables according to Google's guava library source code
+  // https://github.com/google/guava/blob/703ef758b8621cfbab16814f01ddcc5324bdea33/guava-gwt/src-super/com/google/common/collect/super/com/google/common/collect/Iterators.java#L1125
+  bool hasPeeked_ = false;
+  int peekedElem_;
+};
+
+// Date: 2016-12-08
 // Below is the interface for Iterator, which is already defined for you.
 // **DO NOT** modify the interface for Iterator.
 class Iterator {

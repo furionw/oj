@@ -1,4 +1,27 @@
 // Copyright 2016 Qi Wang
+// Date: 2017-01-01
+// This impl is faster than the one on 2016-12-14
+class Solution {
+ public:
+  int findRadius(vector<int>& houses, vector<int>& heaters) {
+    int minR = INT_MIN;
+    sort(heaters.begin(), heaters.end());
+    for (auto house : houses) {
+      // upper_bound : return *it larger than val(house)
+      auto it = upper_bound(heaters.begin(), heaters.end(), house);
+      // all heaters <= house
+      if (it == heaters.end()) {
+        minR = max(minR, house - heaters.back());
+      } else {
+        int r = *it - house;
+        if (it != heaters.begin()) r = min(r, house - *--it);
+        minR = max(minR, r);
+      }
+    }
+    return minR;
+  }
+};
+
 // Date: 2016-12-14
 class Solution {
  public:

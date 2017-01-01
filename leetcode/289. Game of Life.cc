@@ -1,4 +1,37 @@
-// Copyright 2016 Qi Wang
+// Copyright 2017 Qi Wang
+// Date: 2017-01-01
+class Solution {
+ public:
+  void gameOfLife(vector<vector<int>>& board) {
+    if (board.empty() || board[0].empty()) return;
+    for (int i = 0; i < board.size(); ++i)
+      for (int j = 0; j < board[0].size(); ++j) {
+        int cnt = countLiveCell(board, i, j);
+        if ((board[i][j] & 1 && (cnt == 2 || cnt == 3))  // live cell
+            || (!(board[i][j] & 1) && cnt == 3))  // dead cell
+          board[i][j] |= 2;
+      }
+    for (auto& row : board)
+      for (auto& cell : row)
+        cell >>= 1;
+  }
+
+ private:
+  int countLiveCell(vector<vector<int>>& board, int x, int y) const {
+    static constexpr int DELTA[] = {-1, 0, 1};
+    int cnt = 0;
+    for (int i = 0; i < 3; ++i)
+      for (int j = 0; j < 3; ++j) {
+        if (i == 1 && j == 1) continue;
+        int new_x = x + DELTA[i], new_y = y + DELTA[j];
+        if (0 <= new_x && new_x < board.size() && 0 <= new_y
+            && new_y < board[0].size() && board [new_x][new_y] & 1)
+          ++cnt;
+      }
+    return cnt;
+  }
+};
+
 // Date: 2016-11-25
 class Solution {
  public:

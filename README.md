@@ -35,8 +35,22 @@
 
 # DP
   
-  - 474. Ones and Zeroes
+  - LC 474. Ones and Zeroes
 
 # Greedy
 
-  - 316. Remove Duplicate Letters
+  - LC 316. Remove Duplicate Letters
+
+# Hash
+
+  - LC 159. Longest Substring with At Most Two Distinct Characters
+  - LC 340. Longest Substring with At Most K Distinct Characters
+
+# Binary Indexed Tree / Segment Tree
+
+  - LC 308. Range Sum Query 2D - Mutable
+  - https://www.topcoder.com/community/data-science/data-science-tutorials/binary-indexed-trees/
+
+# Graph
+
+  - LC 200, 289, 317 share the similar counting technique, reducing the memory we used
