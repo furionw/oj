@@ -1,4 +1,31 @@
-// Copyright 2016 Qi Wang
+// Copyright 2017 Qi Wang
+// Date: 2017-01-02
+class Solution {
+ public:
+  bool validUtf8(vector<int>& data) {
+    for (size_t i = 0; i < data.size();) {
+      // unicode with first bit being 0
+      if (!(data[i] & HEAD_MASK)) {
+        ++i;
+        continue;
+      }
+      // sz is guaranteed to be an positive number
+      int sz = 0;
+      for (int mask = HEAD_MASK; mask & data[i]; mask >>= 1) ++sz;
+      // sz should fall in range [2, 4]
+      if (sz == 1 || sz > 4 || i + sz > data.size() ||
+          any_of(data.begin() + i + 1, data.begin() + i + sz, [](int byte) {
+            return (byte & TAIL_MASK) != LEGAL;  // illegal
+          })) return false;
+      i += sz;
+    }
+    return true;
+  }
+  static constexpr int HEAD_MASK = 1 << 7;
+  static constexpr int TAIL_MASK = (1 << 7) + (1 << 6);
+  static constexpr int LEGAL = 1 << 7;
+};
+
 // Date: 2016-12-03
 class Solution {
  public:

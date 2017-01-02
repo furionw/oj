@@ -54,3 +54,14 @@
 # Graph
 
   - LC 200, 289, 317 share the similar counting technique, reducing the memory we used
+
+## Topology
+  
+  - LC 310. Minimum Height Trees
+
+# Union Set
+
+  - LC 305. Number of Islands II
+    - Take care of the boundary test
+      - Test whether a vector is empty before calling front() or back()
+      - Test whether you are doing invalid index accessing -- grid[x][y], 0 <= x < m, 0 <= y < n
