@@ -1,4 +1,57 @@
-// Copyright 2016 Qi Wang
+// Copyright 2017 Qi Wang
+// Date: 2017-01-03
+// Time: about 90 ms. This BFS impl probably is slower than DFS on 2016-12-02
+class Solution {
+  using VP = vector<pair<int, int>>;
+  using VVB = vector<vector<bool>>;
+
+ public:
+  VP pacificAtlantic(vector<vector<int>>& matrix) {
+    if (matrix.empty() || matrix[0].empty()) return VP();
+    VP res;
+    // mark them as unvisited
+    int m = matrix.size(), n = matrix[0].size();
+    VVB pacific(m, vector<bool>(n, 0));
+    foo(0, 0, matrix, pacific);
+    VVB atlantic(m, vector<bool>(n, 0));
+    foo(m - 1, n - 1, matrix, atlantic);
+    for (int i = 0; i < m; ++i)
+      for (int j = 0; j < n; ++j)
+        if (pacific[i][j] && atlantic[i][j]) res.emplace_back(i, j);
+    return res;
+  }
+
+ private:
+  void foo(int x, int y, const vector<vector<int>>& matrix, VVB& ocean) const {
+    for (int i = 0; i < matrix.size(); ++i)
+      if (!ocean[i][y]) bfs(i, y, matrix, ocean);
+    for (int j = 0; j < matrix[0].size(); ++j)
+      if (!ocean[x][j]) bfs(x, j, matrix, ocean);
+  }
+
+  void bfs(int x, int y, const vector<vector<int>>& matrix, VVB& ocean) const {
+    ocean[x][y] = true;
+    queue<pair<int, int>> q;
+    q.emplace(x, y);
+    static constexpr int DELTA[] = {0, 1, 0, -1, 0};
+    while (!q.empty()) {
+      auto& p = q.front();
+      q.pop();
+      for (int d = 0; d < 4; ++d) {
+        int new_x = p.first + DELTA[d], new_y = p.second + DELTA[d + 1];
+        if (0 <= new_x && new_x < matrix.size()
+            && 0 <= new_y && new_y < matrix[0].size()
+            && matrix[new_x][new_y] >= matrix[p.first][p.second]
+            && !ocean[new_x][new_y]) {
+          ocean[new_x][new_y] = true;
+          q.emplace(new_x, new_y);
+        }
+      }
+    }
+  }
+};
+
+// Date: 2016-12-02
 // Time: about 72 - 79 ms
 // Method 2
 class Solution {

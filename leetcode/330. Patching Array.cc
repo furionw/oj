@@ -6,6 +6,9 @@ class Solution {
   // nums is sorted already
   int minPatches(vector<int>& nums, int n) {
     int res = 0;
+    // loop invariant: [1, miss - 1] always can be formed using 
+    // res[0, i - 1] and #res numbers
+    // Commented on 2017-01-03
     for (size_t i = 0, miss = 1; miss <= n; ) {
       if (i < nums.size() && nums[i] <= miss) {
           miss += nums[i++];

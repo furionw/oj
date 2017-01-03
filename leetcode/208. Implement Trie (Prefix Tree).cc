@@ -1,16 +1,19 @@
-// Copyright 2016 Qi Wang
+// Copyright 2017 Qi Wang
 // Date: 2016-12-31
+// Last modified: 2017-01-03
 // Method 2: without shared_ptr and memory re-allocation
 // 45 ms, beats 89% cpp solutions
-struct TrieNode {
-  TrieNode() {
-    memset(children_, 0, sizeof children_);
-  }
-  TrieNode* children_[26];
-  bool word_ = false;
-};
-
 class Trie {
+ private:
+  // Define nested class
+  struct TrieNode {
+    TrieNode() {
+      memset(children_, 0, sizeof children_);
+    }
+    TrieNode* children_[26];
+    bool word_ = false;
+  };
+
  public:
   void insert(string word) {
     auto cur = root;

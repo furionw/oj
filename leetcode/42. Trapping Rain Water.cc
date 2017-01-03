@@ -1,10 +1,13 @@
-// Copyright 2016 Qi Wang
+// Copyright 2017 Qi Wang
 // Date: 2016-11-02
+// Last modified: 2017-01-03
 class Solution {
  public:
   int trap(vector<int>& height) {
     if (height.empty()) return 0;
-    int leftmost[height.size()], rightmost[height.size()];
+    // Writing standard C++ code via using vector instead of length variable
+    // array on 2017-01-03.
+    vector<int> leftmost(height.size()), rightmost(height.size());
     for (int i = 0, max = 0; i < height.size(); ++i) {
       leftmost[i] = max;
       max = ::max(max, height[i]);

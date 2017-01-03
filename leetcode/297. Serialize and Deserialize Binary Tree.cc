@@ -1,5 +1,6 @@
-// Copyright 2016 Qi Wang
+// Copyright 2017 Qi Wang
 // Date: 2016-11-27
+// Last modified: 2017-01-03
 class Codec {
  public:
   string serialize(TreeNode* root) {
@@ -11,8 +12,9 @@ class Codec {
     q.push(root);
     while (!q.empty()) {
       auto front = q.front();
-      if (front) {
+      if (front != nullptr) {
         data += string(",") + to_string(front->val);
+        // BFS
         q.push(front->left);
         q.push(front->right);
       } else {
@@ -42,7 +44,7 @@ class Codec {
         parents.pop();
       }
       // non nullptr
-      if (nodes.front()) parents.emplace(nodes.front(), false);
+      if (nodes.front() != nullptr) parents.emplace(nodes.front(), false);
       nodes.pop();
     }
     return root;

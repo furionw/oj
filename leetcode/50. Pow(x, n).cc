@@ -1,4 +1,27 @@
-// Copyright 2016 Qi Wang
+// Copyright 2017 Qi Wang
+// Date: 2017-01-03
+// Note that I think the solution on 2016-10-25 is better (more concise)
+class Solution {
+ public:
+  double myPow(double x, int n) {
+    // negative n
+    if (n == INT_MIN) {
+      double sqrt = myPow(x, n >> 1);
+      return sqrt * sqrt;
+    } else if (n < 0) {
+      return 1 / myPow(x, -n);
+    // non negative n
+    } else if (!n) {
+      return 1;
+    } else if (n == 1) {
+      return x;
+    } else {
+      double sqrt = myPow(x, n >> 1);
+      return sqrt * sqrt * ((n & 1) ? x : 1);
+    }
+  }
+};
+
 // Date: 2016-10-25
 class Solution {
  public:

@@ -1,5 +1,7 @@
-// Copyright 2016 Qi Wang
+// Copyright 2017 Qi Wang
 // Date: 2016-11-11
+// Revisited: 2017-01-03
+// Refer to: https://discuss.leetcode.com/topic/48236/share-my-0ms-c-solution-with-proof-and-explanation
 class Solution {
  public:
   int countNumbersWithUniqueDigits(int n) {
