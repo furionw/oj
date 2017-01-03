@@ -1,5 +1,6 @@
 // Copyright 2016 Qi Wang
 // Date: 2016-12-21
+// Last modified: 2017-01-03
 class Solution {
  public:
   ListNode* mergeKLists(vector<ListNode*>& lists) {
@@ -8,7 +9,8 @@ class Solution {
     vector<ListNode*> next;
     for (size_t i = 0; i + 1 < lists.size(); i += 2)
       next.push_back(merge(lists[i], lists[i + 1]));
-    if (lists.size() % 2) next.push_back(lists.back());
+    // use & 1, on 2017-01-03
+    if (lists.size() & 1) next.push_back(lists.back());
     return mergeKLists(next);
   }
 
@@ -17,7 +19,7 @@ class Solution {
     // Unlike solution on 2016-11-19, We don't introduce shared_ptr
     ListNode dummy(0);
     ListNode *tail = &dummy;
-    for (; a && b; tail = tail->next) {
+    for (; a != nullptr && b != nullptr; tail = tail->next) {
       if (a->val < b->val) {
         tail->next = a;
         a = a->next;
@@ -26,8 +28,9 @@ class Solution {
         b = b->next;
       }
     }
-    // Unlike solution on 2016-11-19, We use ternary conditional expression here
-    tail->next = a ? a : b;
+    // Unlike solution on 2016-11-19, We use ternary conditional expression on 2016-12-21
+    // Use nullptr on 2017-01-03
+    tail->next = a != nullptr ? a : b;
     return dummy.next;
   }
 };
@@ -72,22 +75,25 @@ class Solution {
 // Time: 40ms, beats 60% cpp solutions
 // Time complexity: O(nlogk)
 // Date: 2016-11-19
+// Last modified: 2017-01-03
 class Solution {
  public:
   ListNode* mergeKLists(vector<ListNode*>& lists) {
     priority_queue<ListNode*, vector<ListNode*>, comp> q;
     for (auto head : lists)
-      if (head) q.push(head);
+      if (head != nullptr) q.push(head);  // introduce nullptr on 2017-01-03
     ListNode *res = nullptr, *tail = nullptr;
     while (!q.empty()) {
-      if (!res) {
+      // introduce nullptr on 2017-01-03
+      if (res == nullptr) {
         res = tail = q.top();
       } else {
         tail->next = q.top();
         tail = tail->next;
       }
       q.pop();
-      if (tail->next) q.push(tail->next);
+      // introduce nullptr on 2017-01-03
+      if (tail->next != nullptr) q.push(tail->next);
     }
     return res;
   }
