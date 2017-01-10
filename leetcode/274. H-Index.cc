@@ -1,5 +1,6 @@
-// Copyright 2016 Qi Wang
+// Copyright 2017 Qi Wang
 // Date: 2016-10-25
+// Last modified: 2017-01-04
 // O(n)
 class Solution {
  public:
@@ -8,7 +9,7 @@ class Solution {
     for (int citation : citations)
       ++cnt[citation <= citations.size() ? citation : citations.size()];
     int sum = 0;
-    for (int i = cnt.size() - 1; i >= 0; --i)
+    for (int i = citations.size(); i >= 0; --i)
       if ((sum += cnt[i]) >= i) return i;
     return 0;  // soft the compiler
   }
