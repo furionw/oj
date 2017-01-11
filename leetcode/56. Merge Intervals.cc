@@ -1,5 +1,6 @@
 // Copyright 2017 Qi Wang
 // Date: 2017-01-02
+// Last modified: 2017-01-11
 class Solution {
   using I = Interval;
 
@@ -13,8 +14,8 @@ class Solution {
     for (size_t i = 1; i < intervals.size(); ++i) {
       if (intervals[i].start > res.back().end) {
         res.push_back(intervals[i]);
-      } else if (intervals[i].end > res.back().end) {
-        res.back().end = intervals[i].end;
+      } else {
+        res.back().end = max(intervals[i].end, res.back().end);  // Last modified: 2017-01-11
       }
     }
     return res;
