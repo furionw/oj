@@ -17,6 +17,7 @@ class Solution {
         if (node->right == nullptr) {
           node->right = cur;
           cur = cur->left;
+        // node->right == cur
         } else {
           judge(pre, cur);
           node->right = nullptr;
@@ -44,7 +45,7 @@ class Solution {
 };
 
 // Date: 2016-09-20
-// Complexity: O(lgn) space
+// Complexity: O(n) space in the worst case
 class Solution {
  public:
   void recoverTree(TreeNode* root) {
