@@ -8,13 +8,37 @@
   - LeetCode 5. Longest Palindromic Substring
   - hihoCode 1032.
 
+<br>
 # Graph
+
+  - LC 200, 289, 317 share the similar counting technique, reducing the memory we used
+
+## Topology
+  
+  - LC 310. Minimum Height Trees
 
 ## BFS
 
   - LC 286. Walls and Gates
   - LC 317. Shortest Distance from All Buildings
 
+## Shortest path
+
+### Dijkstra
+
+  - LC 505. The Maze II
+
+
+<br>
+# Tree
+
+## Traversal
+
+  - Morris Traversal
+    - LC 94. Binary Tree Inorder Traversal
+    - LC 99. Recover Binary Search Tree
+
+<br>
 # Permutation
 
   - LC 31. Next Permutation
@@ -24,41 +48,40 @@
   - LC 402. Remove K Digits
     - 321 and 402 are similar
 
+<br>
 # Bit Manipulation
 
   - LC 411. Minimum Unique Word Abbreviation
     - Bit Manipulation && Backtracking
 
+<br>
 # Iterator
 
   - LC 251. Flatten 2D Vector
 
+<br>
 # DP
   
   - LC 474. Ones and Zeroes
 
+<br>
 # Greedy
 
   - LC 316. Remove Duplicate Letters
 
+<br>
 # Hash
 
   - LC 159. Longest Substring with At Most Two Distinct Characters
   - LC 340. Longest Substring with At Most K Distinct Characters
 
+<br>
 # Binary Indexed Tree / Segment Tree
 
   - LC 308. Range Sum Query 2D - Mutable
   - https://www.topcoder.com/community/data-science/data-science-tutorials/binary-indexed-trees/
 
-# Graph
-
-  - LC 200, 289, 317 share the similar counting technique, reducing the memory we used
-
-## Topology
-  
-  - LC 310. Minimum Height Trees
-
+<br>
 # Union Set
 
   - LC 305. Number of Islands II
