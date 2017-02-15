@@ -1,4 +1,21 @@
-// Copyright 2016 Qi Wang
+// Copyright 2017 Qi Wang
+// Date: 2017-02-09
+class Solution {
+ public:
+  bool containsNearbyAlmostDuplicate(vector<int>& nums, int k, int t) {
+    set<int64_t> s;
+    for (int i = 0; i < nums.size(); ++i) {
+      if (i - k - 1 >= 0)
+        s.erase(nums[i - k - 1]);
+      auto it = s.lower_bound(static_cast<int64_t>(nums[i]) - t);
+      if (it != s.end() && *it - nums[i] <= t)
+        return true;
+      s.insert(nums[i]);
+    }
+    return false;
+  }
+};
+
 // Date: 2016-10-24
 // O(n(logn + n/k))
 class Solution {
