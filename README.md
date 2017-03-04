@@ -78,6 +78,8 @@
 
   - LC 159. Longest Substring with At Most Two Distinct Characters
   - LC 340. Longest Substring with At Most K Distinct Characters
+  - LC 523. Continuous Subarray Sum
+  - LC 525. Contiguous Array
 
 <br>
 # Binary Indexed Tree / Segment Tree
