@@ -1,5 +1,37 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-03-09
+// O(nlogn) solution required by follow up question
+class Solution {
+ public:
+  int minSubArrayLen(int s, vector<int>& nums) {
+    int acc = 0;
+    for (int& num : nums) num = (acc += num);
+    int result = INT_MAX;
+    for (int i = 0; i < nums.size(); ++i)
+      if (nums[i] >= s)
+        result = min(result,
+            i - binary_search(nums, i - 1, nums[i] - s));
+    return result != INT_MAX ? result : 0;
+  }
+
+ private:
+  int binary_search(const vector<int>& nums, int r, int target) const {
+    for (int l = 0; l <= r; ) {
+      int mid = (l + r) >> 1;
+      if (nums[mid] == target) {
+        return mid;
+      } else if (nums[mid] > target) {
+        r = mid - 1;
+      } else {
+        l = mid + 1;
+      }
+    }
+    return r;
+  }
+};
+
 // Date: 2017-02-10
+// O(n) time solution
 // 12ms
 class Solution {
  public:

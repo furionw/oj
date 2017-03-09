@@ -2,6 +2,14 @@
   - bubble sort
 
 <br>
+# Array
+
+## Sum
+  - LC 209. Minimum Size Subarray Sum
+  - LC 523. Continuous Subarray Sum (hash)
+  - LC 525. Contiguous Array (hash)
+
+<br>
 # String
 
 ## KMP
