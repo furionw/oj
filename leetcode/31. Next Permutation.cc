@@ -6,9 +6,11 @@ class Solution {
     if (nums.size() <= 1) return;
     int n = static_cast<int>(nums.size());
     for (int i = n - 2; i >= 0; --i) {
+      // [i + 1, ..., nums.size()) are in decending order
       for (int j = n - 1; j > i; --j) {
         if (nums[j] > nums[i]) {
           swap(nums[j], nums[i]);
+          // Make [i + 1, ..., nums.size()) in increasing order
           reverse(nums.begin() + i + 1, nums.end());
           return;
         }
