@@ -9,6 +9,11 @@
   - LC 523. Continuous Subarray Sum (hash)
   - LC 525. Contiguous Array (hash)
 
+## Duplicate
+  - LC 442. Find All Duplicates in an Array
+  - LC 448. Find All Numbers Disappeared in an Array
+  - Offer 51. duplicate
+
 ## Other
 
   - LC 215. Kth Largest Element in an Array (same as Offer  30. GetLeastNumbers)
