@@ -14,6 +14,10 @@
   - LC 448. Find All Numbers Disappeared in an Array
   - Offer 51. duplicate
 
+## Matrix
+  - LC 363. Max Sum of Rectangle No Larger Than K (Google)
+  - Hiho 1502. 最大子矩阵
+
 ## Other
 
   - LC 215. Kth Largest Element in an Array (same as Offer  30. GetLeastNumbers)
