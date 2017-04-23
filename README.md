@@ -8,6 +8,7 @@
   - LC 209. Minimum Size Subarray Sum
   - LC 523. Continuous Subarray Sum (hash)
   - LC 525. Contiguous Array (hash)
+  - LC 548. Split Array with Equal Sum (hash)
 
 ## Duplicate
   - LC 442. Find All Duplicates in an Array
@@ -62,6 +63,7 @@
   - Morris Traversal
     - LC 94. Binary Tree Inorder Traversal
     - LC 99. Recover Binary Search Tree
+  - LC 549. Binary Tree Longest Consecutive Sequence II
 
 <br>
 # Permutation
