@@ -117,3 +117,10 @@
     - Take care of the boundary test
       - Test whether a vector is empty before calling front() or back()
       - Test whether you are doing invalid index accessing -- grid[x][y], 0 <= x < m, 0 <= y < n
+
+<br>
+# STL
+
+  - LC 538. Convert BST to Greater Tree
+    - upper_bound(first, last, val): return last if no such element
+    - distance(first, last) : first comes first
