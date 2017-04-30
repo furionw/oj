@@ -2,6 +2,7 @@
   - bubble sort
 
 <br>
+
 # Array
 
 ## Sum
@@ -24,6 +25,7 @@
   - LC 215. Kth Largest Element in an Array (same as Offer  30. GetLeastNumbers)
 
 <br>
+
 # String
 
 ## KMP
@@ -35,6 +37,7 @@
   - hihoCode 1032.
 
 <br>
+
 # Graph
 
   - LC 200, 289, 317 share the similar counting technique, reducing the memory we used
@@ -56,6 +59,7 @@
 
 
 <br>
+
 # Tree
 
 ## Traversal
@@ -66,6 +70,7 @@
   - LC 549. Binary Tree Longest Consecutive Sequence II
 
 <br>
+
 # Permutation
 
   - LC 31. Next Permutation
@@ -76,27 +81,32 @@
     - 321 and 402 are similar
 
 <br>
+
 # Bit Manipulation
 
   - LC 411. Minimum Unique Word Abbreviation
     - Bit Manipulation && Backtracking
 
 <br>
+
 # Iterator
 
   - LC 251. Flatten 2D Vector
 
 <br>
+
 # DP
   
   - LC 474. Ones and Zeroes
 
 <br>
+
 # Greedy
 
   - LC 316. Remove Duplicate Letters
 
 <br>
+
 # Hash
 
   - LC 159. Longest Substring with At Most Two Distinct Characters
@@ -105,12 +115,14 @@
   - LC 525. Contiguous Array
 
 <br>
+
 # Binary Indexed Tree / Segment Tree
 
   - LC 308. Range Sum Query 2D - Mutable
   - https://www.topcoder.com/community/data-science/data-science-tutorials/binary-indexed-trees/
 
 <br>
+
 # Union Set
 
   - LC 305. Number of Islands II
@@ -119,6 +131,7 @@
       - Test whether you are doing invalid index accessing -- grid[x][y], 0 <= x < m, 0 <= y < n
 
 <br>
+
 # STL
 
   - LC 538. Convert BST to Greater Tree
