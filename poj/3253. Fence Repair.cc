@@ -1,6 +1,35 @@
 // Copyright 2017 Qi Wang
-// Date: 2017-05-07
+// Method 2: priority_queue
 // Refer to the book
+// Date: 2017-05-11
+#include <iostream>
+#include <queue>
+#include <vector>
+#include <functional>
+
+using namespace std;
+
+int main() {
+  int n;
+  cin >> n;
+  priority_queue<int, vector<int>, greater<int>> q;
+  for (int i = 0, num; i < n; ++i) {
+    cin >> num;
+    q.push(num);
+  }
+  long long result = 0;
+  while (q.size() > 1) {
+    int min1 = q.top(); q.pop();
+    int min2 = q.top(); q.pop();
+    result += min1 + min2;
+    q.push(min1 + min2);
+  }
+  cout << result << endl;
+}
+
+// Method 1: Huffman tree
+// Refer to the book
+// Date: 2017-05-07
 #include <iostream>
 #include <vector>
 #include <algorithm>
