@@ -23,6 +23,7 @@
 ## Other
 
   - LC 215. Kth Largest Element in an Array (same as Offer  30. GetLeastNumbers)
+  - LC 594. Longest Harmonious Subsequence (hash)
 
 <br>
 
@@ -114,6 +115,7 @@
   - LC 340. Longest Substring with At Most K Distinct Characters
   - LC 523. Continuous Subarray Sum
   - LC 525. Contiguous Array
+  - LC 594. Longest Harmonious Subsequence
 
 <br>
 
