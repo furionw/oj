@@ -1,5 +1,5 @@
 // Copyright 2017 Qi Wang
-// Date: 2017-06-02
+// Date: 2017-06-03
 class Solution {
  public:
   int arrayNesting(vector<int>& nums) {
