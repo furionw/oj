@@ -1,4 +1,5 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-06-08
 // Method 2: 3ms
 // Refer to: https://discuss.leetcode.com/topic/76312/java-1-line-recursion-solution
 class Solution {
