@@ -1,4 +1,66 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-07-03
+// This impl is faster than the previous solutions on 2016-10-11 and 2017-03-02
+class Solution {
+ public:
+  vector<string> removeInvalidParentheses(string s) {
+    int cur = 0, close_tag_to_remove = 0;
+    for (char c : s) {
+      if ('(' == c) {
+        ++cur;
+      } else if (')' == c) {
+        if (0 == cur) {
+          ++close_tag_to_remove;
+        } else {
+          --cur;
+        }
+      }
+    }
+    string str;
+    unordered_set<string> result;
+    Foo(s, 0, 0, cur, close_tag_to_remove, str, result);
+    return vector<string>(result.begin(), result.end());
+  }
+ 
+ private:
+  void Foo(const string& s, size_t idx, int cur, int open_tag_to_remove,
+      int close_tag_to_remove, string& str,
+      unordered_set<string>& result) const {
+    if (idx == s.size()) {
+      if (0 == open_tag_to_remove && 0 == close_tag_to_remove
+          && result.count(str) == 0)
+        result.insert(str);
+    } else {
+      if (s[idx] == '(') {
+        // remove
+        if (open_tag_to_remove > 0)
+          Foo(s, idx + 1, cur, open_tag_to_remove - 1, close_tag_to_remove, str,
+              result);
+        // take
+        Foo(s, idx + 1, cur + 1, open_tag_to_remove, close_tag_to_remove,
+            str += '(', result);
+        str.pop_back();
+      } else if (s[idx] == ')') {
+        // remove
+        if (close_tag_to_remove > 0)
+          Foo(s, idx + 1, cur, open_tag_to_remove, close_tag_to_remove - 1, str,
+              result);
+        // take
+        if (cur > 0) {
+          Foo(s, idx + 1, cur - 1, open_tag_to_remove, close_tag_to_remove,
+              str += ')', result);
+          str.pop_back();
+        }
+      } else {
+        // take
+        Foo(s, idx + 1, cur, open_tag_to_remove, close_tag_to_remove,
+              str += s[idx], result);
+        str.pop_back();
+      }
+    }
+  }
+};
+
 // Date: 2017-03-02
 class Solution {
  public:
