@@ -1,4 +1,22 @@
-// Copyright 2016 Qi Wang
+// Copyright 2017 Qi Wang
+// Date: 2017-07-02
+class Solution {
+ public:
+  vector<vector<int>> threeSum(vector<int>& nums) {
+    sort(nums.begin(), nums.end());
+    vector<vector<int>> result;
+    for (size_t i = 0; i < nums.size();) {
+      for (size_t j = i + 1; j < nums.size();) {
+        if (binary_search(nums.begin() + j + 1, nums.end(), -nums[i] - nums[j]))
+          result.push_back({nums[i], nums[j], -nums[i] - nums[j]});
+        for (++j; j < nums.size() && nums[j - 1] == nums[j]; ++j) {}
+      }
+      for (++i; i < nums.size() && nums[i - 1] == nums[i]; ++i) {}
+    }
+    return result;
+  }
+};
+ 
 // Date: 2016-12-19
 class Solution {
  public:

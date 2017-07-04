@@ -1,4 +1,24 @@
-// Copyright 2016 Qi Wang
+// Copyright 2017 Qi Wang
+// Date: 2017-07-03
+class Solution {
+ public:
+  bool isValid(string s) {
+    stack<char> stk;
+    for (char c : s) {
+      if ('{' == c || '[' == c || '(' == c) {
+        stk.push(c);
+      } else if (!stk.empty() && (('}' == c && stk.top() == '{')
+          || (']' == c && stk.top() == '[') || (')' == c && stk.top() == '(')
+      )) {
+        stk.pop();
+      } else {
+        return false;
+      }
+    }
+    return stk.empty();
+  }
+};
+
 // Date: 2016-12-21
 class Solution {
  public:

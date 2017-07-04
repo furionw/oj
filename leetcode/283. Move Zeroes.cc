@@ -1,4 +1,20 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-07-03
+// The solution on 2017-02-09 is a more propriate answer.
+class Solution {
+ public:
+  void moveZeroes(vector<int>& nums) {
+    if (nums.size() <= 1) return;
+    int zero_cnt = count(nums.begin(), nums.end(), 0);
+    for (size_t i = 0; i < nums.size(); ++i)
+      while (0 == nums[i] && zero_cnt > 0) {
+        --zero_cnt;
+        for (size_t j = i; j + 1 < nums.size(); ++j)
+          swap(nums[j], nums[j + 1]);
+      }
+  }
+};
+
 // Date: 2017-02-09
 class Solution {
  public:

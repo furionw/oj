@@ -1,4 +1,37 @@
-// Copyright 2016 Qi Wang
+// Copyright 2017 Qi Wang
+// Date: 2017-07-02
+// Actually I think the solution on 2016-12-20 is more elegant than this impl.
+class Solution {
+ public:
+  vector<string> letterCombinations(string digits) {
+    if (digits.empty()) return {};
+    vector<string> result;
+    string str;
+    Combinations(digits, 0, str, result);
+    return result;
+  }
+ 
+ private:
+  void Combinations(const string& digits, size_t idx, string& str,
+      vector<string>& result) {
+    if (digits.size() == idx) {
+      result.push_back(str);
+    } else {
+      for (char c : C_TO_STR[digits[idx]]) {
+        str.push_back(c);
+        Combinations(digits, idx + 1, str, result);
+        str.pop_back();
+      }
+    }
+  }
+ 
+  unordered_map<char, string> C_TO_STR = {
+    {'2', "abc"}, {'3', "def"},
+    {'4', "ghi"}, {'5', "jkl"}, {'6', "mno"},
+    {'7', "pqrs"}, {'8', "tuv"}, {'9', "wxyz"}
+  };
+};
+
 // Method 2
 // Date: 2016-12-20
 // Refer to the solution in 2014-06

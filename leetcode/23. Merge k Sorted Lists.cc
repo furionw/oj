@@ -1,4 +1,38 @@
-// Copyright 2016 Qi Wang
+// Copyright 2017 Qi Wang
+// Date: 2017-07-03
+class Solution {
+ public:
+  ListNode* mergeKLists(vector<ListNode*>& lists) {
+    if (lists.empty()) {
+      return nullptr;
+    } else if (lists.size() == 1) {
+      return lists.front();
+    } else {
+      vector<ListNode*> next;
+      for (size_t i = 0; i + 1 < lists.size(); i += 2)
+        next.push_back(Merge(lists[i], lists[i + 1]));
+      if (lists.size() & 1) next.push_back(lists.back());
+      return mergeKLists(next);
+    }
+  }
+ 
+ private:
+  ListNode* Merge(ListNode* a, ListNode* b) const {
+    ListNode dummy(0);
+    ListNode* cur = &dummy;
+    while (nullptr != a && nullptr != b)
+      Advance(cur, a->val < b->val ? a : b);
+    cur->next = nullptr != a ? a : b;
+    return dummy.next;
+  }
+ 
+  void Advance(ListNode*& cur, ListNode*& node) const {
+    cur->next = node;
+    cur = node;
+    node = node->next;
+  }
+};
+
 // Date: 2016-12-21
 // Last modified: 2017-01-03
 class Solution {
