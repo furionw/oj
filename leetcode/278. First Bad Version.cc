@@ -1,6 +1,25 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-07-04
 // Forward declaration of isBadVersion API.
 bool isBadVersion(int version);
+ 
+class Solution {
+ public:
+  int firstBadVersion(int n) {
+    // my bug: the type of l and r should be size_t !!!
+    size_t l = 1, r = n, mid;
+    while (l <= r) {
+      mid = l + r >> 1;
+      if (isBadVersion(mid)) {
+        if (1 == mid || !isBadVersion(mid - 1)) return mid;
+        r = mid - 1;
+      } else {
+        l = mid + 1;
+      }
+    }
+    return mid;
+  }
+};
 
 // Date: 2017-03-04
 class Solution {

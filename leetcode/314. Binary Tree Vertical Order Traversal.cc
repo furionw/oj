@@ -1,4 +1,27 @@
-// Copyright 2016 Qi Wang
+// Copyright 2017 Qi Wang
+// Date: 2017-07-04
+class Solution {
+ public:
+  vector<vector<int>> verticalOrder(TreeNode* root) {
+    if (nullptr == root) return {};
+    map<int, vector<int>> d;
+    queue<pair<int, TreeNode*>> q;
+    q.emplace(0, root);
+    while (!q.empty()) {
+      auto elem = q.front(); q.pop();
+      d[elem.first].push_back(elem.second->val);
+      if (nullptr != elem.second->left)
+        q.emplace(elem.first - 1, elem.second->left);
+      if (nullptr != elem.second->right)
+        q.emplace(elem.first + 1, elem.second->right);
+    }
+    vector<vector<int>> result;
+    for (auto& p : d)
+      result.push_back(move(p.second));
+    return result;
+  }
+};
+
 // Date: 2016-12-24
 // Method 2: map, even slow than using list
 // It looks like it's better to using list and maintaining the order on your own,

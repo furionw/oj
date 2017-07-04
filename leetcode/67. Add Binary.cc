@@ -1,4 +1,37 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-07-04
+class Solution {
+ public:
+  string addBinary(string a, string b) {
+    return Reverse(AddBinary(Reverse(a), Reverse(b), 0));
+  }
+ 
+ private:
+  string AddBinary(string a, string b, int carry) const {
+    if (!a.empty() && !b.empty()) {
+      int sum = a.front() + b.front() - '0' * 2 + carry;
+      return string(1, sum % 2 + '0') +
+          AddBinary(a.substr(1), b.substr(1), sum / 2);
+    } else {
+      return AddBinary(b.empty() ? a : b, carry);
+    }
+  }
+ 
+  string AddBinary(string a, int carry) const {
+    if (a.empty()) {
+      return carry != 0 ? "1" : "";
+    } else {
+      int sum = a.front() - '0' + carry;
+      return string(1, sum % 2 + '0') + AddBinary(a.substr(1), sum / 2);
+    }
+  }
+ 
+  string Reverse(string s) const {
+    reverse(s.begin(), s.end());
+    return s;
+  }
+};
+
 // Date: 2017-03-05
 class Solution {
  public:
