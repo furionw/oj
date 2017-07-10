@@ -1,5 +1,5 @@
 // Copyright 2017 Qi Wang
-// Date: 2017-06-08
+// Date: 2017-07-08
 class Solution {
  public:
   int shoppingOffers(vector<int>& price, vector<vector<int>>& special,

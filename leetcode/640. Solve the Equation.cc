@@ -1,19 +1,15 @@
 // Copyright 2017 Qi Wang
-// Date: 2017-06-08
+// Date: 2017-07-08
 class Solution {
  public:
   string solveEquation(string equation) {
     size_t equal = equation.find('=');
-    auto left = equation.substr(0, equal);
-    auto right = equation.substr(equal + 1);
-    int64_t x_cnt = 0;
-    int64_t val = 0;
     // left
-    auto temp = Foo(left);
-    x_cnt += temp.first;
-    val -= temp.second;
+    auto temp = Foo(equation.substr(0, equal));
+    int64_t x_cnt = temp.first;
+    int64_t val = -temp.second;
     // right
-    temp = Foo(right);
+    temp = Foo(equation.substr(equal + 1));
     x_cnt -= temp.first;
     val += temp.second;
     if (x_cnt == 0 && val == 0) {
@@ -52,7 +48,6 @@ class Solution {
         }
       }
     }
-    // cout << x_cnt << ", " << val << endl;
     return {x_cnt, val};
   }
 

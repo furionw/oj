@@ -1,5 +1,33 @@
 // Copyright 2017 Qi Wang
-// Date: 2017-07-07
+// Date: 2017-07-09
+// Refer to: Jinhao's solution
+class Solution {
+ public:
+  int numDecodings(string s) {
+    if (s.empty()) return 0;
+    int64_t first = 1;
+    int64_t second = '*' == s[0] ? 9 : '0' != s[0] ? 1 : 0;
+    static constexpr int MOD = 1e9 + 7;
+    for (size_t i = 1; i < s.size(); ++i) {
+      int second_mul = '*' == s[i] ? 9 : '0' != s[i] ? 1 : 0;
+      // 's[i - 1]' == 0, 3, 4, ...
+      int first_mul = 0;
+      if ('1' == s[i - 1]) {
+        first_mul = '*' == s[i] ? 9 : 1;
+      } else if ('2' == s[i - 1]) {
+        first_mul = '*' == s[i] ? 6 : s[i] <= '6' ? 1 : 0;
+      } else if ('*' == s[i - 1]) {
+        first_mul = '*' == s[i] ? 15 : s[i] <= '6' ? 2 : 1;
+      }
+      int64_t third = (first_mul * first + second_mul * second) % MOD;
+      first = second;
+      second = third;
+    }
+    return second;
+  }
+};
+
+// Date: 2017-07-08
 class Solution {
  public:
   int numDecodings(string s) {
@@ -57,26 +85,4 @@ class Solution {
   }
 
   static const int MOD = 1e9 + 7;
-};
-
-class Solution {
-public:
-    int numDecodings(string s) {
-        long long last = s[0]=='*'? 9 : (s[0]!='0'? 1 : 0);
-        long long lastlast = 1;
-        long long now;
-        int oned, twod;        
-        int TOMOD = 1e9+7;
-        for (int i=1; i<s.length(); i++) {
-            oned = s[i]=='*'? 9 : (s[i]!='0'? 1 : 0);
-            if (s[i-1]=='1') twod = s[i]=='*'? 9 : 1;
-            else if (s[i-1]=='2') twod = s[i]=='*'? 6 : (s[i]<'7'? 1 : 0);
-            else if (s[i-1]=='*') twod = s[i]=='*'? 15 : (s[i]<'7'? 2 : 1);
-            else twod = 0;
-            now = (lastlast*twod + last*oned) % TOMOD;
-            lastlast = last;
-            last = now;
-        }
-        return (int)last;
-    }
 };
