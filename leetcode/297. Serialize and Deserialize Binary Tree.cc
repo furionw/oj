@@ -1,4 +1,43 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-07-10
+class Codec {
+ public:
+  string serialize(TreeNode* root) {
+    return nullptr == root
+        ? "n"
+        : to_string(root->val) + "," + serialize(root->left) + "," +
+              serialize(root->right);
+  }
+
+  TreeNode* deserialize(string data) {
+    return Deserialize(&data.data());
+  }
+
+ private:
+  TreeNode* Deserialize(const char** p) const {
+    if ('n' == **p) {
+      *p += 2;
+      return nullptr;
+    } else {
+      const char* q = *p;
+      while (IsDigit(*q) || '-' == *q) {
+        ++q;
+      }
+      auto result = new TreeNode(atoi(*p));
+      if (',' == *q) {
+        *p = q + 1;
+        result->left = Deserialize(p);
+        result->right = Deserialize(p);
+      }
+      return result;
+    }
+  }
+
+  bool IsDigit(char c) const {
+    return '0' <= c && c <= '9';
+  }
+};
+
 // Date: 2016-11-27
 // Last modified: 2017-01-03
 class Codec {
