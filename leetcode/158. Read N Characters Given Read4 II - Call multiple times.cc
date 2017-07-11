@@ -1,8 +1,30 @@
 // Copyright 2017 Qi Wang
-// Date: 2017-01-01
 // Forward declaration of the read4 API.
 int read4(char *buf);
 
+// Date: 2017-07-10
+class Solution {
+ public:
+  int read(char *buf, int n) {
+    if (str_.size() < n) {
+      char s[4];
+      int cnt = 0;
+      do {
+        cnt = read4(s);
+        str_ += string(s, cnt);
+      } while (cnt > 0 && str_.size() < n);
+    }
+    int result = str_.size() > n ? n : str_.size();
+    strncpy(buf, str_.data(), result);
+    str_ = str_.substr(result);
+    return result;
+  }
+
+ private:
+  string str_;
+};
+
+// Date: 2017-01-01
 class Solution {
  public:
   int read(char *buf, int n) {
