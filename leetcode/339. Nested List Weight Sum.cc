@@ -10,7 +10,7 @@ class Solution {
   int DepthSum(const vector<NestedInteger>& nestedList, int depth) const {
     return accumulate(
         nestedList.begin(), nestedList.end(), 0,
-        [depth, this](int cur, const NestedInteger& elem) {
+        [=](int cur, const NestedInteger& elem) {
           return elem.isInteger()
                ? cur + depth * elem.getInteger()
                : cur + DepthSum(elem.getList(), depth + 1);
