@@ -1,3 +1,7 @@
+# Design
+
+  - LC 535. Encode and Decode TinyURL
+
 # Sort
   - bubble sort
 
