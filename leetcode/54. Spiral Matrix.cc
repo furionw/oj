@@ -1,4 +1,29 @@
-// Copyright 2016 Qi Wang
+// Copyright 2017 Qi Wang
+// Date: 2017-07-13
+class Solution {
+ public:
+  vector<int> spiralOrder(vector<vector<int>>& matrix) {
+    if (matrix.empty() || matrix[0].empty()) return {};
+    vector<int> result;
+    // l: left, r: right, u: up, d: down
+    for (int u = 0, d = matrix.size() - 1,
+        l = 0, r = matrix[0].size() - 1; l <= r && u <= d;
+        ++l, --r, ++u, --d) {
+      for (int j = l; j <= r; ++j)
+        result.push_back(matrix[u][j]);
+      for (int i = u + 1; i <= d; ++i)
+        result.push_back(matrix[i][r]);
+      if (u != d)
+        for (int j = r - 1; j >= l; --j)
+          result.push_back(matrix[d][j]);
+      if (l != r)
+        for (int i = d - 1; i > u; --i)
+          result.push_back(matrix[i][l]);
+    }
+    return result;
+  }
+};
+
 // Date: 2016-12-26
 // Method 2: refer to the solution in 2014-07
 class Solution {
