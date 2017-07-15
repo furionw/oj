@@ -1,4 +1,24 @@
-// Copyright 2016 Qi Wang
+// Copyright 2017 Qi Wang
+// Date: 2017-07-14
+// Actually the solution on 2016-12-17 is better I think
+class Solution {
+ public:
+  void merge(vector<int>& nums1, int m, vector<int>& nums2, int n) {
+    for (int i = m - 1; i >= 0; --i)
+      nums1[i + n] = nums1[i];
+    int i = 0, j = 0, idx = 0;
+    while (i < m && j < n) {
+      if (nums1[i + n] < nums2[j]) {
+        nums1[idx++] = nums1[i++ + n];
+      } else {
+        nums1[idx++] = nums2[j++];
+      }
+    }
+    for (; i < m; ++i) nums1[idx++] = nums1[i + n];
+    for (; j < n; ++j) nums1[idx++] = nums2[j];
+  }
+};
+
 // Date: 2016-12-17
 // Refer to one of the top solutions
 class Solution {
