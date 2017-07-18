@@ -1,3 +1,31 @@
+// Date: 2017-07-14
+// Refer to the previous solution
+class Solution {
+ public:
+  string minWindow(string s, string t) {
+    size_t pos = 0, len = INT_MAX;
+    vector<int> need_find(127, 0), has_found(127, 0);
+    for (char c : t) {
+      ++need_find[c];
+    }
+    for (int cnt = t.size(), begin = 0, end = 0;
+        end < s.size(); ++end) {
+      if (0 != cnt && has_found[s[end]] < need_find[s[end]]) --cnt;
+      ++has_found[s[end]];
+      if (0 == cnt) {
+        for (; has_found[s[begin]] > need_find[s[begin]]; ++begin) {
+          --has_found[s[begin]];
+        }
+        if (end - begin + 1 < len) {
+          pos = begin;
+          len = end - begin + 1;
+        }
+      }
+    }
+    return len != INT_MAX ? s.substr(pos, len) : "";
+  }
+};
+
 // Revisited on: 2017-03-09
 class Solution 
 {

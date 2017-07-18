@@ -1,4 +1,35 @@
-// Copyright 2016 Qi Wang
+// Copyright 2017 Qi Wang
+// Date: 2017-07-17
+class Solution {
+ public:
+  double findMedianSortedArrays(vector<int>& nums1, vector<int>& nums2) {
+    const int* a = nums1.data();
+    const int* b = nums2.data();
+    int m = nums1.size(), n = nums2.size();
+    return ((m + n) & 1)
+        ? Find(a, m, b, n, (m + n) / 2 + 1)
+        : (Find(a, m, b, n, (m + n) / 2) + Find(a, m, b, n, (m + n) / 2 + 1))
+              / 2;
+  }
+
+ private:
+  double Find(const int* a, int m, const int* b, int n, int p) const {
+    if (0 == m) {
+      return b[p - 1];
+    } else if (m > n) {
+      return Find(b, n, a, m, p);
+    } else if (1 == p) {
+      return a[0] < b[0] ? a[0] : b[0];
+    } else {
+      int i = min(p / 2, m) - 1;
+      int j = p - i - 2;
+      return a[i] < b[j]
+          ? Find(a + i + 1, m - i - 1, b, n, p - i - 1)
+          : Find(a, m, b + j + 1, n - j - 1, p - j - 1);
+    }
+  }
+};
+
 // Date: 2016-12-18
 class Solution {
  public:
