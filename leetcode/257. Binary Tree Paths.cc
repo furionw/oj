@@ -1,4 +1,26 @@
-// Copyright 2016 Qi Wang
+// Copyright 2017 Qi Wang
+// Date: 2017-07-18
+class Solution {
+ public:
+  vector<string> binaryTreePaths(TreeNode* root) {
+    vector<string> result;
+    if (nullptr != root) F(root, "", &result);
+    return result;
+  }
+
+ private:
+  void F(TreeNode* root, string str, vector<string>* result) const {
+    str += !str.empty() ? "->" : "";
+    str += to_string(root->val);
+    if (nullptr == root->left && nullptr == root->right)
+      result->push_back(str);
+    if (nullptr != root->left)
+      F(root->left, str, result);
+    if (nullptr != root->right)
+      F(root->right, str, result);
+  }
+};
+
 // Date: 2016-12-24
 class Solution {
  public:
