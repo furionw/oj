@@ -1,4 +1,26 @@
-// Copyright 2016 Qi Wang
+// Copyright 2017 Qi Wang
+// Date: 2017-07-20
+// Please note the solution on 2016-10-09 is eaiser.
+class Solution {
+ public:
+  TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
+    if (nullptr == root || p == root || q == root) {
+      return root;
+    }
+    auto left = lowestCommonAncestor(root->left, p, q);
+    auto right = lowestCommonAncestor(root->right, p, q);
+    if ((left == p || left == q) && (right == p || right == q)) {
+      return root;
+    } else if (left == p || left == q) {
+      return left;
+    } else if (right == p || right == q){
+      return right;
+    } else {
+      return nullptr != left ? left : right;
+    }
+  }
+};
+
 // Reference: http://www.jianshu.com/p/118dfcb1d606
 // Date: 2016-10-09
 class Solution {
