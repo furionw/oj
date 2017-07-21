@@ -1,4 +1,53 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-07-20
+// Please note that the solution on 2017-03-05 is much more concise.
+class Solution {
+ public:
+  string numberToWords(int num) {
+    if (num == 0) return "Zero";
+    string result;
+    for (int i = 0; num > 0; num /= 1000, ++i) {
+      int n = num % 1000;
+      if (n == 0) continue;
+      string temp;
+      if (n >= 100) {
+        temp += one_digit[n / 100 - 1] + " Hundred";
+        n %= 100;
+      }
+      if (n != 0 && !temp.empty()) {
+        temp += " ";
+      }
+      if (n < 10) {
+        if (n != 0)
+          temp += one_digit[n - 1];
+      } else if (n < 20) {
+        temp += ten_plus[n - 10];
+      } else {
+        temp += two_digits[n / 10 - 2];
+        n %= 10;
+        if (n > 0) {
+          temp += " ";
+          temp += one_digit[n - 1];
+        }
+      }
+      result = temp + suffixes[i] + (result.empty() ? "" : " ") + result;
+    }
+    return result;
+  }
+
+ private:
+  string one_digit[9] = {"One", "Two", "Three", "Four", "Five", "Six", "Seven",
+      "Eight", "Nine"};
+
+  string ten_plus[10] = {"Ten", "Eleven", "Twelve", "Thirteen", "Fourteen",
+      "Fifteen", "Sixteen", "Seventeen", "Eighteen", "Nineteen"};
+  
+  string two_digits[8] = {"Twenty", "Thirty", "Forty", "Fifty",
+      "Sixty", "Seventy", "Eighty", "Ninety"};
+
+  string suffixes[4] = {"", " Thousand", " Million", " Billion"};
+};
+
 // Date: 2017-03-05
 class Solution {
  public:

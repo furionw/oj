@@ -1,4 +1,33 @@
-// Copyright 2016 Qi Wang
+// Copyright 2017 Qi Wang
+// Date: 2017-07-20
+class Solution {
+ public:
+  bool validTree(int n, vector<pair<int, int>>& edges) {
+    if (n <= 0 || n - 1 != edges.size()) return false;
+    if (1 == n) return true;
+    vector<vector<int>> graph(n);
+    for (const auto& p : edges) {
+      graph[p.first].push_back(p.second);
+      graph[p.second].push_back(p.first);
+    }
+    // BFS
+    queue<int> q;
+    vector<bool> visited(n, false);
+    q.push(edges.front().first);
+    visited[edges.front().first] = true;
+    while (!q.empty()) {
+      int u = q.front(); q.pop();
+      for (int v : graph[u]) {
+        if (!visited[v]) {
+          visited[v] = true;
+          q.push(v);
+        }
+      }
+    }
+    return count(visited.begin(), visited.end(), true) == n;
+  }
+};
+
 // Difficulty: Medium
 // Date: 2016-12-21
 class Solution {
