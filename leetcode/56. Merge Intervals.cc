@@ -1,4 +1,31 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-07-21
+class Solution {
+ public:
+  vector<Interval> merge(vector<Interval>& intervals) {
+    if (intervals.empty()) return {};
+    sort(intervals.begin(), intervals.end(),
+      [](const Interval& lhs, const Interval& rhs) {
+        return lhs.start != rhs.start ? lhs.start < rhs.start
+            : lhs.end < rhs.end;
+      });
+    vector<Interval> result;
+    int start = intervals.front().start,
+        end = intervals.front().end;
+    for (size_t i = 1; i < intervals.size(); ++i) {
+      if (intervals[i].start > end) {
+        result.emplace_back(start, end);
+        start = intervals[i].start;
+        end = intervals[i].end;
+      } else {
+        end = max(end, intervals[i].end);
+      }
+    }
+    result.emplace_back(start, end);
+    return result;
+  }
+};
+
 // Date: 2017-01-02
 // Last modified: 2017-01-11
 class Solution {

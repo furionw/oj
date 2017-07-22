@@ -1,4 +1,24 @@
-// Copyright 2016 Qi Wang
+// Copyright 2017 Qi Wang
+// Date: 2017-07-21
+// Please note that the solution on 2016-11-04 is more concise.
+class Solution {
+ public:
+  string convertToTitle(int n) {
+    string result;
+    for (; n > 0; n /= 26) {
+      int r = n % 26;
+      if (r == 0) {
+        result += 'Z';
+        n -= 26;
+      } else {
+        result += r + 'A' - 1;
+      }
+    }
+    reverse(result.begin(), result.end());
+    return result;
+  }
+};
+
 // Date: 2016-11-04
 class Solution {
  public:

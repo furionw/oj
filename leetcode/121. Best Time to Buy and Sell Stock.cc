@@ -1,4 +1,19 @@
-// Copyright 2016 Qi Wang
+// Copyright 2017 Qi Wang
+// Date: 2017-07-21
+class Solution {
+ public:
+  int maxProfit(vector<int>& prices) {
+    if (prices.empty()) return 0;
+    int result = 0;
+    int lowest_price = prices.front();
+    for (size_t i = 1; i < prices.size(); ++i) {
+      result = max(result, prices[i] - lowest_price);
+      lowest_price = min(lowest_price, prices[i]);
+    }
+    return result;
+  }
+};
+
 // Date: 2016-10-06
 class Solution {
  public:
@@ -19,17 +34,17 @@ class Solution
 public:
     int maxProfit(vector<int> &prices) 
     {
-    	if(prices.empty())
-    	{
-    		return 0;
-    	}
+      if(prices.empty())
+      {
+        return 0;
+      }
 
         int max_price = prices.back();
         int max_profit = 0;
         for (int i = int(prices.size())-1; i >= 0; -- i)
         {
-        	max_price = max(max_price, prices[i]);
-        	max_profit = max(max_profit, max_price-prices[i]);
+          max_price = max(max_price, prices[i]);
+          max_profit = max(max_profit, max_price-prices[i]);
         }
         return max_profit;
     }
