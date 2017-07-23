@@ -1,4 +1,30 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-07-22
+class Solution {
+ public:
+  int minMeetingRooms(vector<Interval>& intervals) {
+    if (intervals.empty()) return 0;
+    vector<int> room_endtimes(1, INT_MIN);
+    sort(intervals.begin(), intervals.end(),
+        [](const Interval& lhs, const Interval& rhs) {
+          return lhs.start != rhs.start ? lhs.start < rhs.start
+              : lhs.end < rhs.end;
+        });
+    for (const auto& inter : intervals) {
+      bool find = false;
+      for (size_t i = 0; i < room_endtimes.size(); ++i) {
+        if (inter.start >= room_endtimes[i]) {
+          find = true;
+          room_endtimes[i] = inter.end;
+          break;
+        }
+      }
+      if (!find) room_endtimes.push_back(inter.end);
+    }
+    return room_endtimes.size();
+  }
+};
+
 // Date: 2017-07-05
 class Solution {
  public:
