@@ -1,4 +1,28 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-07-24
+class Solution {
+ public:
+  UndirectedGraphNode *cloneGraph(UndirectedGraphNode *node) {
+    if (node == nullptr) return nullptr;
+    int label = node->label;
+    node_map_[label] = new UndirectedGraphNode(label);
+    for (auto* neighbor : node->neighbors) {
+      node_map_[label]->neighbors.push_back(FindNode(neighbor));
+    }
+    return node_map_[label];
+  }
+
+ private:
+  UndirectedGraphNode* FindNode(UndirectedGraphNode *node) {
+    int label = node->label;
+    return node_map_[label] = node_map_[label] != nullptr
+        ? node_map_[label]
+        : cloneGraph(node);
+  }
+
+  unordered_map<int, UndirectedGraphNode*> node_map_;
+};
+
 // Date: 2017-01-03
 class Solution {
  public:

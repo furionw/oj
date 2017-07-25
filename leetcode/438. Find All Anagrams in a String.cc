@@ -1,4 +1,32 @@
-// Copyright 2016 Qi Wang
+// Copyright 2017 Qi Wang
+// Date: 2017-07-24
+class Solution {
+ public:
+  vector<int> findAnagrams(string s, string p) {
+    if (s.size() < p.size()) return {};
+    int cnts[26];
+    memset(cnts, 0, sizeof cnts);
+    for (char c : p) {
+      ++cnts[c - 'a'];
+    }
+    for (size_t i = 0; i < p.size(); ++i) {
+      --cnts[s[i] - 'a'];
+    }
+    vector<int> result;
+    if (count(cnts, cnts + 26, 0) == 26) {
+      result.push_back(0);
+    }
+    for (size_t i = p.size(); i < s.size(); ++i) {
+      ++cnts[s[i - p.size()] - 'a'];
+      --cnts[s[i] - 'a'];
+      if (count(cnts, cnts + 26, 0) == 26) {
+        result.push_back(i - p.size() + 1);
+      }
+    }
+    return result;
+  }
+};
+
 // Date: 2016-10-30
 class Solution {
  public:
