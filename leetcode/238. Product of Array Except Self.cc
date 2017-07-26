@@ -1,4 +1,22 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-07-25
+class Solution {
+ public:
+  vector<int> productExceptSelf(vector<int>& nums) {
+    if (nums.empty()) return {};
+    vector<int> result(nums.size());
+    for (int i = 0, acc = 1; i < nums.size(); ++i) {
+      result[i] = acc;
+      acc *= nums[i];
+    }
+    for (int i = nums.size() - 1, acc = 1; i >= 0; --i) {
+      result[i] *= acc;
+      acc *= nums[i];
+    }
+    return result;
+  }
+};
+
 // Date: 2017-02-18
 // Note that the solution presented on 2016-11-26 is better
 class Solution {

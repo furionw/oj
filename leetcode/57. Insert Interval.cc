@@ -1,4 +1,36 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-07-25
+// I more appreciate the solution on 2017-01-11
+class Solution {
+ public:
+  vector<Interval> insert(vector<Interval>& intervals, Interval newInterval) {
+    if (intervals.empty()) return {newInterval};
+    auto itr = find_if(intervals.begin(), intervals.end(),
+        [newInterval](const Interval& elem) {
+          return elem.start > newInterval.start;
+        });
+    intervals.insert(itr, newInterval);
+    return MergeIntervals(intervals);
+  }
+
+ private:
+  vector<Interval> MergeIntervals(const vector<Interval>& inters) const {
+    vector<Interval> result;
+    int start = inters[0].start, end = inters[0].end;
+    for (int i = 1; i < inters.size(); ++i) {
+      if (inters[i].start > end) {
+        result.emplace_back(start, end);
+        start = inters[i].start;
+        end = inters[i].end;
+      } else {
+        end = max(end, inters[i].end);
+      }
+    }
+    result.emplace_back(start, end);
+    return result;
+  }
+};
+
 // Date: 2017-01-11
 class Solution {
  public:
