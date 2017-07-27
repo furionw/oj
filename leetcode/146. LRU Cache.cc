@@ -1,4 +1,41 @@
-// Copyright 2016 Qi Wang
+// Copyright 2017 Qi Wang
+// 5th time
+// Date: 2017-07-26
+class LRUCache {
+ public:
+  LRUCache(int capacity) : capacity_(capacity) {}
+  
+  int get(int key) {
+    if (map_.find(key) != map_.end()) {
+      values_.splice(values_.begin(), values_, map_[key]);
+      return values_.front().second;
+    } else {
+      return -1;
+    }
+  }
+   
+  void put(int key, int value) {
+    if (map_.find(key) != map_.end()) {
+      values_.splice(values_.begin(), values_, map_[key]);
+      values_.front().second = value;
+    } else {
+      map_[key] = values_.emplace(values_.begin(), make_pair(key, value));
+      if (values_.size() > capacity_) {
+        int removed_key = values_.back().first;
+        values_.pop_back();
+        map_.erase(removed_key);
+      }
+    }
+  }
+
+ private:
+  list<pair<int, int>> values_;
+  unordered_map<int, list<pair<int, int>>::iterator> map_;
+  const int capacity_;
+};
+
+
+
 // 4th time
 // 66ms, beats 89% cpp solutions
 // Date: 2016-12-16
