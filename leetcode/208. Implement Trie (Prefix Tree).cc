@@ -1,4 +1,48 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-07-25
+class Trie {
+ public:
+  Trie() {
+    memset(children_, 0, sizeof children_);
+  }
+
+  void insert(string word) {
+    if (word.empty()) {
+      is_word_ = true;
+      return;
+    }
+    int idx = word[0] - 'a';
+    if (children_[idx] == nullptr) {
+      children_[idx] = new Trie();
+    }
+    children_[idx]->insert(word.substr(1));
+  }
+
+  bool search(string word) {
+    if (word.empty()) {
+      return is_word_;
+    } else {
+      int idx = word[0] - 'a';
+      return children_[idx] != nullptr &&
+          children_[idx]->search(word.substr(1));
+    }
+  }
+
+  bool startsWith(string prefix) {
+    if (prefix.empty()) {
+      return true;
+    } else {
+      int idx = prefix[0] - 'a';
+      return children_[idx] != nullptr &&
+          children_[idx]->startsWith(prefix.substr(1));
+    }
+  }
+
+ private:
+  Trie* children_[26];
+  bool is_word_ = false;
+};
+
 // Date: 2016-12-31
 // Last modified: 2017-01-03
 // Method 2: without shared_ptr and memory re-allocation

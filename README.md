@@ -29,6 +29,11 @@
   - LC 215. Kth Largest Element in an Array (same as Offer  30. GetLeastNumbers)
   - LC 594. Longest Harmonious Subsequence (hash)
 
+## Kth element
+
+  - LC 215. Kth Largest Element in an Array
+  - LC 378. Kth Smallest Element in a Sorted Matrix
+
 <br>
 
 # String

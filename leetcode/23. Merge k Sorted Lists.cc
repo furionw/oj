@@ -1,4 +1,35 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-07-27
+class Solution {
+ public:
+  ListNode* mergeKLists(vector<ListNode*>& lists) {  
+    priority_queue<ListNode*, vector<ListNode*>, comp> pq;
+    for (ListNode* elem : lists) {
+      if (elem != nullptr) {
+        pq.push(elem);
+      }
+    }
+    ListNode dummy(0);
+    ListNode* cur = &dummy;
+    while (!pq.empty()) {
+      auto elem = pq.top(); pq.pop();
+      cur->next = elem;
+      cur = cur->next;
+      if (elem->next != nullptr) {
+        pq.push(elem->next);
+      }
+    }
+    return dummy.next;
+  }
+
+ private:
+  struct comp {
+    bool operator ()(const ListNode* lhs, const ListNode* rhs) {
+      return lhs->val > rhs->val;
+    }
+  };
+};
+
 // Date: 2017-07-03
 class Solution {
  public:
@@ -107,6 +138,7 @@ class Solution {
 
 // Method 1: with priority_queue
 // Time: 40ms, beats 60% cpp solutions
+// Time: 29ms, beats 64% cpp solutions (Record on 2017-07-27)
 // Time complexity: O(nlogk)
 // Date: 2016-11-19
 // Last modified: 2017-01-03

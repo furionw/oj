@@ -1,4 +1,32 @@
-// Copyright 2016 Qi Wang
+// Copyright 2017 Qi Wang
+// Date: 2017-07-27
+class Solution {
+ public:
+  int findKthLargest(vector<int>& nums, int k) {
+    int l = 0, r = nums.size() - 1;
+    while (l < r) {
+      int ll = l, rr = r;
+      int pivot = nums[ll];
+      while (ll < rr) {
+        for (; ll < rr && nums[rr] <= pivot; --rr) {}
+        nums[ll] = nums[rr];
+        for (; ll < rr && nums[ll] > pivot; ++ll) {}
+        nums[rr] = nums[ll];
+      }
+      nums[ll] = pivot;
+      if (ll == k - 1) {
+        return nums[k - 1];
+      } else if (ll > k - 1) {
+        r = ll - 1;
+      } else {
+        l = ll + 1;
+      }
+    }
+    // Return nums[k - 1] here to handle the case where k == 1
+    return nums[k - 1];
+  }
+};
+
 // Method 2
 // Date: 2016-12-05
 class Solution {
