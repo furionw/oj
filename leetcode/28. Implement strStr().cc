@@ -1,4 +1,29 @@
-// Copyright 2016 Stephen Wong
+// Copyright 2017 Qi Wang
+// Date: 2017-07-30
+class Solution {
+ public:
+  int strStr(string haystack, string needle) {
+    if (needle.empty()) return 0;
+    vector<int> n(needle.size(), 0);
+    for (int i = 1; i < needle.size(); ++i) {
+      int len = n[i - 1];
+      for (; len != 0 && needle[len] != needle[i]; len = n[len - 1]) {}
+      n[i] = needle[len] == needle[i] ? len + 1 : 0;
+    }
+    for (int i = 0, len = 0; i < haystack.size(); ++i) {
+      if (haystack[i] == needle[len]) {
+        if (++len == needle.size()) {
+          return i - len + 1;
+        }
+      } else {
+        for (; len != 0 && needle[len] != haystack[i]; len = n[len - 1]) {}
+        len = needle[len] == haystack[i] ? len + 1 : 0;
+      }
+    }
+    return -1;
+  }
+};
+
 // Date: 2016-12-31
 class Solution {
  public:
