@@ -1,4 +1,25 @@
-// Copyright 2016 Qi Wang
+// Copyright 2017 Qi Wang
+// Date: 2017-07-31
+// Note that the solution on 2016-12-19 is more concise
+class Solution {
+ public:
+  int romanToInt(string s) {
+    pair<int, string> nums[] = {
+      {1000, "M"}, {900, "CM"}, {500, "D"}, {400, "CD"}, {100, "C"}, {90, "XC"},
+      {50, "L"}, {40, "XL"}, {10, "X"}, {9, "IX"}, {5, "V"}, {4, "IV"}, {1, "I"}
+    };
+    int result = 0;
+    for (int i = 0, j = 0; i < s.size();) {
+      for (; s.substr(i, nums[j].second.size()) != nums[j].second; ++j) {}
+      while (s.substr(i, nums[j].second.size()) == nums[j].second) {
+        result += nums[j].first;
+        i += nums[j].second.size();
+      }
+    }
+    return result;
+  }
+};
+
 // Date: 2016-12-19
 // Method 2: this method is faster than the method 1 using
 //   - unordered_map<string, int> and s.substr

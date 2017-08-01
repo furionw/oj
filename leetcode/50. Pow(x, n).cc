@@ -1,4 +1,23 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-07-31
+class Solution {
+ public:
+  double myPow(double x, int n) {
+    if (n == INT_MIN) {
+      return 1 / myPow(x, INT_MAX) / x;
+    } if (n < 0) {
+      return 1 / myPow(x, -n);
+    } else if (n == 0) {
+      return 1;
+    } else if (n == 1) {
+      return x;
+    } else {
+      double elem = myPow(x, n / 2);
+      return elem * elem * (n % 2 == 1 ? x : 1);
+    }
+  }
+};
+
 // Date: 2017-01-03
 // Note that I think the solution on 2016-10-25 is better (more concise)
 class Solution {

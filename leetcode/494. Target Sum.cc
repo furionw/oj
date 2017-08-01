@@ -1,4 +1,20 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-07-31
+class Solution {
+ public:
+  int findTargetSumWays(vector<int>& nums, int S) {
+    vector<unordered_map<int, int>> sum_to_ways_maps(nums.size() + 1);
+    sum_to_ways_maps[0][0] = 1;
+    for (int i = 0; i < nums.size(); ++i) {
+      for (const auto& p : sum_to_ways_maps[i]) {
+        sum_to_ways_maps[i + 1][p.first + nums[i]] += p.second;
+        sum_to_ways_maps[i + 1][p.first - nums[i]] += p.second;
+      }
+    }
+    return sum_to_ways_maps.back()[S];
+  }
+};
+
 // Date: 2017-01-30
 // Method 3: DP
 class Solution {
