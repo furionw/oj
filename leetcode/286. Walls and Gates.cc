@@ -1,6 +1,67 @@
-// Copyright 2016 Qi Wang
+// Copyright 2017 Qi Wang
+// Date: 2017-08-01
+// BFS
+class Solution {
+ public:
+  void wallsAndGates(vector<vector<int>>& rooms) {
+    for (int i = 0; i < rooms.size(); ++i) {
+      for (int j = 0; j < rooms[0].size(); ++j) {
+        if (rooms[i][j] == 0) {
+          Bfs(rooms, i, j);
+        }
+      }
+    }
+  }
+
+ private:
+  void Bfs(vector<vector<int>>& rooms, int x, int y) const {
+    queue<pair<int, int>> q;
+    q.emplace(x, y);
+    constexpr int delta[] = {0, 1, 0, -1, 0};
+    while (!q.empty()) {
+      x = q.front().first, y = q.front().second;
+      q.pop();
+      for (int d = 0; d < 4; ++d) {
+        int i = x + delta[d], j = y + delta[d + 1];
+        if (i >= 0 && i < rooms.size() && j >= 0 && j < rooms[0].size()
+            && rooms[i][j] > rooms[x][y] + 1) {
+          rooms[i][j] = rooms[x][y] + 1;
+          q.emplace(i, j);
+        }
+      }
+    }
+  }
+};
+
+// Date: 2017-08-01
+// DFS
+class Solution {
+ public:
+  void wallsAndGates(vector<vector<int>>& rooms) {
+    for (int i = 0; i < rooms.size(); ++i) {
+      for (int j = 0; j < rooms[0].size(); ++j) {
+        if (rooms[i][j] == 0) {
+          Dfs(rooms, i, j);
+        }
+      }
+    }
+  }
+
+ private:
+  void Dfs(vector<vector<int>>& rooms, int x, int y) const {
+    constexpr int delta[] = {0, 1, 0, -1, 0};
+    for (int d = 0; d < 4; ++d) {
+      int i = x + delta[d], j = y + delta[d + 1];
+      if (i >= 0 && i < rooms.size() && j >= 0 && j < rooms[0].size()
+          && rooms[i][j] > rooms[x][y] + 1) {
+        rooms[i][j] = rooms[x][y] + 1;
+        Dfs(rooms, i, j);
+      }
+    }
+  }
+};
+
 // Date: 2016-12-28
-// Note that this BFS implementation is even slower than the DFS version
 class Solution {
  public:
   void wallsAndGates(vector<vector<int>>& rooms) {
