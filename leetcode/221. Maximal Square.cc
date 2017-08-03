@@ -1,4 +1,34 @@
-// Copyright 2016 Qi Wang
+// Copyright 2017 Qi Wang
+// Date: 2017-08-02
+class Solution {
+ public:
+  int maximalSquare(vector<vector<char>>& matrix) {
+    if (matrix.empty() || matrix[0].empty()) return 0;
+    int m = matrix.size(), n = matrix[0].size();
+
+    vector<vector<int>> hor(m, vector<int>(n, 0));
+    vector<vector<int>> ver(m, vector<int>(n, 0));
+    for (int i = 0; i < m; ++i) {
+      for (int j = 0; j < n; ++j) {
+        hor[i][j] = ver[i][j] = matrix[i][j] - '0';
+        if (j > 0 && matrix[i][j] == '1') hor[i][j] += hor[i][j - 1];
+        if (i > 0 && matrix[i][j] == '1') ver[i][j] += ver[i - 1][j];
+      }
+    }
+    vector<vector<int>> dp(m, vector<int>(n, 0));
+    int result = 0;
+    for (int i = 0; i < m; ++i) {
+      for (int j = 0; j < n; ++j) {
+        dp[i][j] = matrix[i][j] - '0';
+        if (i > 0 && j > 0 && matrix[i][j] == '1')
+          dp[i][j] = min(dp[i - 1][j - 1] + 1, min(hor[i][j], ver[i][j]));
+        result = max(result, dp[i][j]);
+      }
+    }
+    return result * result;
+  }
+};
+
 // Date: 2016-11-07
 class Solution {
  public:

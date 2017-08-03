@@ -1,4 +1,27 @@
-// Copyright 2016 Qi Wang
+// Copyright 2017 Qi Wang
+// Date: 2017-08-02
+// Refer to the solution on 2016-10-25
+class Solution {
+ public:
+  int hIndex(vector<int>& citations) {
+    if (citations.empty()) {
+      return 0;
+    }
+    int n = citations.size();
+    int l = 0, r = n - 1, res = 0;
+    while (l <= r) {
+      int mid = (l + r) >> 1;
+      if (citations[mid] >= n - mid) {
+        res = n - mid;
+        r = mid - 1;
+      } else {
+        l = mid + 1;
+      }
+    }
+    return res;
+  }
+};
+
 // Date: 2016-10-25
 // O(lgn) time complexity
 class Solution {
