@@ -1,4 +1,58 @@
-// Copyright 2016 Qi Wang
+// Copyright 2017 Qi Wang
+// Date: 2017-08-03
+class Solution {
+ public:
+  string alienOrder(vector<string>& words) {
+    bool edges[26][26];
+    memset(edges, 0, sizeof edges);
+    bool vi[26];
+    memset(vi, 0, sizeof vi);
+    int in_degree[26];
+    memset(in_degree, 0, sizeof in_degree);
+    for (int i = 0; i < words.size(); ++i) {
+      for (char c : words[i]) {
+        vi[c - 'a'] = true;
+      }
+      if (i + 1 == words.size()) {
+        break;
+      }
+      for (int j = 0; j < words[i].size() && j < words[i + 1].size();
+          ++j) {
+        if (words[i][j] != words[i + 1][j]) {
+          int idx1 = words[i][j] - 'a', idx2 = words[i + 1][j] - 'a';
+          if (edges[idx2][idx1]) {
+            return "";
+          } else if (!edges[idx1][idx2]) {
+            edges[idx1][idx2] = true;
+            ++in_degree[idx2];
+          }
+          break;
+        }
+      }
+    }
+    int cnt = count(vi, vi + 26, true);
+    string result;
+    while (true) {
+      int u = -1;
+      for (int i = 0; i < 26; ++i) {
+        if (vi[i] && in_degree[i] == 0) {
+          in_degree[i] = -1;
+          u = i;
+          break;
+        }
+      }
+      if (u == -1) {
+        break;
+      }
+      result += u + 'a';
+      for (int v = 0; v < 26; ++v) {
+        in_degree[v] -= edges[u][v];
+      }
+    }
+    return result.size() == cnt ? result : "";
+  }
+};
+
 // Date: 2016-12-24
 class Solution {
  public:

@@ -1,4 +1,30 @@
-// Copyright 2016 Stephen Wong
+// Copyright 2017 Qi Wang
+// Date: 2017-08-03
+class Solution {
+ public:
+  bool isPalindrome(ListNode* head) {
+    if (head == nullptr) return true;
+    int len = 0;
+    for (auto cur = head; cur != nullptr; cur = cur->next, ++len) {}
+    int cnt = 0;
+    ListNode* prev = nullptr;
+    for (ListNode* cur = head; cur != nullptr;) {
+      if (++cnt > len / 2) {
+        auto next = cur->next;
+        cur->next = prev;
+        prev = cur;
+        cur = next;
+      } else {
+        cur = cur->next;
+      }
+    }
+    for (auto head2 = prev; head != nullptr && head2 != nullptr;
+        head = head->next, head2 = head2->next)
+      if (head->val != head2->val) return false;
+    return true;
+  }
+};
+
 // Date: 2016-09-30
 class Solution {
  public:
