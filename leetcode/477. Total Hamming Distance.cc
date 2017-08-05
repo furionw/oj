@@ -1,4 +1,25 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-08-04
+// The solution on 2017-02-19 is more space efficient
+class Solution {
+ public:
+  int totalHammingDistance(vector<int>& nums) {
+    int cnts[32][2];
+    memset(cnts, 0, sizeof cnts);
+    for (int num : nums) {
+      for (int i = 0; i < 32; ++i) {
+        ++cnts[i][num & 1];
+        num >>= 1;
+      }
+    }
+    int result = 0;
+    for (int i = 0; i < 32; ++i) {
+      result += cnts[i][0] * cnts[i][1];
+    }
+    return result;
+  }
+};
+
 // Date: 2017-02-19
 // Refer to: https://discuss.leetcode.com/topic/72092/java-o-n-time-o-1-space
 class Solution {

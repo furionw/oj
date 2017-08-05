@@ -1,4 +1,29 @@
-// Copyright 2016 Qi Wang
+// Copyright 2017 Qi Wang
+// Date: 2017-08-04
+class Solution {
+ public:
+  ListNode* reverseKGroup(ListNode* head, int k) {
+    return k == 1 ? head : ReverseKGroup(head, k);
+  }
+ 
+ private:
+  ListNode* ReverseKGroup(ListNode* head, int k) const {
+    int len = 0;
+    for (auto cur = head; cur != nullptr && len < k; cur = cur->next)
+      ++len;
+    if (len < k) return head;
+    ListNode *cur = head, *prev = nullptr;
+    for (int i = 0; i < k && cur != nullptr; ++i) {
+      swap(cur->next, prev);
+      swap(cur, prev);
+    }
+    if (cur != nullptr) {
+      head->next = ReverseKGroup(cur, k);
+    }
+    return prev;
+  }
+};
+
 // Date: 2016-12-21
 class Solution {
  public:

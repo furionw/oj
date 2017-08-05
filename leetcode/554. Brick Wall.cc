@@ -1,4 +1,23 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-08-04
+class Solution {
+ public:
+  int leastBricks(vector<vector<int>>& wall) {
+    unordered_map<int, int> offset_to_cnt_map;
+    for (const auto& vt : wall) {
+      int acc = 0;
+      for (int i = 0; i < vt.size() - 1; ++i) {
+        ++offset_to_cnt_map[acc += vt[i]];
+      }
+    }
+    int most_frequent_offset = 0;
+    for (const auto& p : offset_to_cnt_map) {
+      most_frequent_offset = max(most_frequent_offset, p.second);
+    }
+    return wall.size() - most_frequent_offset;
+  }
+};
+
 // Date: 2017-05-02
 class Solution {
  public:
