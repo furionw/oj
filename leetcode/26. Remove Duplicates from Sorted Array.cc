@@ -1,4 +1,19 @@
-// Copyright 2016 Qi Wang
+// Copyright 2017 Qi Wang
+// Date: 2017-08-05
+class Solution {
+ public:
+  int removeDuplicates(vector<int>& nums) {
+    if (nums.empty()) return 0;
+    int result = 1;
+    for (int i = 1; i < nums.size(); ++i) {
+      if (nums[i] != nums[i - 1]) {
+        nums[result++] = nums[i];
+      }
+    }
+    return result;
+  }
+};
+ 
 // Date: 2016-12-21
 class Solution {
  public:
@@ -19,7 +34,6 @@ class Solution {
 };
 
 // Date: 2014-06
-// It seems that this implementaion doesn't meet the demand.
 class Solution 
 {
 public:
