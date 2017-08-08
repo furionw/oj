@@ -1,4 +1,41 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-08-07
+// Note that the solution on 2017-01-01 is more concise :)
+class Solution {
+ public:
+  void gameOfLife(vector<vector<int>>& board) {
+    if (board.empty() || board[0].empty()) return;
+    for (int i = 0; i < board.size(); ++i)
+      for (int j = 0; j < board[0].size(); ++j) {
+        int cnt = LiveNeighbors(board, i, j);
+        if (cnt == 3 || (board[i][j] == 1 && cnt == 2)) {
+          board[i][j] = board[i][j] | 2;
+        }
+      }
+    for (int i = 0; i < board.size(); ++i)
+      for (int j = 0; j < board[0].size(); ++j) {
+        board[i][j] >>= 1;
+      }
+  }
+ 
+ private:
+  int LiveNeighbors(const vector<vector<int>>& board, int x, int y) const {
+    static constexpr int x_delta[] = {1, 0, -1};
+    static constexpr int y_delta[] = {1, 0, -1};
+    int result = 0;
+    for (int i = 0; i < 3; ++i) {
+      for (int j = 0; j < 3; ++ j) {
+        if ((x_delta[i] == 0 && x_delta[j] == 0)) continue;
+        int x2 = x + x_delta[i], y2 = y + y_delta[j];
+        if (x2 < 0 || x2 >= board.size() || y2 < 0 || y2 >= board[0].size())
+          continue;
+        result += board[x2][y2] & 1;
+      }
+    }
+    return result;
+  }
+};
+
 // Date: 2017-01-01
 class Solution {
  public:
