@@ -1,4 +1,80 @@
-// Copyright 2016 Qi Wang
+// Copyright 2017 Qi Wang
+// Date: 2017-08-09
+class LFUCache {
+ public:
+  LFUCache(int capacity) : CAPACITY(capacity) {}
+  
+  int get(int key) {
+    if (CAPACITY == 0) return -1;
+    if (key_to_cache_map_.find(key) == key_to_cache_map_.end()) {
+      return -1;
+    } else {
+      auto list_itr = key_to_list_map_[key];
+      auto cache_itr = key_to_cache_map_[key];
+      int freq = list_itr->freq + 1;
+      auto next = list_itr;
+      ++next;
+      if (next != lists_.end() && next->freq == freq) {
+        key_to_list_map_[key] = next;
+        next->caches.splice(next->caches.begin(), list_itr->caches, cache_itr);
+      } else {
+        key_to_list_map_[key] = lists_.emplace(next, freq);
+        auto& target_list = key_to_list_map_[key]->caches;
+        target_list.splice(target_list.begin(), list_itr->caches, cache_itr);
+      }
+      if (list_itr->caches.empty()) {
+        lists_.erase(list_itr);
+      }
+      return cache_itr->value;
+    }
+  }
+   
+  void put(int key, int value) {
+    if (CAPACITY == 0) return;
+    if (key_to_cache_map_.find(key) == key_to_cache_map_.end()) {
+      if (sz_ + 1 > CAPACITY) {
+        int key_to_remove = lists_.front().caches.back().key;
+        lists_.front().caches.pop_back();
+        key_to_cache_map_.erase(key_to_remove);
+        key_to_list_map_.erase(key_to_remove);
+        if (lists_.front().caches.empty()) {
+          lists_.pop_front();
+        }
+      } else {
+        ++sz_;
+      }
+      key_to_list_map_[key] = lists_.empty() || lists_.begin()->freq != 1
+          ? lists_.emplace(lists_.begin(), 1)
+          : lists_.begin();
+      auto& target_list = lists_.begin()->caches;
+      key_to_cache_map_[key] = target_list.emplace(target_list.begin(), key,
+                                                   value);
+    } else {
+      get(key);
+      key_to_cache_map_[key]->value = value;
+    } 
+  }
+ 
+ private:
+  struct Cache {
+    Cache(int k, int v) : key(k), value(v) {}
+    int key;
+    int value;
+  };
+ 
+  struct CacheList {
+    CacheList(int f) : freq(f) {}
+    int freq = 0;
+    list<Cache> caches;
+  };
+ 
+  const int CAPACITY;
+  int sz_ = 0;
+  list<CacheList> lists_;
+  unordered_map<int, list<CacheList>::iterator> key_to_list_map_;
+  unordered_map<int, list<Cache>::iterator> key_to_cache_map_;
+};
+
 // Refer to: http://bookshadow.com/weblog/2016/11/22/leetcode-lfu-cache/
 // Date: 2016-11-24
 // Here we assume freq is always less than INT_MAX

@@ -1,4 +1,28 @@
-// Copyright 2016 Qi Wang
+// Copyright 2017 Qi Wang
+// Date: 2017-08-09
+class Solution {
+ public:
+  RandomListNode *copyRandomList(RandomListNode *head) {
+    unordered_map<RandomListNode*, RandomListNode*> old_to_new_map;
+    return CopyRandomList(head, &old_to_new_map);
+  }
+ 
+ private:
+  RandomListNode *CopyRandomList(RandomListNode *head,
+      unordered_map<RandomListNode*, RandomListNode*>* old_to_new_map) const {
+    if (head == nullptr) return nullptr;
+    if ((*old_to_new_map)[head] != nullptr) {
+      return (*old_to_new_map)[head];
+    } else {
+      auto new_node = new RandomListNode(head->label);
+      (*old_to_new_map)[head] = new_node;
+      new_node->next = CopyRandomList(head->next, old_to_new_map);
+      new_node->random = CopyRandomList(head->random, old_to_new_map);
+      return new_node;
+    }
+  }
+};
+
 // Date: 2016-12-16
 class Solution {
  public:
