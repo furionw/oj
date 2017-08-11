@@ -1,4 +1,33 @@
-// Copyright 2016 Qi Wang
+// Copyright 2017 Qi Wang
+// Date: 2017-08-10
+class Solution {
+ public:
+  vector<int> maxSlidingWindow(vector<int>& nums, int k) {
+    if (nums.empty()) return {};
+    list<int> non_incresing_list;
+    for (int i = 0; i < k; ++i) {
+      TryToPush(&non_incresing_list, nums[i]);
+    }
+    vector<int> result(1, non_incresing_list.front());
+    for (int i = k; i < nums.size(); ++i) {
+      if (non_incresing_list.front() == nums[i - k]) {
+        non_incresing_list.pop_front();
+      }
+      TryToPush(&non_incresing_list, nums[i]);
+      result.push_back(non_incresing_list.front());
+    }
+    return result;
+  }
+ 
+ private:
+  void TryToPush(list<int>* non_incresing_list, int num) const {
+    while (!non_incresing_list->empty() && num > non_incresing_list->back()) {
+      non_incresing_list->pop_back();
+    }
+    non_incresing_list->push_back(num);
+  }
+};
+
 // Solved by my own!!!
 // Date: 2016-12-17
 class Solution {

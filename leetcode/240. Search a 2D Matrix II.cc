@@ -1,4 +1,25 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-08-10
+// Rfer to the solution on 2017-01-04
+class Solution {
+ public:
+  bool searchMatrix(vector<vector<int>>& matrix, int target) {
+    if (matrix.empty() || matrix[0].empty()) return false;
+    int m = matrix.size(), n = matrix[0].size();
+    int i = 0, j = n - 1;
+    while (i < m && j >= 0) {
+      if (matrix[i][j] == target) {
+        return true;
+      } else if (matrix[i][j] < target) {
+        ++i;
+      } else {
+        --j;
+      }
+    }
+    return false;
+  }
+};
+
 // Date: 2017-01-04
 // Method 3: refer to https://discuss.leetcode.com/topic/19477/c-with-o-m-n-complexity
 class Solution {
