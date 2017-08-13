@@ -149,3 +149,9 @@
   - LC 538. Convert BST to Greater Tree
     - upper_bound(first, last, val): return last if no such element
     - distance(first, last) : first comes first
+
+<br>
+
+# Binary Search
+
+  - LC 378. Kth Smallest Element in a Sorted Matrix

@@ -1,4 +1,21 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-08-11
+class Solution {
+ public:
+  vector<int> twoSum(vector<int>& nums, int target) {
+    unordered_map<int, int> num_to_idx_map;
+    for (int i = 0; i < nums.size(); ++i) {
+      if (num_to_idx_map.find(target - nums[i]) !=
+          num_to_idx_map.end()) {
+        return {num_to_idx_map[target - nums[i]], i};
+      } else {
+        num_to_idx_map[nums[i]] = i;
+      }
+    }
+    return {-1, -1};  // comfort the compiler
+  }
+};
+
 // Date: 2017-07-25
 class Solution {
  public:

@@ -1,4 +1,66 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-08-12
+class Solution {
+ public:
+  vector<string> removeInvalidParentheses(string s) {
+    if (s.empty()) return {""};
+    int open_to_remove = 0, close_to_remove = 0;
+    for (char c : s) {
+      if (c == '(') {
+        ++open_to_remove;
+      } else if (c == ')') {
+        if (open_to_remove == 0) {
+          ++close_to_remove;
+        } else {
+          --open_to_remove;
+        }
+      }
+    }
+    unordered_set<string> result_set;
+    string cur_str;
+    F(s, 0, open_to_remove, close_to_remove, 0, &cur_str, &result_set);
+    return vector<string>(result_set.begin(), result_set.end());
+  }
+ 
+ private:
+  void F(const string& s, int idx, int open_to_remove, int close_to_remove,
+      int cur, string* cur_str, unordered_set<string>* result_set) const {
+    if (idx == s.size()) {
+      if (open_to_remove == 0 && close_to_remove == 0) {
+        result_set->insert(*cur_str);
+      }
+    } else {
+      if (s[idx] == '(') {
+        // drop this element
+        if (open_to_remove > 0) {
+          F(s, idx + 1, open_to_remove - 1, close_to_remove, cur, cur_str,
+            result_set);
+        }
+        cur_str->push_back(s[idx]);
+        F(s, idx + 1, open_to_remove, close_to_remove, cur + 1, cur_str,
+          result_set);
+        cur_str->pop_back();
+      } else if (s[idx] == ')') {
+        if (close_to_remove > 0) {
+          F(s, idx + 1, open_to_remove, close_to_remove - 1, cur, cur_str,
+            result_set);
+        }
+        if (cur > 0) {
+          cur_str->push_back(s[idx]);
+          F(s, idx + 1, open_to_remove, close_to_remove, cur - 1, cur_str,
+            result_set);
+          cur_str->pop_back();
+        }
+      } else {
+        cur_str->push_back(s[idx]);
+        F(s, idx + 1, open_to_remove, close_to_remove, cur, cur_str,
+          result_set);
+        cur_str->pop_back();
+      }
+    }
+  }
+};
+
 // Date: 2017-07-03
 // This impl is faster than the previous solutions on 2016-10-11 and 2017-03-02
 class Solution {

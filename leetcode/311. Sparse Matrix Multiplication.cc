@@ -1,4 +1,35 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-08-12
+class Solution {
+ public:
+  vector<vector<int>> multiply(vector<vector<int>>& A,
+                               vector<vector<int>>& B) {
+    if (A.empty()) return {};
+    int m = A.size(), n = A[0].size(), q = B[0].size();
+    vector<bool> all_zero_a(m, false), all_zero_b(q, false);
+    for (int i = 0; i < m; ++i) {
+      all_zero_a[i] = count(A[i].begin(), A[i].end(), 0) == n;
+    }
+    for (int j = 0; j < q; ++j) {
+      bool all_zero = true;
+      for (int i = 0; all_zero && i < n; ++i) {
+        all_zero = B[i][j] == 0;
+      }
+    }
+    vector<vector<int>> result(m, vector<int>(q, 0));
+    for (int i = 0; i < m; ++i) {
+      for (int j = 0; j < q; ++j) {
+        if (!all_zero_a[i] && !all_zero_b[j]) {
+          for (int k = 0; k < n; ++k) {
+            result[i][j] += A[i][k] * B[k][j];
+          }
+        }
+      }
+    }
+    return result;
+  }
+};
+ 
 // Date: 2017-07-04
 // According to the result, the solution on 2017-02-18 is faster.
 class Solution {
