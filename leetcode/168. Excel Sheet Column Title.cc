@@ -1,4 +1,41 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-08-13
+class Solution {
+ public:
+  string convertToTitle(int n) {
+    string result;
+    for (; n > 0; n = (n - 1) / 26) {
+      result += 'A' + (n - 1) % 26;
+    }
+    reverse(result.begin(), result.end());
+    return result;    
+  }
+};
+
+// Date: 2017-08-13
+// Please note that the solution on 2016-11-04 is more concise.
+class Solution {
+ public:
+  string convertToTitle(int n) {
+    string result;
+    while (n > 0) {
+      if (n % 26 == 0) {
+        result += 'Z';
+        n = (n - 26) / 26;
+      } else {
+        result += (n % 26) + 'A' - 1;
+        n /= 26;
+      }
+    }
+    reverse(result.begin(), result.end());
+    return result;
+  }
+};
+ 
+// case 1: n = 1
+// case 2: n = 26
+// case 3: n = 27
+
 // Date: 2017-07-21
 // Please note that the solution on 2016-11-04 is more concise.
 class Solution {

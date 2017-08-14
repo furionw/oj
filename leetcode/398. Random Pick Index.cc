@@ -1,4 +1,24 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-08-13
+class Solution {
+ public:
+  Solution(vector<int> nums) : nums_(move(nums)) {}
+  
+  int pick(int target) {
+    int result = -1;
+    int cnt = 0;
+    for (int i = 0; i < nums_.size(); ++i) {
+      if (nums_[i] == target && rand() % ++cnt == 0) {
+        result = i;
+      }
+    }
+    return result;
+  }
+ 
+ private:
+  vector<int> nums_;
+};
+ 
 // Date: 2017-07-30
 class Solution {
  public:

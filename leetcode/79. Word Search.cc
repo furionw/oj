@@ -1,3 +1,36 @@
+// Copyright 2017 Qi Wang
+// Date: 2017-08-13
+class Solution {
+ public:
+  bool exist(vector<vector<char>>& board, string word) {
+    if (word.empty()) return true;
+    for (int i = 0; i < board.size(); ++i) {
+      for (int j = 0; j < board[0].size(); ++j) {
+        if (board[i][j] == word[0] && F(board, i, j, word, 0)) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
+ private:
+  bool F(vector<vector<char>>& board, int x, int y, const string& word,
+      int idx) {
+    if (idx + 1 == word.size()) return true;
+    board[x][y] = '*';
+    int delta[] = {0, 1, 0, -1, 0};
+    for (int d = 0; d < 4; ++d) {
+      int i = x + delta[d], j = y + delta[d + 1];
+      if (i < 0 || i >= board.size() || j < 0 || j >= board[0].size() ||
+          board[i][j] != word[idx + 1]) continue;
+      if (F(board, i, j, word, idx + 1)) return true;
+    }
+    board[x][y] = word[idx];
+    return false;
+  }
+};
+
 // Date: 2017-07-25
 class Solution {
  public:

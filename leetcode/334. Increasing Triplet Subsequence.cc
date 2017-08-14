@@ -1,4 +1,29 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-08-13
+class Solution {
+ public:
+  bool increasingTriplet(vector<int>& nums) {
+    // FALSE should be returned here
+    if (nums.size() < 3) return false;
+    int min1 = INT_MAX, min2 = INT_MAX;
+    // return true if min1 < min2 < num;
+    for (int num : nums) {
+      if (num < min1) {
+        min1 = num;
+      } else if (min1 < num && num < min2) {
+        min2 = num;
+      } else if (num > min2) {
+        return true;
+      }
+    }
+    return false;
+  }
+};
+ 
+// case 1: nums = [1, 2, 3]
+// case 2: nums = [3, 4, 1, 5]
+// case 3: nums = [3, 4, 1, 2, 3]
+
 // Date: 2017-07-30
 class Solution {
  public:

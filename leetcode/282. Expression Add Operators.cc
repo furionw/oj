@@ -1,4 +1,43 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-08-13
+class Solution {
+ public:
+  // assume all operands are within [INT_MIN, INT_MAX]
+  vector<string> addOperators(string s, int target) {
+    vector<string> result;
+    for (int i = 0; i < s.size(); ++i) {
+      string str = s.substr(0, i + 1);
+      int val = stol(str);
+      if (to_string(val) != str) break;
+      F(s, i + 1, val, val, 'x', target, str, &result);
+    }
+    return result;
+  }
+ 
+ private:
+  void F(const string& s, int idx, int val, int prev, char prev_op,
+      int target, const string& cur, vector<string>* result) const {
+    if (idx == s.size() && val == target) {
+      result->push_back(cur);
+      return;
+    }
+    for (int i = idx; i < s.size(); ++i) {
+      string str = s.substr(idx, i - idx + 1);
+      int num = stol(str);
+      if (to_string(num) != str) break;
+      F(s, i + 1, val + num, num, '+', target, cur + "+" + str, result);
+      F(s, i + 1, val - num, num, '-', target, cur + "-" + str, result);
+      int val_for_mul = prev_op == '+'
+          ? val - prev + prev * num
+          : (prev_op == '-'
+                ? val + prev - prev * num
+                : val * num);
+      F(s, i + 1, val_for_mul, prev * num, prev_op, target, cur + "*" + str,
+          result);
+    }
+  }
+};
+
 // Date: 2017-08-02
 // Refer to: https://discuss.leetcode.com/topic/24478/17-lines-solution-dfs-c
 class Solution {

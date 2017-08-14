@@ -1,4 +1,22 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-08-13
+class Solution {
+ public:
+  void sortColors(vector<int>& nums) {
+    if (nums.size() <= 1) return;
+    for (int zero_idx = -1, one_idx = 0, two_idx = nums.size();
+        one_idx < two_idx;) {
+      if (nums[one_idx] == 0) {
+        swap(nums[++zero_idx], nums[one_idx++]);
+      } else if (nums[one_idx] == 2) {
+        swap(nums[--two_idx], nums[one_idx]);
+      } else {
+        ++one_idx;
+      }
+    }
+  }
+};
+
 // Date: 2017-07-22
 // Note that the previous solution is more concise
 class Solution {
