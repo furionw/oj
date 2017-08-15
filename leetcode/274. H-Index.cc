@@ -1,4 +1,22 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-08-14
+class Solution {
+ public:
+  int hIndex(vector<int>& citations) {
+    int n = citations.size();
+    vector<int> cnts(n + 1, 0);
+    for (int citation : citations) {
+      ++cnts[min(citation, n)];
+    }
+    for (int i = n, acc = 0; i >= 0; --i) {
+      if ((acc += cnts[i]) >= i) {
+        return i;
+      }
+    }
+    return -1;  // comfort the compiler
+  }
+};
+
 // Date: 2017-08-02
 // O(nlgn) with sort
 // The solution on 2016-10-25 is more efficient

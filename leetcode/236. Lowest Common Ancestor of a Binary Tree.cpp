@@ -1,4 +1,24 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-08-14
+class Solution {
+ public:
+  TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p,
+                                 TreeNode* q) {
+    if (root == nullptr) return nullptr;
+    if (root == p || root == q) {
+      return root;
+    } else {
+      auto left = lowestCommonAncestor(root->left, p, q);
+      auto right = lowestCommonAncestor(root->right, p, q);
+      if (left != nullptr && right != nullptr) {
+        return root;
+      } else {
+        return left != nullptr ? left : right;
+      }
+    }
+  }
+};
+
 // Date: 2017-07-20
 // Please note the solution on 2016-10-09 is eaiser.
 class Solution {

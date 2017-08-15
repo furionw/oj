@@ -1,4 +1,22 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-08-14
+class Solution {
+ public:
+  int hIndex(vector<int>& citations) {
+    int n = citations.size();
+    int l = 0, r = n;
+    while (l < r) {
+      int mid = l + r >> 1;
+      if (citations[mid] >= n - mid) {
+        r = mid;
+      } else {
+        l = mid + 1;
+      }
+    }
+    return n - l;
+  }
+};
+
 // Date: 2017-08-02
 // Refer to the solution on 2016-10-25
 class Solution {

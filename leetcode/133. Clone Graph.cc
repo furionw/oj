@@ -1,4 +1,33 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-08-14
+class Solution {
+ public:
+  UndirectedGraphNode *cloneGraph(UndirectedGraphNode *node) {
+    unordered_map<UndirectedGraphNode*, UndirectedGraphNode*>
+        addr_to_node_map;
+    addr_to_node_map[nullptr] = nullptr;
+    return CloneGraph(node, &addr_to_node_map);
+  }
+
+ private:
+  UndirectedGraphNode *CloneGraph(
+      UndirectedGraphNode *node,
+      unordered_map<UndirectedGraphNode*, UndirectedGraphNode*>*
+          addr_to_node_map) const {
+    if (addr_to_node_map->find(node) != addr_to_node_map->end()) {
+      return (*addr_to_node_map)[node];
+    } else {
+      (*addr_to_node_map)[node] = new UndirectedGraphNode(node->label);
+      for (auto neighbor : node->neighbors) {
+        (*addr_to_node_map)[node]->neighbors.push_back(
+            CloneGraph(neighbor, addr_to_node_map)
+        );
+      }
+      return (*addr_to_node_map)[node];
+    }
+  }
+};
+
 // Date: 2017-07-24
 class Solution {
  public:

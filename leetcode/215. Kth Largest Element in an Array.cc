@@ -1,4 +1,42 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-08-14
+class Solution {
+ public:
+  int findKthLargest(vector<int>& nums, int k) {
+    if (nums.empty()) return INT_MIN;
+    int l = 0, r = nums.size() - 1;
+    while (l < r) {
+      int ll = l, rr = r;
+      int pivot = nums[ll];
+      while (ll < rr) {
+        for (; ll < rr && pivot >= nums[rr]; --rr) {}
+        nums[ll] = nums[rr];
+        for (; ll < rr && nums[ll] > pivot; ++ll) {}
+        nums[rr] = nums[ll];
+      }
+      nums[ll] = pivot;
+      if (ll == k - 1) {
+        return nums[k - 1];
+      } else if (ll < k - 1) {
+        l = ll + 1;
+      } else {
+        r = ll - 1;
+      }
+    }
+    return nums[k - 1];
+  }
+};
+
+// Date: 2017-08-14
+class Solution {
+ public:
+  int findKthLargest(vector<int>& nums, int k) {
+    nth_element(nums.begin(), nums.begin() + k - 1, nums.end(),
+        greater<int>());
+    return nums[k - 1];
+  }
+};
+
 // Date: 2017-07-27
 class Solution {
  public:
