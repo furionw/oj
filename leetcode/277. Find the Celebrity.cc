@@ -1,4 +1,33 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-08-15
+// Refer to other's solution
+class Solution {
+ public:
+  int findCelebrity(int n) {
+    list<int> candidates;
+    for (int i = 0; i < n; ++i) candidates.push_back(i);
+    while (candidates.size() > 1) {
+      int a = candidates.back(); candidates.pop_back();
+      int b = candidates.back(); candidates.pop_back();
+      bool a_knows_b = knows(a, b), b_knows_a = knows(b, a);
+      if (!a_knows_b && b_knows_a) {
+        candidates.push_back(a);
+      } else if (a_knows_b && !b_knows_a) {
+        candidates.push_back(b);
+      }
+    }
+    if (candidates.empty()) return -1;
+    int candidate = candidates.front();
+    for (int i = 0; i < n; ++i) {
+      if (i != candidate &&
+          (knows(candidate, i) || !knows(i, candidate))) {
+        return -1;
+      }
+    }
+    return candidate;
+  }
+};
+
 // Date: 2017-07-06
 // Method 2
 class Solution {

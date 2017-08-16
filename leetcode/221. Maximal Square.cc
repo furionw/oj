@@ -1,4 +1,38 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-08-15
+// Please refer to other's solutions for more concise and efficient impl
+class Solution {
+ public:
+  int maximalSquare(vector<vector<char>>& matrix) {
+    if (matrix.empty() || matrix[0].empty()) return 0;
+    int m = matrix.size(), n = matrix[0].size();
+    vector<vector<int>> dp(m, vector<int>(n, 0));
+    auto hor = dp, ver = dp;
+    int result = 0;
+    for (int i = 0; i < m; ++i) {
+      for (int j = 0; j < n; ++j) {
+        hor[i][j] = matrix[i][j] == '0'
+            ? 0 : 1 + (j > 0 ? hor[i][j - 1] : 0);
+        dp[i][j] = matrix[i][j] != '0';
+        result = max(result, dp[i][j]);
+      }
+    }
+    for (int j = 0; j < n; ++j) {
+      for (int i = 0; i < m; ++i) {
+        ver[i][j] = matrix[i][j] == '0'
+            ? 0 : 1 + (i > 0 ? ver[i - 1][j] : 0);
+      }
+    }
+    for (int i = 1; i < m; ++i) {
+      for (int j = 1; j < n; ++j) {
+        dp[i][j] = min(ver[i][j], min(hor[i][j], dp[i - 1][j - 1] + 1));
+        result = max(result, dp[i][j] * dp[i][j]);
+      }
+    }
+    return result;
+  }
+};
+
 // Date: 2017-08-02
 class Solution {
  public:
@@ -29,41 +63,43 @@ class Solution {
   }
 };
 
-// Date: 2016-11-07
-class Solution {
- public:
-  int maximalSquare(vector<vector<char>>& matrix) {
-    if (matrix.empty()) return 0;
-    // Note that we only handle some matrixs with limited size by 2^31
-    int n = static_cast<int>(matrix.size()),
-        m = static_cast<int>(matrix[0].size());
-    // dp
-    vector<vector<int>> dp(2, vector<int>(m, 0));
-    int res = 0;
-    // init
-    for (int j = 0; j < m; ++j) {
-      dp[0][j] = matrix[n - 1][j] == '1';
-      res = max(res, dp[0][j]);
-    }
-    // deduct
-    for (int i = n - 2; i >= 0; --i) {
-      for (int j = m - 1; j >= 0; --j) {
-        if (j == m - 1) {
-          dp[1][j] = matrix[i][j] == '1';
-        } else {
-          if (matrix[i][j] == '1') {
-            int hLen = 1, vLen = 1;
-            for (; j + hLen < m && matrix[i][j + hLen] == '1'; ++hLen) {}
-            for (; i + vLen < n && matrix[i + vLen][j] == '1'; ++vLen) {}
-            dp[1][j] = min(hLen, min(vLen, dp[0][j + 1] + 1));
-          } else {
-            dp[1][j] = 0;
-          }
+class Solution 
+{
+public:
+    int maximalSquare(vector<vector<char>>& matrix) 
+    {
+    	if (matrix.size() == 0)
+    	{
+    		return 0;
+    	}
+
+    	int max_length = 0;
+        vector<vector<int>> dp(matrix.size(), vector<int>(matrix[0].size(), 0));
+        for (size_t i  = 0; i < matrix.size(); ++ i)
+        {
+        	dp[i][0] = matrix[i][0] - '0';
+        	max_length = max(max_length, dp[i][0]);
         }
-        res = max(res, dp[1][j]);
-      }
-      swap(dp[0], dp[1]);
+        for (size_t j = 0; j < matrix[0].size(); ++ j)
+        {
+        	dp[0][j] = matrix[0][j] - '0';
+        	max_length = max(max_length, dp[0][j]);
+        }
+        for (size_t i = 1; i < matrix.size(); ++ i)
+        {
+        	for (size_t j = 1; j < matrix.size(); ++ j)
+        	{
+        		int pre_length = dp[i-1][j-1];
+        		bool new_square = true;
+        		for (size_t k = 0; k <= pre_length && new_square; ++ k)
+        		{
+        			new_square = new_square && (matrix[i-k][j] == '1');
+        			new_square = new_square && (matrix[i][j-k] == '1');
+        		} 
+        		max_length = max(max_length, new_square? (pre_length+1)	: 0);
+        	}
+        }
+        return max_length * max_length;
     }
-    return res * res;
-  }
 };
+

@@ -1,4 +1,15 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-08-15
+class Solution {
+ public:
+  void merge(vector<int>& nums1, int m, vector<int>& nums2, int n) {
+    int i = m - 1, j = n - 1, idx = m + n - 1;
+    for (; i >= 0 && j >= 0;
+       nums1[idx--] = nums1[i] > nums2[j] ? nums1[i--] : nums2[j--]) {}
+    for (; j >= 0; nums1[idx--] = nums2[j--]) {}
+  }
+};
+
 // Date: 2017-07-14
 // Actually the solution on 2016-12-17 is better I think
 class Solution {

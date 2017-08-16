@@ -1,4 +1,28 @@
-// Copyright 2016 Qi Wang
+// Copyright 2017 Qi Wang
+// Date: 2017-08-15
+// Congratulations Qi. Your solution seems concise!
+class Solution {
+ public:
+  vector<string> generateAbbreviations(string word) {
+    vector<string> result;
+    F(word, 0, "", 0, &result);
+    return result;
+  }
+ 
+ private:
+  void F(const string& word, int idx, string cur, int acc,
+         vector<string>* result) const {
+    if (idx == word.size()) {
+      if (acc > 0) cur += to_string(acc);
+      result->push_back(cur);
+      return;
+    }
+    F(word, idx + 1, cur + (acc > 0 ? to_string(acc) : "") + word[idx], 0,
+        result);
+    F(word, idx + 1, cur, acc + 1, result);
+  }
+};
+
 // Date: 2016-12-28
 // Method 2: refer to the Top Solutions
 class Solution {

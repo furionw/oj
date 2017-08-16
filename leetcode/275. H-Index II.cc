@@ -1,4 +1,33 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-08-15
+class Solution {
+ public:
+  int hIndex(vector<int>& citations) {
+    int n = citations.size();
+    int l = 0, r = n;
+    // The condition is l < r, rather than l < n!!!
+    while (l < r) {
+      int mid = l + r >> 1;
+      if (citations[mid] >= n - mid) {
+        r = mid;
+      } else {
+        l = mid + 1;
+      }
+    } 
+    return n - l;
+  }
+};
+
+// case 1: [1, 2, 2, 2, 3, 5]
+// 0,6 -> mid=3 -> 2<3
+// 4,6 -> mid=5 -> 5>=1
+// 4,5 -> mid=4 -> 3>=2
+// 4,4
+
+// case 2: [1]
+// 0,1 -> mid=0 -> 1>=1
+// 0,0
+
 // Date: 2017-08-14
 class Solution {
  public:

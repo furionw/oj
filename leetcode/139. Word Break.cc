@@ -1,4 +1,21 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-08-15
+class Solution {
+ public:
+  bool wordBreak(string s, vector<string>& wordDict) {
+    vector<bool> dp(s.size() + 1, false);
+    dp[0] = true;
+    for (int i = 1; i <= s.size(); ++i) {
+      for (int j = 0; !dp[i] && j < wordDict.size(); ++j) {
+        int len = wordDict[j].size();
+        dp[i] = i - len >= 0 && dp[i - len] &&
+                s.substr(i - len, len) == wordDict[j];
+      }
+    }
+    return dp.back();
+  }
+};
+
 // Date: 2017-08-12
 class Solution {
  public:

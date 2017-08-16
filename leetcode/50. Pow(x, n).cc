@@ -1,4 +1,18 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-08-14
+class Solution {
+ public:
+  double myPow(double x, int n) {
+    if (n == 0) return 1;
+    int64_t nn = n;
+    bool negative = nn < 0;
+    nn = abs(nn);
+    double i = myPow(x, nn >> 1);
+    double result = i * i * (n & 1 ? x : 1);
+    return negative ? 1 / result : result;
+  }
+};
+
 // Date: 2017-07-31
 class Solution {
  public:

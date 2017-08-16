@@ -1,4 +1,36 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-08-15
+class Solution {
+ public:
+  vector<vector<int>> subsetsWithDup(vector<int>& nums) {
+    sort(nums.begin(), nums.end());
+    vector<vector<int>> result;
+    vector<int> cur;
+    F(nums, 0, &cur, &result);
+    return result;
+  }
+
+ private:
+  void F(const vector<int>& nums, int idx, vector<int>* cur,
+      vector<vector<int>>* result) const {
+    if (idx == nums.size()) {
+      result->push_back(*cur);
+    } else {
+      int len = 1;
+      for (; idx + len != nums.size() && nums[idx] == nums[idx + len];
+          ++len) {}
+      F(nums, idx + len, cur, result);
+      for (int i = 0; i < len; ++i) {
+        cur->push_back(nums[idx + i]);
+        F(nums, idx + len, cur, result);
+      }
+      while (len--) {
+        cur->pop_back();
+      }
+    }
+  }
+};
+
 // Date: 2017-07-25
 class Solution {
  public:
