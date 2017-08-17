@@ -1,4 +1,51 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-08-16
+using P = pair<string, int>;
+struct comp {
+  bool operator ()(const P& lhs, const P& rhs) {
+    return lhs.second != rhs.second ? lhs.second > rhs.second
+                                    : lhs.first < rhs.first;
+  }
+};
+ 
+class AutocompleteSystem {
+ public:
+  AutocompleteSystem(vector<string> sentences, vector<int> times) {
+    input_.clear();
+    sentence_to_freq_map_.clear();
+    for (int i = 0; i < sentences.size(); ++i) {
+      sentence_to_freq_map_[sentences[i]] = times[i];
+    }
+  }
+    
+  vector<string> input(char c) {
+    if (c == '#') {
+      ++sentence_to_freq_map_[input_];
+      input_.clear();
+      return {};
+    }
+    input_ += c;
+    priority_queue<P, vector<P>, comp> pq;
+    for (const auto& p : sentence_to_freq_map_) {
+      if (strncmp(p.first.data(), input_.data(), input_.size()) == 0) {
+        pq.push(p);
+        if (pq.size() > 3) pq.pop();
+      }
+    }
+    vector<string> result;
+    while (!pq.empty()) {
+      result.push_back(move(pq.top().first));
+      pq.pop();
+    }
+    reverse(result.begin(), result.end());
+    return result;
+  }
+ 
+ private:
+  string input_;
+  unordered_map<string, int> sentence_to_freq_map_;
+};
+
 // Date: 2017-07-18
 // Refer to Fangrui Song's solution
 class AutocompleteSystem {

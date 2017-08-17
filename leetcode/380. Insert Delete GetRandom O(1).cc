@@ -1,4 +1,38 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-08-16
+class RandomizedSet {
+ public:
+  bool insert(int val) {
+    if (num_to_idx_map.find(val) != num_to_idx_map.end()) {
+      return false;
+    } else {
+      num_to_idx_map[val] = nums_.size();
+      nums_.push_back(val);
+      return true;
+    }
+  }
+    
+  bool remove(int val) {
+    if (num_to_idx_map.find(val) == num_to_idx_map.end()) {
+      return false;
+    } else {
+      num_to_idx_map[nums_.back()] = num_to_idx_map[val];
+      swap(nums_.back(), nums_[num_to_idx_map[val]]);
+      nums_.pop_back();
+      num_to_idx_map.erase(val);
+      return true;
+    }
+  }
+    
+  int getRandom() {
+    return !nums_.empty() ? nums_[rand() % nums_.size()] : INT_MIN;
+  }
+ 
+ private:
+  unordered_map<int, int> num_to_idx_map;
+  vector<int> nums_;
+};
+
 // Date: 2017-07-29
 class RandomizedSet {
  public:

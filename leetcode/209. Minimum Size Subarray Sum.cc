@@ -1,4 +1,40 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-08-16
+class Solution {
+ public:
+  int minSubArrayLen(int s, vector<int>& nums) {
+    int result = INT_MAX;
+    for (int begin = 0, i = 0, acc = 0; i < nums.size(); ++i) {
+      acc += nums[i];
+      for (; acc - nums[begin] >= s; acc -= nums[begin++]) {}
+      if (acc >= s) result = min(result, i - begin + 1);
+    }
+    return result != INT_MAX ? result : 0;
+  }
+};
+
+// Date: 2017-07-25
+class Solution {
+ public:
+  int minSubArrayLen(int s, vector<int>& nums) {
+    if (nums.empty()) return 0;
+    int acc = nums.front(), prev = 0;
+    if (acc > s) return 1;
+    int result = INT_MAX;
+    for (int i = 1; i < nums.size(); ++i) {
+      acc += nums[i];
+      while (prev != i && acc - nums[prev] >= s) {
+        acc -= nums[prev];
+        ++prev;
+      }
+      if (acc >= s) {
+        result = min(result, i - prev + 1);
+      }
+    }
+    return result != INT_MAX ? result : 0;
+  }
+};
+
 // Date: 2017-03-09
 // O(nlogn) solution required by follow up question
 class Solution {

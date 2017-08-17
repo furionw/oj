@@ -1,4 +1,25 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-08-16
+class Solution {
+ public:
+  string countAndSay(int n) {
+    if (n <= 0) return "n <= 0";
+    string s = "1";
+    for (--n; n > 0; --n) {
+      string next_s;
+      cout << s << endl;
+      for (int i = 0; i < s.size();) {
+        int cnt = 1;
+        for (; i + cnt < s.size() && s[i + cnt] == s[i]; ++cnt) {}
+        next_s += to_string(cnt) + s[i];
+        i += cnt;
+      }
+      s = move(next_s);
+    }
+    return s;
+  }
+};
+ 
 // Date: 2017-07-25
 class Solution {
  public:

@@ -1,4 +1,24 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-08-16
+class Solution {
+ public:
+  int maxSubArrayLen(vector<int>& nums, int k) {
+    unordered_map<int, int> acc_to_idx_map;
+    acc_to_idx_map[0] = -1;
+    int result = 0;
+    for (int i = 0, acc = 0; i < nums.size(); ++i) {
+      acc += nums[i];
+      if (acc_to_idx_map.find(acc - k) != acc_to_idx_map.end()) {
+        result = max(result, i - acc_to_idx_map[acc - k]);
+      }
+      if (acc_to_idx_map.find(acc) == acc_to_idx_map.end()) {
+        acc_to_idx_map[acc] = i;
+      }
+    }
+    return result;
+  }
+};
+
 // Date: 2017-07-03
 class Solution {
  public:

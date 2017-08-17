@@ -1,4 +1,66 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-08-16
+// This is the best solution ever! Only in O((N^2) * log(N))
+class Solution {
+ public:
+  vector<vector<int>> threeSum(vector<int>& nums) {
+    sort(nums.begin(), nums.end());
+    vector<vector<int>> result;
+    for (int i = 0; i < nums.size();) {
+      for (int j = i + 1, k = nums.size() - 1; j < k;) {
+        int sum = nums[i] + nums[j] + nums[k];
+        if (sum == 0) {
+          result.push_back({nums[i], nums[j], nums[k]});
+          Advance(nums, &j);
+        } else if (sum < 0) {
+          Advance(nums, &j);
+        } else {
+          // We can implement a Stepback function here or just use --k
+          --k;
+        }
+      }
+      Advance(nums, &i);
+    }
+    return result;
+  }
+
+ private:
+  void Advance(const vector<int>& nums, int* idx) const {
+    ++*idx;
+    while (*idx < nums.size() && nums[*idx] == nums[*idx - 1]) {
+      ++*idx;
+    }
+  }
+};
+
+// Date: 2017-08-16
+class Solution {
+ public:
+  vector<vector<int>> threeSum(vector<int>& nums) {
+    sort(nums.begin(), nums.end());
+    vector<vector<int>> result;
+    for (int i = 0; i < nums.size();) {
+      for (int j = i + 1; j < nums.size();) {
+        int target = -nums[i] - nums[j];
+        if (binary_search(nums.begin() + j + 1, nums.end(), target)) {
+          result.push_back({nums[i], nums[j], target});
+        }
+        Advance(nums, &j);
+      }
+      Advance(nums, &i);
+    }
+    return result;
+  }
+
+ private:
+  void Advance(const vector<int>& nums, int* idx) const {
+    ++*idx;
+    while (*idx < nums.size() && nums[*idx] == nums[*idx - 1]) {
+      ++*idx;
+    }
+  }
+};
+
 // Date: 2017-07-02
 class Solution {
  public:

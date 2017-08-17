@@ -1,4 +1,17 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-08-16
+class Solution {
+ public:
+  int removeDuplicates(vector<int>& nums) {
+    if (nums.empty()) return 0;
+    int idx = 1;
+    for (int i = 1; i < nums.size(); ++i)
+      if (nums[i] != nums[i - 1])
+        nums[idx++] = nums[i];
+    return idx;
+  }
+};
+
 // Date: 2017-08-05
 class Solution {
  public:

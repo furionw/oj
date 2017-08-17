@@ -1,4 +1,39 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-08-16
+// The solution on 2017-01-11 is much better
+class Solution {
+ public:
+  vector<Interval> insert(vector<Interval>& intervals, Interval newInterval) {
+    vector<Interval> result;
+    auto itr = intervals.begin();
+    for (; itr != intervals.end() && itr->end < newInterval.start; ++itr) {
+      result.push_back(*itr);
+    }
+    if (itr == intervals.end()) {
+      result.push_back(newInterval);
+      return result;
+    }
+    int start = itr->start;
+    while (itr + 1 != intervals.end()
+           && newInterval.end >= (itr + 1)->start) {
+      ++itr;
+    }
+    if (newInterval.end >= itr->start) {
+      result.emplace_back(min(start, newInterval.start),
+                          max(itr->end, newInterval.end));
+      ++itr;
+    } else {
+      result.push_back(newInterval);
+      result.push_back(*itr);
+      ++itr;
+    }
+    for (; itr != intervals.end(); ++itr) {
+      result.push_back(*itr);
+    }
+    return result;
+  }
+};
+
 // Date: 2017-07-25
 // I more appreciate the solution on 2017-01-11
 class Solution {
