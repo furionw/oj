@@ -1,4 +1,35 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-08-22
+class MinStack {
+ public:  
+  void push(int x) {
+    nums_.push(x);
+    if (min_nums_.empty() || x <= min_nums_.top()) {
+      min_nums_.push(x);
+    }
+  }
+ 
+  void pop() {
+    if (nums_.empty()) return;
+    if (nums_.top() == min_nums_.top()) {
+      min_nums_.pop();
+    }
+    nums_.pop();
+  }
+  
+  int top() {
+    return nums_.empty() ? INT_MAX : nums_.top();
+  }
+  
+  int getMin() {
+    return min_nums_.empty() ? INT_MAX : min_nums_.top();
+  }
+ 
+ private:
+  stack<int> nums_;
+  stack<int> min_nums_;
+};
+ 
 // Date: 2017-01-10
 class MinStack {
  public:

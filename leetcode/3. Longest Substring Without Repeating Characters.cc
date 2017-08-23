@@ -1,4 +1,23 @@
-// Copyright 2016 Qi Wang
+// Copyright 2017 Qi Wang
+// Date: 2017-08-22
+class Solution {
+ public:
+  int lengthOfLongestSubstring(string s) {
+    unordered_map<char, int> char_to_idx_map;
+    int begin = 0, cnt = 0;
+    for (int i = 0; i < s.size(); ++i) {
+      if (char_to_idx_map.count(s[i])) {
+        for (; begin <= char_to_idx_map[s[i]]; ++begin) {
+          char_to_idx_map.erase(s[begin]);
+        }
+      }
+      char_to_idx_map[s[i]] = i;
+      cnt = max(cnt, i - begin + 1);
+    }
+    return cnt;
+  }
+};
+
 // Date: 2016-12-18
 class Solution {
  public:
