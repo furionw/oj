@@ -1,4 +1,31 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-08-17
+class Solution {
+ public:
+  vector<int> exclusiveTime(int n, vector<string>& logs) {
+    vector<int> result(n, 0);
+    stack<int> ids;
+    int prev_time = 0;
+    for (const string& log : logs) {
+      char s[6];
+      int id, t;
+      sscanf(log.data(), "%d:%[^:]:%d", &id, s, &t);
+      if (s[0] == 's') {
+        if (!ids.empty()) {
+          result[ids.top()] += t - prev_time;
+        }
+        prev_time = t;
+        ids.push(id);
+      } else {
+        result[id] += t - prev_time + 1;
+        prev_time = t + 1;
+        ids.pop();
+      }
+    }
+    return result;
+  }
+};
+ 
 // Date: 2017-08-06
 // Refer to the previous solution...
 class Solution {

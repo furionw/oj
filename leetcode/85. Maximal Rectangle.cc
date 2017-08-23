@@ -1,4 +1,47 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-08-17
+// Refer to the solution on 2017-08-06
+class Solution {
+ public:
+  int maximalRectangle(vector<vector<char>> &matrix) {
+    if (matrix.empty() || matrix[0].empty()) return 0;
+    int m = matrix.size(), n = matrix[0].size();
+    vector<vector<int>> height_tbl(m, vector<int>(n, 0));
+    for (int i = 0; i < m; ++i) {
+      for (int j = 0; j < n; ++j) {
+        height_tbl[i][j] = matrix[i][j] == '0'
+            ? 0
+            : 1 + (i != 0 ? height_tbl[i - 1][j] : 0);
+      }
+    }
+    int result = 0;
+    for (int i = 0; i < m; ++i) {
+      result = max(result, F(height_tbl[i]));
+    }
+    return result;
+  }
+ 
+ private:
+  int F(vector<int>& heights) const {
+    stack<int> non_decreasing_height_idxs;
+    heights.push_back(-1);
+    int result = 0;
+    for (int i = 0; i < heights.size();) {
+      if (non_decreasing_height_idxs.empty()
+          || heights[non_decreasing_height_idxs.top()] <= heights[i]) {
+        non_decreasing_height_idxs.push(i++);
+      } else {
+        int h = heights[non_decreasing_height_idxs.top()];
+        non_decreasing_height_idxs.pop();
+        result = max(result,
+                     h * (non_decreasing_height_idxs.empty()
+                          ? i : i - non_decreasing_height_idxs.top() - 1));
+      }
+    }
+    return result;
+  }
+};
+
 // Date: 2017-08-06
 class Solution {
  public:
@@ -24,8 +67,6 @@ class Solution {
     for (int i = 0; i < height.size();) {
       if (idxs.empty() || height[idxs.top()] <= height[i]) {
         idxs.push(i++);
-      // Note that all the preceeding elements of height is less than its last:
-      // elem < height[height.back() - 1] == -1
       } else {
         int h = height[idxs.top()]; idxs.pop();
         result = max(result, h * (idxs.empty() ? i : i - idxs.top() - 1));
