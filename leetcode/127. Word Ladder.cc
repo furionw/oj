@@ -1,4 +1,47 @@
-// Copyright 2016 Qi Wang
+// Copyright 2017 Qi Wang
+// Date: 2017-07-30
+class Solution {
+ public:
+  int ladderLength(string beginWord, string endWord, vector<string>& wordList) {
+    if (find(wordList.begin(), wordList.end(), endWord) == wordList.end()) {
+      return 0;
+    }
+    vector<int> dist(wordList.size(), INT_MAX);
+    vector<bool> vi(wordList.size(), false);
+    for (int i = 0; i < wordList.size(); ++i) {
+      if (Transformable(beginWord, wordList[i])) {
+        dist[i] = 2;
+      }
+    }
+    while (true) {
+      int u = -1, min_dist = INT_MAX;
+      for (int i = 0; i < wordList.size(); ++i) {
+        if (!vi[i] && dist[i] < min_dist) {
+          min_dist = dist[i];
+          u = i;
+        }
+      }
+      if (u == -1) break;
+      if (wordList[u] == endWord) return dist[u];
+      vi[u] = true;
+      for (int i = 0; i < wordList.size(); ++i) {
+        if (Transformable(wordList[u], wordList[i])) {
+          dist[i] = min(dist[i], dist[u] + 1);
+        }
+      }
+    }
+    return 0;
+  }
+
+ private:
+  bool Transformable(const string& u, const string& v) const {
+    int cnt = 0;
+    for (int i = 0; i < u.size(); ++i)
+      cnt += u[i] != v[i];
+    return cnt == 1;
+  }
+};
+
 // BFS
 // Date: 2016-11-20
 class Solution {

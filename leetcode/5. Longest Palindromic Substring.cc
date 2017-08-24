@@ -1,4 +1,31 @@
-// Copyright 2016 Qi Wang
+// Copyright 2017 Qi Wang
+// Date: 2017-08-23
+// Refer to: https://discuss.leetcode.com/topic/12187/simple-c-solution-8ms-13-lines
+// Time complexity: O(N^2)
+class Solution {
+ public:
+  string longestPalindrome(string s) {
+    if (s.size() <= 1) return s;
+    int result_idx = 0, result_len = 1;
+    for (int i = 0; i < s.size();) {
+      if (s.size() - i < result_len / 2) break;
+      int j = i, k = i;
+      for (; k + 1 < s.size() && s[k] == s[k + 1]; ++k) {}
+      i = k + 1;
+      while (j - 1 >= 0 && k + 1 < s.size() && s[j - 1] == s[k + 1]) {
+        --j;
+        ++k;
+      }
+      int new_len = k - j + 1;
+      if (new_len > result_len) {
+        result_len = new_len;
+        result_idx = j;
+      }
+    }
+    return s.substr(result_idx, result_len);
+  }
+};
+
 // Manacher algorithm finding longest palindrome substring in O(n) time
 // Date: 2016-10-04
 class Solution {
