@@ -1,4 +1,45 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-08-26
+class Solution {
+ public:
+  double findMedianSortedArrays(vector<int>& nums1, vector<int>& nums2) {
+    const int* a = nums1.data();
+    const int* b = nums2.data();
+    int m = nums1.size(), n = nums2.size();
+    return (m + n) % 2 == 1
+        ? kth(a, m, b, n, (m + n) / 2 + 1)
+        : (kth(a, m, b, n, (m + n) / 2) + kth(a, m, b, n, (m + n) / 2 + 1)) / 2;
+  }
+ 
+ private:
+  double kth(const int* a, int m, const int* b, int n, int k) const {
+    while (true) {
+      if (m == 0) {
+        return b[k - 1];
+      } else if (n == 0) {
+        return a[k - 1];
+      } else if (k == 1) {
+        return min(a[0], b[0]);
+      }
+      if (m > n) {
+        swap(m, n);
+        swap(a, b);
+      }
+      int i = min(k / 2, m);
+      int j = k - i;
+      if (a[i - 1] < b[j - 1]) {
+        a += i;
+        m -= i;
+        k -= i;
+      } else {
+        b += j;
+        n -= j;
+        k -= j;
+      }
+    }
+  }
+};
+
 // Date: 2017-07-17
 class Solution {
  public:
