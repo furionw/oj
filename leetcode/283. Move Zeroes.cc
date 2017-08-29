@@ -1,4 +1,16 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-08-28
+class Solution {
+ public:
+  void moveZeroes(vector<int>& nums) {
+    for (int i = 0, begin = 0; i < nums.size(); ++i) {
+      if (nums[i] != 0) {
+        swap(nums[i], nums[begin++]);
+      }
+    }
+  }
+};
+
 // Date: 2017-07-03
 // The solution on 2017-02-09 is a more propriate answer.
 class Solution {

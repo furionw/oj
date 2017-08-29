@@ -1,4 +1,25 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-08-28
+class Solution {
+ public:
+  vector<vector<int>> multiply(vector<vector<int>>& A,
+      vector<vector<int>>& B) {
+    if (A.empty() || A[0].empty()) return {};
+    int m = A.size(), n = A[0].size(), p = B[0].size();
+    vector<vector<int>> result(m, vector<int>(p, 0));
+    for (int i = 0; i < m; ++i) {
+      for (int j = 0; j < n; ++j) {
+        if (A[i][j] != 0) {
+          for (int k = 0; k < p; ++k) {
+            result[i][k] += A[i][j] * B[j][k];
+          }
+        }
+      }
+    }
+    return result;
+  }
+};
+
 // Date: 2017-08-16
 class Solution {
  public:

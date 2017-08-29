@@ -1,4 +1,41 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-08-28
+class Solution {
+ public:
+  string addBinary(string a, string b) {
+    if (a.empty() || b.empty()) return a.empty() ? b : a;
+    reverse(a.begin(), a.end());
+    reverse(b.begin(), b.end());
+    bool carry = false;
+    int i = 0;
+    string result;
+    for (; i < a.size() && i < b.size(); ++i) {
+      int sum = a[i] + b[i] - 2 * '0' + carry;
+      result += (sum & 1) + '0';
+      carry = sum >> 1;
+    }
+    if (i == a.size() && i == b.size()) {
+      if (carry) result += '1';
+    } else if (i < a.size()) {
+      F(a, i, carry, &result);
+    } else {
+      F(b, i, carry, &result);
+    }
+    reverse(result.begin(), result.end());
+    return result;
+  }
+
+ private:
+  void F(const string& s, int idx, bool carry, string* result) const {
+    for (; idx < s.size(); ++idx) {
+      int sum = s[idx] - '0' + carry;
+      (*result) += (sum & 1) + '0';
+      carry = sum >> 1;
+    }
+    if (carry) (*result) += '1';
+  }
+};
+
 // Date: 2017-07-04
 class Solution {
  public:

@@ -1,4 +1,22 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-08-28
+class Solution {
+ public:
+  int countPrimes(int n) {
+    if (n == 1) return 0;
+    vector<bool> is_prime(n, true);
+    is_prime[0] = is_prime[1] = false;
+    for (int i = 2; i < n; ++i) {
+      if (is_prime[i]) {
+        for (int j = 2 * i; j < n; j += i) {
+          is_prime[j] = false;
+        }
+      }
+    }
+    return count(is_prime.begin(), is_prime.end(), true);
+  }
+};
+  
 // Date: 2017-06-13
 // Refer to the solution in 2015-08
 // Method 2

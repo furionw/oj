@@ -1,4 +1,71 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-08-28
+// Method 2: without using unordered_map
+class Solution {
+ public:
+  vector<vector<int>> verticalOrder(TreeNode* root) {
+    if (root == nullptr) return {};
+    // <offset, node>
+    int min_offset = 0, max_offset = 0;
+    GetRange(root, 0, &min_offset, &max_offset);
+    vector<vector<int>> result(max_offset - min_offset + 1);
+    queue<pair<int, TreeNode*>> q;
+    q.emplace(0, root);
+    while (!q.empty()) {
+      const auto& front = q.front();
+      result[front.first - min_offset].push_back(front.second->val);
+      if (front.second->left != nullptr)
+        q.emplace(front.first - 1, front.second->left);
+      if (front.second->right != nullptr)
+        q.emplace(front.first + 1, front.second->right);
+      q.pop();
+    }
+    return result;
+  }
+
+ private:
+  void GetRange(TreeNode* root, int offset, int* min_offset,
+                int* max_offset) const {
+    (*min_offset) = min(*min_offset, offset);
+    (*max_offset) = max(*max_offset, offset);
+    if (root->left != nullptr)
+      GetRange(root->left, offset - 1, min_offset, max_offset);
+    if (root->right != nullptr)
+      GetRange(root->right, offset + 1, min_offset, max_offset);
+  }
+};
+
+// Date: 2017-08-28
+// Method 1: using unordered_map
+class Solution {
+ public:
+  vector<vector<int>> verticalOrder(TreeNode* root) {
+    unordered_map<int, vector<int>> offset_to_vec_map;
+    if (root == nullptr) return {};
+    // <offset, node>
+    queue<pair<int, TreeNode*>> q;
+    q.emplace(0, root);
+    int min_offset = 0, max_offset = 0;
+    while (!q.empty()) {
+      const auto& front = q.front();
+      min_offset = min(min_offset, front.first);
+      max_offset = max(max_offset, front.first);
+      offset_to_vec_map[front.first].push_back(front.second->val);
+      if (front.second->left != nullptr)
+        q.emplace(front.first - 1, front.second->left);
+      if (front.second->right != nullptr)
+        q.emplace(front.first + 1, front.second->right);
+      q.pop();
+    }
+    vector<vector<int>> result(max_offset - min_offset + 1);
+    int offset = -min_offset;
+    for (auto& p : offset_to_vec_map) {
+      result[p.first + offset] = move(p.second);
+    }
+    return result;
+  }
+};
+
 // Date: 2017-07-04
 class Solution {
  public:
