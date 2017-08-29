@@ -9,16 +9,11 @@ class Solution {
     int begin = 0;
     for (int i = 0; i < s.size(); ++i) {
       if (s[i] == ' ') {
-        if (begin == i) {
-          ++begin;
-        } else {
-          Reverse(s, begin, i - 1);
-          begin = i + 1;
-        }
+        Reverse(s, begin, i - 1);
+        begin = i + 1;
       }
     }
-    // Don't forget this
-    if (begin != s.size()) Reverse(s, begin, s.size() - 1);
+    Reverse(s, begin, s.size() - 1);
   }
  
  private:

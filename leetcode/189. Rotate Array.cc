@@ -1,4 +1,17 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-08-27
+class Solution {
+ public:
+  void rotate(vector<int>& nums, int k) {
+    if (nums.size() <= 1) return;
+    int n = nums.size();
+    if ((k %= n) == 0) return;
+    reverse(nums.begin(), nums.begin() + n - k);
+    reverse(nums.begin() + n - k, nums.end());
+    reverse(nums.begin(), nums.end());
+  }
+};
+
 // Date: 2017-08-26
 class Solution {
  public:
