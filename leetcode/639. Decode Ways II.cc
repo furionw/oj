@@ -1,4 +1,36 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-08-29
+// Case 1: "12"
+class Solution {
+ public:
+  int numDecodings(string s) {
+    if (s.empty()) return 0;
+    unordered_map<string, int> nums;
+    for (int i = 1; i <= 26; ++i) nums[to_string(i)] = 1;
+    nums["1*"] = 9;
+    nums["2*"] = 6;
+    nums["*"] = 9;
+    nums["**"] = 15;
+    for (int i = 0; i <= 6; ++i) nums[string(1, '*') + to_string(i)] = 2;
+    for (int i = 7; i <= 9; ++i) nums[string(1, '*') + to_string(i)] = 1;
+    vector<int64_t> dp(s.size(), 0);
+    for (int i = 0; i < s.size(); ++i) {
+      if (i == 0) {
+        dp[0] = nums[s.substr(0, 1)];
+      } else if (i == 1) {
+        dp[1] = nums[s.substr(i, 1)] * dp[0] + nums[s.substr(0, 2)];
+      } else {
+        dp[i] = (nums[s.substr(i, 1)] * dp[i - 1] +
+                 nums[s.substr(i - 1, 2)] * dp[i - 2]) % kMod;
+      }
+    }
+    return dp.back();
+  }
+
+ private:
+  static constexpr int kMod = 1e9 + 7;
+};
+
 // Date: 2017-07-09
 // Refer to: Jinhao's solution
 class Solution {

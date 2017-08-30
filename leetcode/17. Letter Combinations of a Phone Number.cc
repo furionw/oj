@@ -1,4 +1,39 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-08-29
+// 1. The solution on 2016-12-20 is more elegant than this impl.
+// 2. Handle the wrong input and empty input
+class Solution {
+ public:
+  vector<string> letterCombinations(string digits) {
+    if (any_of(digits.begin(), digits.end(), [](char c) {
+      return c < '2' || c > '9';
+    }) || digits.empty()) return {};
+    vector<vector<char>> dict {
+      {'a', 'b', 'c'}, {'d', 'e', 'f'}, {'g', 'h', 'i'}, {'j', 'k', 'l'},
+      {'m', 'n', 'o'}, {'p', 'q', 'r', 's'}, {'t', 'u', 'v'},
+      {'w', 'x', 'y', 'z'}
+    };
+    vector<string> result;
+    string cur;
+    F(digits, 0, dict, &cur, &result);
+    return result;
+  }
+ 
+ private:
+  void F(const string& digits, int idx, const vector<vector<char>>& dict,
+         string* cur, vector<string>* result) const {
+    if (idx == digits.size()) {
+      result->push_back(*cur);
+      return;
+    }
+    for (char c : dict[digits[idx] - '2']) {
+      cur->push_back(c);
+      F(digits, idx + 1, dict, cur, result);
+      cur->pop_back();
+    }
+  }
+};
+
 // Date: 2017-07-02
 // Actually I think the solution on 2016-12-20 is more elegant than this impl.
 class Solution {

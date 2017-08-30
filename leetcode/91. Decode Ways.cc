@@ -1,4 +1,33 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-08-29
+// Case 1: "12"
+class Solution {
+ public:
+  int numDecodings(string s) {
+    if (s.empty()) return 0;
+    unordered_set<string> nums;
+    for (int i = 1; i <= 26; ++i) nums.insert(to_string(i));
+    auto ValidNumber = [&nums](const string& num) {
+      return nums.find(num) != nums.end();
+    };
+    vector<int> dp(s.size(), 0);
+    for (int i = 0; i < s.size(); ++i) {
+      if (i == 0) {
+        dp[i] = s[i] != '0';
+      } else if (i == 1) {
+        dp[i] = (s[i] != '0') + ValidNumber(s.substr(0, 2));
+      } else {
+        dp[i] = (s[i] != '0' ? dp[i - 1] : 0) +
+                (ValidNumber(s.substr(i - 1, 2)) ? dp[i - 2] : 0);
+      }
+      if (dp[i] == 0) {
+        return 0;
+      }
+    }
+    return dp.back();
+  }
+};
+
 // Date: 2017-07-07
 // Method 2: DP
 class Solution {

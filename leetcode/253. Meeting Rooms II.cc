@@ -1,4 +1,27 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-08-29
+// Case 1: [[0, 1], [1, 2], [1, 3]]
+class Solution {
+ public:
+  int minMeetingRooms(vector<Interval>& intervals) {
+    if (intervals.empty()) return 0;
+    sort(intervals.begin(), intervals.end(),
+         [](const Interval& lhs, const Interval& rhs) {
+           return lhs.start != rhs.start ? lhs.start < rhs.start
+                                         : lhs.end < rhs.end;
+         });
+    priority_queue<int, vector<int>, greater<int>> pq;
+    pq.push(intervals.front().end);
+    for (int i = 1; i < intervals.size(); ++i) {
+      if (pq.top() <= intervals[i].start) {
+        pq.pop();
+      }
+      pq.push(intervals[i].end);
+    }
+    return pq.size();
+  }
+};
+
 // Date: 2017-07-22
 class Solution {
  public:

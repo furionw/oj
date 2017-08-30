@@ -1,4 +1,26 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-08-29
+class Solution {
+ public:
+  bool canAttendMeetings(vector<Interval>& intervals) {
+    if (intervals.empty()) return true;
+    sort(intervals.begin(), intervals.end(),
+         [](const Interval& lhs, const Interval& rhs) {
+           return lhs.start != rhs.start ? lhs.start < rhs.start
+                                         : lhs.end < rhs.end;
+         });
+    int prev = intervals.front().end;
+    for (int i = 1; i < intervals.size(); ++i) {
+      if (intervals[i].start < prev) {
+        return false;
+      } else {
+        prev = intervals[i].end;
+      }
+    }
+    return true;
+  }
+};
+
 // Date: 2017-07-21
 class Solution {
  public:

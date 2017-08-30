@@ -1,4 +1,35 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-08-29
+class Solution {
+ public:
+  bool isMatch(string s, string p) {
+    int last_s = -1, last_p = -1;
+    int i = 0, j = 0;
+    while (i < s.size()) {
+      if (p[j] == '*') {
+        last_s = i;
+        last_p = j++;
+      } else if (IsMatch(s[i], p[j])) {
+        ++i;
+        ++j;
+      } else if (last_p == -1) {
+        return false;
+      } else {
+        j = last_p;
+        i = ++last_s;
+      }
+    }
+    return all_of(p.begin() + j, p.end(), [](char c) {
+      return c == '*';
+    });
+  }
+ 
+ private:
+  bool IsMatch(char s, char p) const {
+    return p == '?' || s == p;
+  }
+};
+
 // Date: 2017-07-29
 // Refer to the solution on 2016-09-22
 class Solution {
