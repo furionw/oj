@@ -1,4 +1,22 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-08-30
+// Case 1: 0 knows 1, 0 knows 2, 1 knows 2
+class Solution {
+ public:
+  int findCelebrity(int n) {
+    if (n < 0) return -1;
+    int candidate = 0;
+    for (int i = 1; i < n; ++i) {
+      if (knows(candidate, i)) candidate = i;
+    }
+    for (int i = 0; i < n; ++i) {
+      if (candidate != i &&
+          (knows(candidate, i) || !knows(i, candidate))) return -1;
+    }
+    return candidate;
+  }
+};
+
 // Date: 2017-08-15
 // Refer to other's solution
 class Solution {

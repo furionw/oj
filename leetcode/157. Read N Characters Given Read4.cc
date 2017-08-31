@@ -1,4 +1,20 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-08-30
+class Solution {
+ public:
+  int read(char *buf, int n) {
+    char temp[4];
+    int i = 0;
+    while (i < n) {
+      int num = read4(temp);
+      strncpy(buf + i, temp, min(n - i, num));
+      i += num;
+      if (num < 4) break;
+    }
+    return i <= n ? i : n;
+  }
+};
+
 // Date: 2017-08-15
 class Solution {
  public:

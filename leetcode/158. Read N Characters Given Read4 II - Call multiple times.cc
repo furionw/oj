@@ -1,6 +1,43 @@
 // Copyright 2017 Qi Wang
-// Forward declaration of the read4 API.
-int read4(char *buf);
+// Date: 2017-08-30
+class Solution {
+ public:
+  int read(char *buf, int n) {
+    int result = 0;
+    if (len_ != 0) {
+      int to_copy = min(len_, n);
+      strncpy(buf, storage_, len_);
+      result += to_copy;
+      if (n < len_) {
+        for (int i = 0; i < len_ - n; ++i)
+          storage_[i] = storage_[i + n];
+        len_ -= n;
+      } else {
+        len_ = 0;
+      }
+    }
+    while (result < n) {
+      char temp[4];
+      int sz = read4(temp);
+      int remain_to_read = n - result;
+      int actual_copy = min(sz, remain_to_read);
+      strncpy(buf + result, temp, actual_copy);
+      result += actual_copy;
+      if (sz > remain_to_read) {
+        len_ = sz - remain_to_read;
+        strncpy(storage_, temp + remain_to_read, len_);
+      } else if (sz < 4) {
+        break;
+      }
+    }
+    return result;
+  }
+
+ private:
+  char storage_[4];
+  int len_ = 0;
+};
+
 
 // Date: 2017-07-10
 class Solution {

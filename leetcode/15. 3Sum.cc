@@ -1,6 +1,36 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-08-30
+class Solution {
+ public:
+  vector<vector<int>> threeSum(vector<int>& nums) {
+    if (nums.size() < 3) return {};
+    sort(nums.begin(), nums.end());
+    vector<vector<int>> result;
+    for (int i = 0; i < nums.size();) {
+      for (int j = i + 1, k = nums.size() - 1; j < k;) {
+        if (nums[j] + nums[k] < -nums[i]) {
+          Advance(nums, &j);
+        } else if (nums[j] + nums[k] == -nums[i]) {
+          result.push_back({nums[i], nums[j], nums[k]});
+          Advance(nums, &j);
+        } else {
+          --k;
+        }
+      }
+      Advance(nums, &i);
+    }
+    return result;
+  }
+
+ private:
+  void Advance(const vector<int>& nums, int* idx) const {
+    for (++(*idx); (*idx) < nums.size() &&
+           nums[(*idx)] == nums[(*idx) - 1]; ++(*idx)) {}
+  }
+};
+
 // Date: 2017-08-16
-// This is the best solution ever! Only in O((N^2) * log(N))
+// This is the best solution ever! Only in O((N^2)
 class Solution {
  public:
   vector<vector<int>> threeSum(vector<int>& nums) {
