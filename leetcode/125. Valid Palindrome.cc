@@ -1,4 +1,35 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-08-31
+class Solution {
+ public:
+  bool isPalindrome(string s) {
+    if (s.empty()) return true;
+    int i = 0, j = s.size() - 1;
+    while (i < j) {
+      if (!Alphanumberic(&s[i])) {
+        ++i;
+      } else if (!Alphanumberic(&s[j])) {
+        --j;
+      } else if (s[i] != s[j]) {
+        return false;
+      } else {
+        ++i, --j;
+      }
+    }
+    return true;
+  }
+
+ private:
+  bool Alphanumberic(char* c) {
+    if ('A' <= *c && *c <= 'Z') {
+      *c = *c + 'a' - 'A';
+      return true;
+    }
+    return ('0' <= *c && *c <= '9') || ('a' <= *c && *c <= 'z');
+  }
+};
+
+
 // Date: 2017-07-22
 class Solution {
  public:

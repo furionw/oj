@@ -1,4 +1,22 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-09-01
+class Solution {
+ public:
+  vector<string> binaryTreePaths(TreeNode* root) {
+    if (root == nullptr) return {};
+    vector<string> result;
+    auto gather_result = [this, root, &result](TreeNode* child) {
+      auto child_paths = binaryTreePaths(child);
+      for (auto& path : child_paths) {
+        result.push_back(to_string(root->val) + "->" + move(path));
+      }
+    };
+    gather_result(root->left);
+    gather_result(root->right);
+    return !result.empty() ? result : vector<string>{to_string(root->val)};
+  }
+};
+
 // Date: 2017-07-18
 class Solution {
  public:

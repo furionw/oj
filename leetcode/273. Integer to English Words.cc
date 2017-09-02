@@ -1,4 +1,60 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-08-31
+// Case 1: 1234
+//   - i = 0
+//     - NumToStr(num % 1000 = 234) …
+// Case 2: 1000001
+//   - i = 0
+//     - NumToStr(num % 1000 = 1) …
+//   - i = 1
+//     -
+//   - i = 2
+//     … 
+class Solution {
+ public:
+  string numberToWords(int num) {
+    if (num == 0) return "Zero";
+    string result;
+    for (int i = 0; num > 0; num /= 1000, ++i) {
+      if (num % 1000 != 0)
+        result = NumToStr(num % 1000) + suffix[i] +
+                 (result.empty() ? "" : string(1, ' ') + result);
+    }
+    return result;
+  }
+ 
+ private:
+  // 0 < num < 1000
+  string NumToStr(int num) const {
+    string result;
+    if (num >= 100) {
+      result += num_less_than_twenty_to_str[num / 100] + " Hundred";
+      num %= 100;
+      if (num > 0) result += " ";
+    }
+    if (num >= 20) {
+      result += double_digit_to_str[num / 10 - 2];
+      num %= 10;
+      if (num > 0) result += " " + num_less_than_twenty_to_str[num];
+    } else {
+      result += num_less_than_twenty_to_str[num];
+    }
+    return result;
+  }
+ 
+  vector<string> suffix = {"", " Thousand", " Million", " Billion"};
+  vector<string> num_less_than_twenty_to_str = {
+    "", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine",
+    "Ten", "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen",
+    "Seventeen", "Eighteen", "Nineteen"
+  };
+  vector<string> double_digit_to_str = {
+    "Twenty", "Thirty", "Forty", "Fifty", "Sixty", "Seventy", "Eighty",
+    "Ninety"
+  };
+};
+
+
 // Date: 2017-07-20
 // Please note that the solution on 2017-03-05 is much more concise.
 class Solution {

@@ -1,4 +1,33 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-08-31
+class Solution {
+ public:
+  int numIslands(vector<vector<char>>& grid) {
+    if (grid.empty() || grid[0].empty()) return 0;
+    int result = 0;
+    for (int i = 0; i < grid.size(); ++i) {
+      for (int j = 0; j < grid[0].size(); ++j) {
+        if (grid[i][j] == '1') {
+          ++result;
+          Dfs(&grid, i, j);
+        }
+      }
+    }
+    return result;
+  }
+
+ private:
+  void Dfs(vector<vector<char>>* grid, int i, int j) const {
+    (*grid)[i][j] = '2';
+    static constexpr int delta[] = {0, 1, 0, -1, 0};
+    for (int d = 0; d < 4; ++d) {
+      int x = i + delta[d], y = j + delta[d + 1];
+      if (0 <= x && x < grid->size() && 0 <= y && y < (*grid)[0].size()
+          && (*grid)[x][y] == '1') Dfs(grid, x, y);
+    }
+  }
+};
+
 // Date: 2017-07-10
 class Solution {
  public:
