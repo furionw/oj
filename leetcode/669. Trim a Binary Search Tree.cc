@@ -1,5 +1,5 @@
 // Copyright 2017 Qi Wang
-// Date: 2017-09-03
+// Date: 2017-09-02
 class Solution {
  public:
   TreeNode* trimBST(TreeNode* root, int L, int R) {
