@@ -1,4 +1,12 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-09-11
+class Solution {
+ public:
+  int removeDuplicates(vector<int>& nums) {
+    return distance(nums.begin(), unique(nums.begin(), nums.end()));
+  }
+};
+
 // Date: 2017-08-16
 class Solution {
  public:
