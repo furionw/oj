@@ -1,4 +1,33 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-09-12
+class Solution {
+ public:
+  vector<int> maxSlidingWindow(vector<int>& nums, int k) {
+    list<pair<int, int>> maxs;
+    for (int i = 0; i < k - 1; ++i) {
+      AppendMaxList(&maxs, nums[i], i);
+    }
+    vector<int> result;
+    for (int i = k - 1; i < nums.size(); ++i) {
+      AppendMaxList(&maxs, nums[i], i);
+      if (i - maxs.front().second >= k) {
+        maxs.pop_front();
+      }
+      result.push_back(maxs.front().first);
+    }
+    return result;
+  }
+
+ private:
+  void AppendMaxList(list<pair<int, int>>* maxs, int val, int idx)
+      const {
+    while (!maxs->empty() && val > maxs->back().first) {
+      maxs->pop_back();
+    }
+    maxs->emplace_back(val, idx);
+  }
+};
+
 // Date: 2017-08-10
 class Solution {
  public:

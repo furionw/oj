@@ -1,5 +1,6 @@
-// Copyright 2016 Qi Wang
+// Copyright 2017 Qi Wang
 // Date: 2016-12-23
+// Revisit on 2017-09-12
 class MovingAverage {
  public:
   /** Initialize your data structure here. */

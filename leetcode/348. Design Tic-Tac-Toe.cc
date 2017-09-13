@@ -1,6 +1,7 @@
-// Copyright 2016 Qi Wang
+// Copyright 2017 Qi Wang
 // Date: 2016-12-31
 // Method 2
+// Revisit on 2017-09-12
 class TicTacToe {
  public:
   TicTacToe(int n)
