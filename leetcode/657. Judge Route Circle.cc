@@ -1,4 +1,26 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-09-13
+class Solution {
+ public:
+  bool judgeCircle(string moves) {
+    int x = 0, y = 0;
+    for (char c : moves) {
+      if (c == 'U') {
+        ++x;
+      } else if (c == 'D') {
+        --x;
+      } else if (c == 'L') {
+        --y;
+      } else if (c == 'R') {
+        ++y;
+      } else {
+        return false;  // illegal input
+      }
+    }
+    return x == 0 && y == 0;
+  }
+};
+
 // Date: 2017-08-12
 // Method 2
 class Solution {
