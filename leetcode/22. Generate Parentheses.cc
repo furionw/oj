@@ -1,4 +1,33 @@
-// Copyright 2016 Qi Wang
+// Copyright 2017 Qi Wang
+// Date: 2017-09-13
+class Solution {
+ public:
+  vector<string> generateParenthesis(int n) {
+    vector<string> result;
+    string cur;
+    F(n, n, 0, &cur, &result);
+    return result;
+  }
+
+ private:
+  void F(int open, int close, int acc, string* cur,
+         vector<string>* result) {
+    if (open == 0 && close == 0) {
+      result->push_back(*cur);
+    }
+    if (close > 0 && acc > 0) {
+      cur->push_back(')');
+      F(open, close - 1, acc - 1, cur, result);
+      cur->pop_back();
+    }
+    if (open > 0) {
+      cur->push_back('(');
+      F(open - 1, close, acc + 1, cur, result);
+      cur->pop_back();
+    }
+  }
+};
+
 // Date: 2016-12-21
 class Solution {
  public:

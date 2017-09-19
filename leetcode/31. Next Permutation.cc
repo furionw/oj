@@ -1,4 +1,26 @@
-// Copyright 2016 Qi Wang
+// Copyright 2017 Qi Wang
+// Date: 2017-09-18
+// Case 1: {1, 3, 2} -> {2, 1, 3}
+// Case 2: {3, 1, 2} -> {3, 2, 1}
+// Case 3: {3, 2, 1} -> {1, 2, 3}
+// Case 4: {2, 3, 1} -> {3, 1, 2}
+class Solution {
+ public:
+  void nextPermutation(vector<int>& nums) {
+    if (nums.size() <= 1) return;
+    for (int i = nums.size() - 2; i >= 0; --i) {
+      for (int j = nums.size() - 1; j > i; --j) {
+        if (nums[j] > nums[i]) {
+          swap(nums[j], nums[i]);
+          sort(nums.begin() + i + 1, nums.end());
+          return;
+        }
+      }
+    }
+    sort(nums.begin(), nums.end());
+  }
+};
+
 // Date: 2016-12-27
 class Solution {
  public:
