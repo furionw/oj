@@ -10,7 +10,7 @@ class Solution {
         ? kth(a, m, b, n, (m + n) / 2 + 1)
         : (kth(a, m, b, n, (m + n) / 2) + kth(a, m, b, n, (m + n) / 2 + 1)) / 2;
   }
- 
+
  private:
   double kth(const int* a, int m, const int* b, int n, int k) const {
     while (true) {
