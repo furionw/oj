@@ -1,4 +1,18 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-10-18
+class Solution {
+ public:
+  int arrayPairSum(vector<int>& nums) {
+    sort(nums.begin(), nums.end());
+    int result = 0;
+    for (int i = 0; i < nums.size(); i += 2) {
+      result += nums[i];
+    }
+    return result;
+  }
+};
+
+// Copyright 2017 Qi Wang
 // Date: 2017-08-30
 class Solution {
  public:

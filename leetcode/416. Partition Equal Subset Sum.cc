@@ -3,6 +3,8 @@
 // Dynamic programming
 // Refer to: https://discuss.leetcode.com/topic/62271/c-solution-with-dynamic-programming/4
 // Date: 2016-11-15
+// Revisit: 2017-10-18
+// dp[i][j]: The sum of none or some of the elements in nums[0, ..., j - 1] is i.
 class Solution {
  public:
   bool canPartition(vector<int>& nums) {
