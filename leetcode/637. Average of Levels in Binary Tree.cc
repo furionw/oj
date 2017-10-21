@@ -1,4 +1,33 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-10-19
+// Case 1: [1, 2, 3]
+class Solution {
+ public:
+  vector<double> averageOfLevels(TreeNode* root) {
+    vector<pair<double, int>> sum_and_cnt;
+    PreorderTraversal(root, &sum_and_cnt, 0);
+    vector<double> result(sum_and_cnt.size());
+    for (int i = 0; i < sum_and_cnt.size(); ++i) {
+      result[i] = sum_and_cnt[i].first * 1. / sum_and_cnt[i].second;
+    }
+    return result;
+  }
+
+ private:
+  void PreorderTraversal(TreeNode* root, vector<pair<double, int>>* sum_and_cnt,
+      int depth) const {
+    if (root == nullptr) return;
+    if (sum_and_cnt->size() == depth) {
+      sum_and_cnt->emplace_back(root->val, 1);
+    } else {
+      (*sum_and_cnt)[depth].first += root->val;
+      ++(*sum_and_cnt)[depth].second;
+    }
+    PreorderTraversal(root->left, sum_and_cnt, depth + 1);
+    PreorderTraversal(root->right, sum_and_cnt, depth + 1);
+  }
+};
+
 // Date: 2017-08-05
 class Solution {
  public:

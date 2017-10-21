@@ -1,4 +1,51 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-10-19
+class AutocompleteSystem {
+ public:
+  AutocompleteSystem(vector<string> sentences, vector<int> times) {
+    for (int i = 0; i < sentences.size(); ++i) {
+      sentence_to_freq_map_[sentences[i]] = times[i];
+    }
+  }
+  
+  vector<string> input(char c) {
+    if (c == '#') {
+      ++sentence_to_freq_map_[input_];
+      input_.clear();
+      return {};
+    } else {
+      input_ += c;
+      priority_queue<P, vector<P>, comp> pq;
+      for (auto itr = sentence_to_freq_map_.lower_bound(input_);
+           itr != sentence_to_freq_map_.end(); ++itr) {
+        // if (itr->first.find(input_) == string::npos) break;
+        if (strncmp(itr->first.data(), input_.data(), input_.size()) != 0)
+          break;
+        pq.emplace(itr->first, itr->second);
+        if (pq.size() > 3) pq.pop();
+      }
+      list<string> result;
+      for (; !pq.empty(); pq.pop()) {
+        result.push_front(pq.top().first);
+      }
+      return vector<string>(result.begin(), result.end());
+    }
+  }
+
+ private:
+  using P = pair<string, int>;
+
+  struct comp {
+    bool operator ()(const P& lhs, const P& rhs) const {
+      return lhs.second != rhs.second ? lhs.second > rhs.second
+                                      : lhs.first < rhs.first;
+    }
+  };
+
+  string input_;
+  map<string, int> sentence_to_freq_map_;
+};
+
 // Date: 2017-08-16
 using P = pair<string, int>;
 struct comp {
@@ -57,7 +104,7 @@ class AutocompleteSystem {
     begin_ = dict_.begin();
     end_ = dict_.end();
   }
-  
+
   vector<string> input(char c) {
     if ('#' == c) {
       ++dict_[str_];
