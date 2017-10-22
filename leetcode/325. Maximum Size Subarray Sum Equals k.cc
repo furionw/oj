@@ -1,4 +1,24 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-10-21
+class Solution {
+ public:
+  int maxSubArrayLen(vector<int>& nums, int k) {
+    unordered_map<int, int> sum_to_idx_map;
+    sum_to_idx_map[0] = -1;
+    int result = 0;
+    for (int sum = 0, i = 0; i < nums.size(); ++i) {
+      sum += nums[i];
+      if (sum_to_idx_map.count(sum - k)) {
+        result = max(result, i - sum_to_idx_map[sum - k]);
+      }
+      if (sum_to_idx_map.count(sum) == 0) {
+        sum_to_idx_map[sum] = i;
+      }
+    }
+    return result;
+  }
+};
+
 // Date: 2017-08-28
 // case 1: [1, 2, 3, -3, 3], 3
 class Solution {

@@ -1,4 +1,20 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-10-21
+class Solution {
+ public:
+  void moveZeroes(vector<int>& nums) {
+    int non_zero_idx = 0;
+    for (int i = 0; i < nums.size(); ++i) {
+      if (nums[i] != 0) {
+        nums[non_zero_idx++] = nums[i];
+      }
+    }
+    for (; non_zero_idx < nums.size(); ++non_zero_idx) {
+      nums[non_zero_idx] = 0;
+    }
+  }
+};
+
 // Date: 2017-08-28
 class Solution {
  public:

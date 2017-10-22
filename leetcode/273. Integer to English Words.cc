@@ -1,4 +1,51 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-10-21
+class Solution {
+ public:
+  string numberToWords(int num) {
+    if (num == 0) return "Zero";
+    list<string> words;
+    for (int i = 0; num != 0; num /= 1000, ++i) {
+      int n = num % 1000;
+      if (n == 0) continue;
+      string word;
+      if (n < 100) {
+        word = LessThan100(n);
+      } else {
+        word = less_than_20[n / 100] + " Hundred";
+        if (n % 100 != 0) {
+          word += string(1, ' ') + LessThan100(n % 100);
+        }
+      }
+      word += i > 0 ? string(1, ' ') + units[i] : "";
+      words.push_front(word + (words.empty() ? "" : " "));
+    }
+    return accumulate(words.begin(), words.end(), string(""));
+  }
+ 
+ private:
+  string LessThan100(int num) const {
+    if (num < 20) {
+      return less_than_20[num];
+    } else if (num % 10 == 0) {
+      return whole_number[num / 10];
+    } else {
+      return whole_number[num / 10] + " " + less_than_20[num % 10];
+    }
+  }
+ 
+  string less_than_20[20] = {
+    "", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine",
+    "Ten", "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen",
+    "Seventeen", "Eighteen", "Nineteen"
+  };
+  string whole_number[10] = {
+    "", "", "Twenty", "Thirty", "Forty", "Fifty", "Sixty", "Seventy", "Eighty",
+    "Ninety"
+  };
+  string units[4] = {"", "Thousand", "Million", "Billion"};
+};
+
 // Date: 2017-08-31
 // Case 1: 1234
 //   - i = 0
