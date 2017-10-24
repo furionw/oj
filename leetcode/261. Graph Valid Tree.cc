@@ -1,4 +1,34 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-10-23
+class Solution {
+ public:
+  bool validTree(int n, vector<pair<int, int>>& edges) {
+    if (edges.size() != n - 1) return false;
+    vector<int> p(n);
+    for (int i = 0; i < n; ++i) {
+      p[i] = i;
+    }
+    for (const auto& edge : edges) {
+      int u = Find(&p, edge.first), v = Find(&p, edge.second);
+      if (u != v) {
+        p[v] = u;
+      } else {
+        return false;
+      }
+    }
+    return true;
+  }
+ 
+ private:
+  int Find(vector<int>* p, int v) const {
+    if ((*p)[v] == v) {
+      return v;
+    } else {
+      return (*p)[v] = Find(p, (*p)[v]);
+    }
+  }
+};
+
 // Date: 2017-07-20
 class Solution {
  public:
