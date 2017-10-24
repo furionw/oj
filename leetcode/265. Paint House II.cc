@@ -1,4 +1,31 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-10-24
+// Refer to the solution on 2017-02-16
+class Solution {
+ public:
+  int minCostII(vector<vector<int>>& costs) {
+    if (costs.empty()) return 0;
+    if (costs[0].empty() || (costs.size() > 1 && costs[0].size() < 2))
+      return -1;
+    int min1 = -1, min2 = -1;
+    for (int i = 0; i < costs.size(); ++i) {
+      int last_min1 = min1, last_min2 = min2;
+      min1 = min2 = -1;
+      for (int j = 0; j < costs[0].size(); ++j) {
+        costs[i][j] +=
+            i == 0 ? 0 : costs[i - 1][j != last_min1 ? last_min1 : last_min2];
+        if (min1 < 0 || costs[i][j] < costs[i][min1]) {
+          min2 = min1;
+          min1 = j;
+        } else if (min2 < 0 || costs[i][j] < costs[i][min2]) {
+          min2 = j;
+        }
+      }
+    }
+    return *min_element(costs.back().begin(), costs.back().end());
+  }
+};
+
 // Date: 2017-08-04
 // O(nk) time, but the implementation on 2017-02-16 is more consie
 class Solution {

@@ -1,4 +1,46 @@
-// Copyright 2016 Qi Wang
+// Copyright 2017 Qi Wang
+// Date: 2017-10-24
+// Refer to the solution on 2016-12-25
+class Solution {
+ public:
+  int shortestDistance(vector<vector<int>>& grid) {
+    int m =  grid.size(), n = grid[0].size();
+    int stage = 0;
+    auto tot = grid;
+    int min_dist;
+    for (int i = 0; i < m; ++i) {
+      for (int j = 0; j < n; ++j) {
+        if (grid[i][j] != 1) continue;
+        static constexpr int delta[] = {0, 1, 0, -1, 0};
+        queue<pair<int, int>> q;
+        q.emplace(i, j);
+        auto dist = grid;
+        min_dist = -1;
+        while (!q.empty()) {
+          auto p = q.front(); q.pop();
+          for (int d = 0; d < 4; ++d) {
+            int x = p.first + delta[d], y = p.second + delta[d + 1];
+            if (0 <= x && x < m && 0 <= y && y < n && grid[x][y] == stage) {
+              // This empty land is still valid in the next stage.
+              --grid[x][y];
+              // Place this position in the queue.
+              q.emplace(x, y);
+              // Records its distance so that it could be used when it's fetched
+              // from the queue.
+              dist[x][y] = dist[p.first][p.second] + 1;
+              tot[x][y] += dist[x][y] - 1;
+              // Updates the result.
+              if (min_dist == -1 || min_dist > tot[x][y]) min_dist = tot[x][y];
+            }
+          }
+        }
+        --stage;
+      }
+    }
+    return min_dist;
+  }
+};
+
 // Date: 2016-12-25
 // Method 2: refer to the Top Solutions
 class Solution {

@@ -1,4 +1,26 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-10-24
+// Case 1: []
+// Case 2: [[1, 2], [2, 3], [4, 5]]
+// Case 3: [[0, 1], [1, 2]]
+class Solution {
+ public:
+  bool canAttendMeetings(vector<Interval>& intervals) {
+    if (intervals.size() < 2) return true;
+    sort(intervals.begin(), intervals.end(),
+         [](const Interval& lhs, const Interval& rhs) {
+           return lhs.start != rhs.start ? lhs.start < rhs.start
+                                         : lhs.end < rhs.end;
+         });
+    int prev = intervals.front().end;
+    for (int i = 1; i < intervals.size(); ++i) {
+      if (prev > intervals[i].start) return false;
+      prev = intervals[i].end;
+    }
+    return true;
+  }
+};
+ 
 // Date: 2017-08-29
 class Solution {
  public:
