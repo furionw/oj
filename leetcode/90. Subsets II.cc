@@ -1,4 +1,39 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-10-25
+// Case 1: [1, 1, 2]
+class Solution {
+ public:
+  vector<vector<int>> subsetsWithDup(vector<int>& nums) {
+    sort(nums.begin(), nums.end());
+    vector<int> cur;
+    vector<vector<int>> result;
+    Subset(nums, 0, &cur, &result);
+    return result;
+  }
+
+ private:
+  void Subset(const vector<int>& nums, int idx, vector<int>* cur,
+      vector<vector<int>>* result) const {
+    if (idx == nums.size()) {
+      result->push_back(*cur);
+    } else {
+      int cnt = 1;
+      while (idx + cnt < nums.size() &&
+             nums[idx + cnt] == nums[idx + cnt - 1]) {
+        ++cnt;
+      }
+      Subset(nums, idx + cnt, cur, result);
+      for (int i = 0; i < cnt; ++i) {
+        cur->push_back(nums[idx]);
+        Subset(nums, idx + cnt, cur, result);
+      }
+      while (cnt--) {
+        cur->pop_back();
+      }
+    }
+  }
+};
+
 // Date: 2017-08-15
 class Solution {
  public:

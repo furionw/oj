@@ -1,4 +1,31 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-10-25
+// Case 1: []
+// Case 2: [[1, 3], [3, 5], [4, 6]]
+class Solution {
+ public:
+  int minMeetingRooms(vector<Interval>& intervals) {
+    if (intervals.empty()) return 0;
+    sort(intervals.begin(), intervals.end(),
+         [](const Interval& lhs, const Interval& rhs) {
+           // It's necessary to sort the intervals by its start firstly.
+           // Otherwises this impl will fail in the case of
+           // [[2, 15], [36, 45], [9, 29], [16, 23], [4, 9]]
+           return lhs.start != rhs.start ? lhs.start < rhs.start
+                                         : lhs.end < rhs.end;
+         });
+    priority_queue<int, vector<int>, greater<int>> pq;
+    pq.push(intervals.front().end);
+    for (int i = 1; i < intervals.size(); ++i) {
+      if (intervals[i].start >= pq.top()) {
+        pq.pop();
+      }
+      pq.push(intervals[i].end);
+    }
+    return pq.size();
+  }
+};
+
 // Date: 2017-08-29
 // Case 1: [[0, 1], [1, 2], [1, 3]]
 class Solution {
