@@ -1,4 +1,49 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-10-26
+class Solution {
+ public:
+  vector<int> smallestRange(vector<vector<int>>& nums) {
+    if (nums.empty()) return {INT_MIN, INT_MIN};
+    priority_queue<Elem, vector<Elem>, comp> pq;
+    int max_elem = INT_MIN;
+    for (int i = 0; i < nums.size(); ++i) {
+      if (nums[i].empty()) {
+        return {INT_MIN, INT_MIN};
+      }
+      pq.emplace(nums[i][0], i, 0);
+      max_elem = max(max_elem, nums[i][0]);
+    }
+    vector<int> result {pq.top().val, max_elem};
+    while (true) {
+      auto top = pq.top(); pq.pop();
+      if (top.idx + 1 < nums[top.row].size()) {
+        int val = nums[top.row][top.idx + 1];
+        pq.emplace(val, top.row, top.idx + 1);
+        max_elem = max(max_elem, val);
+        if (max_elem - pq.top().val < result[1] - result[0]) {
+          result = {pq.top().val, max_elem};
+        }
+      } else {
+        break;
+      }
+    }
+    return result;
+  }
+ 
+ private:
+  struct Elem {
+    Elem() {}
+    Elem(int v, int r, int i) : val(v), row(r), idx(i) {}
+    int val, row, idx;
+  };
+ 
+  struct comp {
+    bool operator()(const Elem& lhs, const Elem& rhs) const {
+      return lhs.val > rhs.val;
+    }
+  };
+};
+
 // Date: 2017-07-01
 struct Node {
   Node() {}

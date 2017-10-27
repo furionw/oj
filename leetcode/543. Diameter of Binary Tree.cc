@@ -1,4 +1,23 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-10-26
+class Solution {
+ public:
+  int diameterOfBinaryTree(TreeNode* root) {
+    int result = 0;
+    Dfs(root, &result);
+    return result;
+  }
+ 
+ private:
+  int Dfs(TreeNode* root, int* result) const {
+    if (root == nullptr) return -1;
+    int left = Dfs(root->left, result);
+    int right = Dfs(root->right, result);
+    *result = max(*result, left + right + 2);
+    return max(left, right) + 1;
+  }
+};
+
 // Date: 2017-08-04
 class Solution {
  public:

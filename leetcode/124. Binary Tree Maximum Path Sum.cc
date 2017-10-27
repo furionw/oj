@@ -1,4 +1,24 @@
-// Copyright 2016 Qi Wang
+// Copyright 2017 Qi Wang
+// Date: 2017-10-26
+class Solution {
+ public:
+  int maxPathSum(TreeNode* root) {
+    if (root == nullptr) return 0;
+    int result = root->val;
+    MaxPathSum(root, &result);
+    return result;
+  }
+ 
+ private:
+  int MaxPathSum(TreeNode* root, int* result) {
+    if (root == nullptr) return 0;
+    auto left = MaxPathSum(root->left, result);
+    auto right = MaxPathSum(root->right, result);
+    *result = max(*result, root->val + left + right);
+    return max(0, root->val + max(left, right));
+  }
+};
+
 // Date: 2016-12-16
 class Solution {
  public:
