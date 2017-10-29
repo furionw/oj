@@ -1,4 +1,25 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-10-28
+// Case 1: [1, 2, 3]
+// Case 2: [1, 5 ,2, 4]
+class Solution {
+ public:
+  bool increasingTriplet(vector<int>& nums) {
+    if (nums.size() < 3) return false;
+    int smallest = INT_MAX, middle = INT_MAX;
+    for (int num : nums) {
+      if (num <= smallest) {
+        smallest = num;
+      } else if (num <= middle) {
+        middle = num;
+      } else {
+        return true;
+      }
+    }
+    return false;
+  }
+};
+
 // Date: 2017-08-13
 class Solution {
  public:

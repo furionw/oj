@@ -1,4 +1,44 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-10-28
+class Solution {
+ public:
+  int maximalRectangle(vector<vector<char>>& matrix) {
+    if (matrix.empty() || matrix[0].empty()) return 0;
+    int m = matrix.size(), n = matrix[0].size();
+    vector<vector<int>> dp(m, vector<int>(n));
+    for (int i = 0; i < dp.size(); ++i) {
+      for (int j = 0; j < dp[0].size(); ++j) {
+        if (matrix[i][j] == '0') {
+          dp[i][j] = 0;
+        } else {
+          dp[i][j] = 1 + (i == 0 ? 0 : dp[i - 1][j]);
+        }
+      }
+    }
+    int max_area = 0;
+    for (int i = 0; i < m; ++i) {
+      dp[i].push_back(-1);
+      max_area = max(max_area, GetArea(dp[i]));
+    }
+    return max_area;
+  }
+ 
+ private:
+  int GetArea(const vector<int>& heights) const {
+    stack<int> idxs;
+    int max_area = 0;
+    for (int i = 0; i < heights.size();) {
+      if (idxs.empty() || heights[idxs.top()] <= heights[i]) {
+        idxs.push(i++);
+      } else {
+        int h = heights[idxs.top()]; idxs.pop();
+        max_area = max(max_area, h * (idxs.empty() ? i : i - idxs.top() - 1));
+      }
+    }
+    return max_area;
+  }
+};
+
 // Date: 2017-08-17
 // Refer to the solution on 2017-08-06
 class Solution {
