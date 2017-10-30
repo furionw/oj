@@ -1,4 +1,48 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-10-29
+// Method 2
+// Case 1: [1, 1], 2
+class Solution {
+ public:
+  int findTargetSumWays(vector<int>& nums, int S) {
+    if (S > 1000 || S < -1000) return 0;
+    static constexpr int OFFSET = 1000;
+    static constexpr int LEN = OFFSET * 2 + 1;
+    int dp[2][LEN];
+    memset(dp, 0, sizeof dp);
+    dp[0][OFFSET] = 1;
+    for (int num : nums) {
+      memset(dp[1], 0, sizeof dp[1]);
+      for (int i = 0; i < LEN; ++i) {
+        if (dp[0][i]) {
+          dp[1][i - num] += dp[0][i];
+          dp[1][i + num] += dp[0][i];
+        }
+      }
+      copy(dp[1], dp[1] + LEN, dp[0]);
+    }
+    return dp[0][S + OFFSET];
+  }
+};
+
+// Date: 2017-10-28
+// Method 1
+class Solution {
+ public:
+  int findTargetSumWays(vector<int>& nums, int S) {
+    return F(nums, 0, 0, S);
+  }
+ 
+ private:
+  int F(const vector<int>& nums, int idx, int cur, int target) const {
+    if (idx == nums.size()) {
+      return cur == target;
+    }
+    return F(nums, idx + 1, cur + nums[idx], target) +
+           F(nums, idx + 1, cur - nums[idx], target);
+  }
+};
+
 // Date: 2017-07-31
 class Solution {
  public:
