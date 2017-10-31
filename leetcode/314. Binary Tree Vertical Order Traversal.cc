@@ -1,4 +1,34 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-10-31
+class Solution {
+ public:
+  vector<vector<int>> verticalOrder(TreeNode* root) {
+    if (root == nullptr) return {};
+    int min_idx = 0, max_idx = 0;
+    queue<pair<int, TreeNode*>> q;
+    q.emplace(0, root);
+    unordered_map<int, vector<int>> idx_to_vt_map;
+    while (!q.empty()) {
+      auto front = q.front(); q.pop();
+      idx_to_vt_map[front.first].push_back(front.second->val);
+      min_idx = min(min_idx, front.first);
+      max_idx = max(max_idx, front.first);
+      if (front.second->left != nullptr) {
+        q.emplace(front.first - 1, front.second->left);
+      }
+      if (front.second->right != nullptr) {
+        q.emplace(front.first + 1, front.second->right);
+      }
+    }
+    vector<vector<int>> result(max_idx - min_idx + 1);
+    for (auto& p : idx_to_vt_map) {
+      // Uses subtraction operator here!!!
+      result[p.first - min_idx] = move(p.second);
+    }
+    return result;
+  }
+};
+
 // Date: 2017-08-28
 // Method 2: without using unordered_map
 class Solution {
