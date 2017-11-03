@@ -1,4 +1,29 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-11-02
+class Solution {
+ public:
+  bool isSubtree(TreeNode* s, TreeNode* t) {
+    if (s != nullptr && t != nullptr) {
+      return (s->val == t->val && Equals(s->left, t->left) &
+              Equals(s->right, t->right)) ||
+             isSubtree(s->left, t) ||
+             isSubtree(s->right, t);
+    } else {
+      return s == nullptr && t == nullptr;
+    }
+  }
+ 
+ private:
+  bool Equals(TreeNode* s, TreeNode* t) const {
+    if (s != nullptr && t != nullptr) {
+      return s->val == t->val && Equals(s->left, t->left) &&
+             Equals(s->right, t->right);
+    } else {
+      return s == nullptr && t == nullptr;
+    }
+  }
+};
+
 // Date: 2017-08-04
 class Solution {
  public:

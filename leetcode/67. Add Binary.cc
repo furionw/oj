@@ -1,4 +1,37 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-11-02
+// Case 1: "101", "1"
+class Solution {
+ public:
+  string addBinary(string a, string b) {
+    reverse(a.begin(), a.end());
+    reverse(b.begin(), b.end());
+    string result;
+    int i = 0, j = 0, carry = 0;
+    for (; i < a.size() && j < b.size(); ++i, ++j) {
+      int sum = a[i] + b[j] - '0' * 2 + carry;
+      result += '0' + sum % 2;
+      carry = sum / 2;
+    }
+    if (i != a.size()) result += AddBinary(a, i, &carry);
+    if (j != b.size()) result += AddBinary(b, j, &carry);
+    if (carry > 0) result += '1';
+    reverse(result.begin(), result.end());
+    return result;
+  }
+
+ private:
+  string AddBinary(const string& num, int idx, int* carry) const {
+    string result;
+    for (; idx < num.size(); ++idx) {
+      int sum = num[idx] - '0' + *carry;
+      result += '0' + (sum == 1);
+      *carry = sum / 2;
+    }
+    return result;
+  }
+};
+
 // Date: 2017-08-28
 class Solution {
  public:
