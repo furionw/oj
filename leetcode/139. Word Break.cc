@@ -1,4 +1,27 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-11-04
+// Case 1: "", []
+//   return true
+// Case 2: "leetcode", ["leet", "code"]
+//   i == 4, 
+//     j == 0, dp[i] = dp[4] = true
+//   i == 8,
+//     j == 4, dp[i] = dp[8] = true
+class Solution {
+ public:
+  bool wordBreak(string s, vector<string>& wordDict) {
+    vector<bool> dp(s.size() + 1, false);
+    dp[0] = true;
+    unordered_set<string> str_set(wordDict.begin(), wordDict.end());
+    for (int i = 1; i <= s.size(); ++i) {
+      for (int j = 0; !dp[i] && j < i; ++j) {
+        dp[i] = dp[j] && str_set.count(s.substr(j, i - j));
+      }
+    }
+    return dp.back();
+  }
+};
+ 
 // Date: 2017-08-15
 class Solution {
  public:

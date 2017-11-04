@@ -1,4 +1,68 @@
-// Copyright 2016 Qi Wang
+// Copyright 2017 Qi Wang
+// Date: 2017-11-04
+class Solution {
+ public:
+  vector<string> wordBreak(string s, vector<string>& wordDict) {
+    if (s.empty()) return {};
+    vector<list<string>> dp(s.size() + 1);
+    dp[0].push_back("");
+    for (int i = 1; i <= s.size(); ++i) {
+      for (const string& word : wordDict) {
+        int len = word.size();
+        if (i - len >= 0 && !dp[i - len].empty() &&
+            s.substr(i - len, len) == word) {
+          dp[i].push_back(word);
+        }
+      }
+    }
+    if (dp.back().empty()) return {};
+    vector<string> result;
+    CollectResult(dp, dp.size() - 1, "", &result);
+    return result;
+  }
+ 
+ private:
+  void CollectResult(const vector<list<string>>& dp, int idx, string cur,
+      vector<string>* result) const {
+    if (idx == 0) {
+      result->push_back(cur);
+      return;
+    }
+    for (const string& str : dp[idx]) {
+      CollectResult(dp, idx - str.size(),
+                    str + (idx == dp.size() - 1 ? "" : " ") + cur, result);
+    }
+  }
+};
+
+// Date: 2017-08-12
+// TLE
+// Please refer to the solution on 2016-10-10
+class Solution {
+ public:
+  vector<string> wordBreak(string s, vector<string>& wordDict) {
+    unordered_set<string> dict(wordDict.begin(), wordDict.end());
+    vector<vector<string>> dp(s.size() + 1);
+    dp[0].push_back("");
+    for (int i = 1; i <= s.size(); ++i) {
+      for (int j = 0; j < i; ++j) {
+        const auto& word = s.substr(j, i - j);
+        if (dp[j].empty() || !ContainsElement(dict, word)) continue;
+        for (const auto& prefix : dp[j]) {
+          dp[i].push_back(prefix + (prefix.empty() ? "" : " ") + word);
+        }
+      }
+    }
+    return dp.back();
+  }
+
+ private:
+  bool ContainsElement(const unordered_set<string>& dict,
+                       const string& word) const {
+    return find(dict.begin(), dict.end(), word) != dict.end();
+  }
+};
+
 // Date: 2016-10-10
 class Solution {
  public:

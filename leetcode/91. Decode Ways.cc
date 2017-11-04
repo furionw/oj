@@ -1,4 +1,26 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-11-04
+// Case 1: "123"
+class Solution {
+ public:
+  int numDecodings(string s) {
+    if (s.empty() || s[0] == '0') return 0;
+    unordered_set<string> nums;
+    for (int i = 1; i <= 26; ++i) {
+      nums.insert(to_string(i));
+    }
+    int first = 1, second = 1;
+    for (int i = 1; i < s.size(); ++i) {
+      int next = nums.count(s.substr(i - 1, 2)) * first +
+                 nums.count(s.substr(i, 1)) * second;
+      if (next == 0) return 0;
+      first = second;
+      second = next;
+    }
+    return second;
+  }
+};
+
 // Date: 2017-08-29
 // Case 1: "12"
 class Solution {

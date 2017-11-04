@@ -1,4 +1,35 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-11-04
+// Case 1: "", ""
+// Case 2: "", "*"
+// Case 3: "ab", "*?"
+class Solution {
+ public:
+  bool isMatch(string s, string p) {
+    int i = 0, j = 0;
+    int last_s_idx = 0, last_p_star_idx = -1;
+    while (i < s.size()) {
+      // j < p.size() should be checked first here!!!
+      if (j < p.size() && p[j] == '*') {
+        last_s_idx = i;
+        last_p_star_idx = j++;
+      } else if (j < p.size() && (p[j] == '?' || s[i] == p[j])) {
+        ++i, ++j;
+      } else {
+        if (last_p_star_idx != -1) {
+          i = ++last_s_idx;
+          j = last_p_star_idx + 1;
+        } else {
+          return false;
+        }
+      }
+    }
+    return all_of(p.begin() + j, p.end(), [](char c) {
+             return c == '*';
+           });
+  }
+};
+
 // Date: 2017-08-29
 class Solution {
  public:

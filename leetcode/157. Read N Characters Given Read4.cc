@@ -1,4 +1,25 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-11-04
+// Case 1: buf, 5. "12345678"
+// Please note that the solution on 2017-08-30 is more concise.
+class Solution {
+ public:
+  int read(char *buf, int n) {
+    char chars[4];
+    int result = 0;
+    while (n > 0) {
+      int cnt = read4(chars);
+      if (cnt == 0) return result;
+      int to_cpy = min(cnt, n);
+      strncpy(buf, chars, to_cpy);
+      buf += to_cpy;
+      n -= to_cpy;
+      result += to_cpy;
+    }
+    return result;
+  }
+};
+
 // Date: 2017-08-30
 class Solution {
  public:

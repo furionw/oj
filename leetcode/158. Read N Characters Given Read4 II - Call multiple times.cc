@@ -1,4 +1,35 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-11-04
+class Solution {
+ public:
+  int read(char *buf, int n) {
+    int result = 0;
+    if (char_cnt_ > 0) {
+      MoveCharsToDst(&buf, &n, &result);
+    }
+    while (n > 0) {
+      char_cnt_ = read4(chars_);
+      if (char_cnt_ == 0) break;
+      MoveCharsToDst(&buf, &n, &result);
+    }
+    return result;
+  }
+ 
+ private:
+  void MoveCharsToDst(char **dst, int* n, int* result) {
+    int n_copy = min(char_cnt_, *n);
+    strncpy(*dst, chars_, n_copy);
+    *dst += n_copy;
+    *result += n_copy;
+    strncpy(chars_, chars_ + n_copy, 4 - n_copy);
+    char_cnt_ -= n_copy;
+    *n -= n_copy;
+  }
+ 
+  char chars_[4];
+  int char_cnt_ = 0;
+};
+
 // Date: 2017-08-30
 class Solution {
  public:

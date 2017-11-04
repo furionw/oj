@@ -1,4 +1,26 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-11-04
+// Case 1: [1, 1, 1, 0, 0]
+//   map = {{0, -1}, {1, 0}, {2, 1}, {3, 2}}
+class Solution {
+ public:
+  int findMaxLength(vector<int>& nums) {
+    unordered_map<int, int> balance_to_idx_map;
+    balance_to_idx_map[0] = -1;
+    int balance = 0;
+    int result = 0;
+    for (int i = 0; i < nums.size(); ++i) {
+      balance += (nums[i] == 1 ? 1 : -1);
+      if (balance_to_idx_map.count(balance)) {
+        result = max(result, i - balance_to_idx_map[balance]);
+      } else {
+        balance_to_idx_map[balance] = i;
+      }
+    }
+    return result;
+  }
+};
+
 // Date: 2017-08-04
 class Solution {
  public:
