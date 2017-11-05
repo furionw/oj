@@ -10,7 +10,8 @@ class Solution {
          [](const Interval& lhs, const Interval& rhs) {
            // It's necessary to sort the intervals by its start firstly.
            // Otherwises this impl will fail in the case of
-           // [[2, 15], [36, 45], [9, 29], [16, 23], [4, 9]]
+           // [[4, 9], [2, 15], [16, 23], [9, 29], [36, 45]] (increasing 'end')
+           // [[2, 15], [4, 9], [9, 29], [16, 23], [36, 45]] (increasing 'start')
            return lhs.start != rhs.start ? lhs.start < rhs.start
                                          : lhs.end < rhs.end;
          });
