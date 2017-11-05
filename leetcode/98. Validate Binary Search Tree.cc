@@ -1,4 +1,40 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-11-05
+// Case 1: [2, 1, 3]
+class Solution {
+ public:
+  bool isValidBST(TreeNode* root) {
+    return root == nullptr ? true : IsValidBST(root).valid;
+  }
+ 
+ private:
+  struct MinMax {
+    bool valid;
+    int min, max;
+  };
+ 
+  MinMax IsValidBST(TreeNode* root) const {
+    MinMax result {true, root->val, root->val};
+    if (root->left != nullptr) {
+      auto left = IsValidBST(root->left);
+      if (left.valid && left.max < root->val) {
+        result.min = left.min;
+      } else {
+        return {false};
+      }
+    }
+    if (root->right != nullptr) {
+      auto right = IsValidBST(root->right);
+      if (right.valid && right.min > root->val) {
+        result.max = right.max;
+      } else {
+        return {false};
+      }
+    }
+    return result;
+  }
+};
+
 // Date: 2017-07-22
 class Solution {
  public:

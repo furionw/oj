@@ -1,4 +1,28 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-11-05
+class Solution {
+ public:
+  vector<vector<int>> subsets(vector<int>& nums) {
+    vector<vector<int>> result;
+    vector<int> cur;
+    Subsets(nums, 0, &cur, &result);
+    return result;
+  }
+ 
+ private:
+  void Subsets(const vector<int>& nums, int idx, vector<int>* cur,
+      vector<vector<int>>* result) const {
+    if (idx == nums.size()) {
+      result->push_back(*cur);
+    } else {
+      Subsets(nums, idx + 1, cur, result);
+      cur->push_back(nums[idx]);
+      Subsets(nums, idx + 1, cur, result);
+      cur->pop_back();
+    }
+  }
+};
+
 // Date: 2017-07-22
 // Method 2: refer to the solution in many years ago
 class Solution {

@@ -1,4 +1,93 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-11-05
+class Solution {
+ public:
+  ListNode* mergeKLists(vector<ListNode*>& lists) {
+    if (lists.empty()) return nullptr;
+    list<ListNode*> result(lists.begin(), lists.end());
+    while (result.size() > 1) {
+      auto first = result.front(); result.pop_front();
+      auto second = result.front(); result.pop_front();
+      result.push_back(Merge(first, second));
+    }
+    return result.front();
+  }
+ 
+ private:
+  ListNode* Merge(ListNode* lhs, ListNode* rhs) const {
+    ListNode dummy(0);
+    ListNode* tail = &dummy;
+    while (lhs != nullptr && rhs != nullptr) {
+      if (lhs->val < rhs->val) {
+        tail->next = lhs;
+        lhs = lhs->next;
+      } else {
+        tail->next = rhs;
+        rhs = rhs->next;
+      }
+      tail = tail->next;
+    }
+    tail->next = lhs != nullptr ? lhs : rhs;
+    return dummy.next;
+  }
+};
+
+// Date: 2017-10-30
+// MicroStrategy 3rd round interview
+
+// Assume n nodes per list, N * K nodes
+// Returns a single sorted linked list
+// Method 1: O(N * K^2)
+// Method 2: divide and conquer
+//   N lists -> N / 2 lists -> N /4 lists -> ... -> 1 list
+//   NK * log(K)
+// Method 3: priority_queue, NK * log(K)
+struct ListNode {
+  int val;
+  ListNode* next = nullptr;
+};
+
+// Case 1: []
+// Case 2: [[nullptr], [1]]
+// Case 3: [[1, 2], [2, 3], [4]]
+//   - Merge([1, 2], [2, 3]), return [1, 2, 2, 3], list table = [[1, 2, 2, 3], [4]]
+//   ...
+inline ListNode* SortKLists(list<ListNode*> lists) {
+  if (lists.empty()) return nullptr;
+  while (lists.size() > 1) {
+    auto first = lists.front(); lists.pop_front();
+    auto second = lists.front(); lists.pop_front();
+    lists.push_back(MergeLists(first, second));
+  }
+  return lists.front();
+}
+
+// Merge([1, 2], [2, 3])
+//   -> result = [dummy, 1], lhs = [2], rhs =[2, 3]
+//   -> result = [dummy, 1, 2], lhs = [2], rhs = [3]
+//   -> reuslt = [dummy, 1, 2, 2], lhs = [], rhs = [3]
+//   -> result = [dummy, 1, 2, 2, 3]
+inline ListNode* MergeLists(ListNode* lhs, ListNode* rhs) {
+  if (lhs == nullptr || rhs == nullptr) {
+    return lhs != nullptr ? lhs : rhs;
+  }
+  ListNode dummy;
+  auto* tail = &dummy;
+  while (lhs != nullptr && rhs != nullptr) {
+    if (lhs->val < rhs->val) {
+      tail->next = lhs;
+      lhs = lhs->next;
+    } else {
+      tail->next = rhs;
+      rhs = rhs->next;
+    }
+    tail = head->next;
+  }
+  tail->next = lhs != nullptr ? lhs : rhs;
+  return dummy.next;
+}
+
+
 // Date: 2017-07-27
 class Solution {
  public:

@@ -1,4 +1,28 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-11-05
+// Case 1: []
+// Case 2: [1]
+// Case 3: [1, 2, 3]
+//   - l = 0, r = 3, mid = 1 -> r = 1
+//   - l = 0, r = 1, mid = 0 -> l = mid + 1 = 1
+//   returns n - l = 3 - 1 = 2
+class Solution {
+ public:
+  int hIndex(vector<int>& citations) {
+    int n = citations.size();
+    int l = 0, r = n;
+    while (l < r) {
+      int mid = l + r >> 1;
+      if (citations[mid] >= n - mid) {
+        r = mid;
+      } else {
+        l = mid + 1;
+      }
+    }
+    return n - l;
+  }
+};
+
 // Date: 2017-08-16
 class Solution {
  public:

@@ -1,4 +1,28 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-11-05
+// Please note that the solution on 2017-09-01 is somewhat funny :)
+class Solution {
+ public:
+  vector<string> binaryTreePaths(TreeNode* root) {
+    vector<string> result;
+    CollectResult(root, "", &result);
+    return result;
+  }
+ 
+ private:
+  void CollectResult(TreeNode* root, string cur, vector<string>* result) const {
+    if (root == nullptr) return;
+    if (!cur.empty()) cur += "->";
+    cur += to_string(root->val);
+    if (root->left == nullptr && root->right == nullptr) {
+      result->push_back(cur);
+    } else {
+      CollectResult(root->left, cur, result);
+      CollectResult(root->right, cur, result);
+    }
+  }
+};
+
 // Date: 2017-09-01
 class Solution {
  public:

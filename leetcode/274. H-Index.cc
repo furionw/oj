@@ -1,4 +1,24 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-11-05
+// Case 1: [], returns 0.
+// Case 2: [1, 1, 2, 2], returns 2.
+class Solution {
+ public:
+  int hIndex(vector<int>& citations) {
+    int n = citations.size();
+    vector<int> cnts(n + 1, 0);
+    for (int c : citations) {
+      ++cnts[min(c, n)];
+    }
+    for (int acc = 0, i = n; i >= 0; --i) {
+      if ((acc += cnts[i]) >= i) {
+        return i;
+      }
+    }
+    return 0;
+  }
+};
+
 // Date: 2017-08-14
 class Solution {
  public:

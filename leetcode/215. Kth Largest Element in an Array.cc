@@ -1,4 +1,40 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-11-05
+// Case 1: [5, 2, 4, 1, 3, 6, 0], 4
+// Please note that the solution on 2017-09-11 is a little bit more concise.
+class Solution {
+ public:
+  int findKthLargest(vector<int>& nums, int k) {
+    int l = 0, r = nums.size();
+    while (l < r) {
+      int pivot_idx = Partition(&nums, l, r);
+      if (pivot_idx == k - 1) {
+        return nums[k - 1];
+      } else if (pivot_idx < k - 1) {
+        l = pivot_idx + 1;
+      } else {
+        r = pivot_idx;
+      }
+    }
+    return nums[k - 1];
+  }
+ 
+ private:
+  int Partition(vector<int>* nums, int l, int r) const {
+    int pivot_idx = l + rand() % (r - l);
+    int pivot = (*nums)[pivot_idx];
+    swap((*nums)[l], (*nums)[pivot_idx]);
+    int last_greater_elem_idx = l;
+    for (int i = l + 1; i < r; ++i) {
+      if ((*nums)[i] > pivot) {
+        swap((*nums)[++last_greater_elem_idx], (*nums)[i]);
+      }
+    }
+    swap((*nums)[l], (*nums)[last_greater_elem_idx]);
+    return last_greater_elem_idx;
+  }
+};
+
 // Date: 2017-09-11
 // Refer to: 剑指Offer Q30
 class Solution {

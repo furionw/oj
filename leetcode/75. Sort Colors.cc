@@ -1,4 +1,23 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-10-27
+// MicroStrategy 1st round interview
+// Revisited on 2017-11-05
+class Solution {
+ public:
+  void sortColors(vector<int>& colors) {
+    int last_zero_idx = -1, first_two_idx = colors.size();
+    for (int i = 0; i < first_two_idx;) {
+      if (colors[i] == 1) {
+        ++i;
+      } else if (colors[i] == 0) {
+        swap(colors[++last_zero_idx], colors[i++]);
+      } else {  // r
+        swap(colors[--first_two_idx], colors[i]);
+      }
+    }
+  }
+};
+
 // Date: 2017-08-13
 class Solution {
  public:
