@@ -1,4 +1,60 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-11-06
+// Case 1: ["This", "is", "an", "example", "of", "text", "justification."], 16
+class Solution {
+ public:
+  vector<string> fullJustify(vector<string>& words, int max_width) {
+    for (const string& word : words)
+      if (word.size() > max_width) return {};
+    vector<string> result;
+    vector<string> strs;
+    int len = 0;
+    for (const string& word : words) {
+      int inc = word.size() + !strs.empty();
+      if (len + inc <= max_width) {
+        strs.push_back(word);
+        len += inc;
+      } else {
+        result.push_back(FormatWords(strs, max_width));
+        strs.clear();
+        strs.push_back(word);
+        len = word.size();
+      }
+    }
+    result.push_back(FormatLastLine(strs, max_width));
+    return result;
+  }
+ 
+ private:
+  string FormatWords(const vector<string>& words, int max_width) const {
+    if (words.size() == 1) {
+      const string& word = words.front();
+      return word + string(max_width - word.size(), ' ');
+    } else {
+      int str_tot_len = accumulate(words.begin(), words.end(), 0,
+                                   [](int acc, const string& str) {
+                                     return acc + str.size();
+                                   });
+      int slot_cnt = words.size() - 1;
+      int unit = (max_width - str_tot_len) / slot_cnt;
+      int remainder = (max_width - str_tot_len) % slot_cnt;
+      string row;
+      for (int i = 0; i < slot_cnt; ++i) {
+        row += words[i] + string(unit + (i < remainder), ' ');
+      }
+      return row + words.back();
+    }
+  }
+ 
+  string FormatLastLine(const vector<string>& words, int max_width) const {
+    string result = accumulate(words.begin(), words.end(), string(),
+                               [](const string& acc, const string& cur) {
+                                 return acc + (acc.empty() ? "" : " ") + cur;
+                               });
+    return result + string(max_width - result.size(), ' ');
+  }
+};
+
 // Date: 2017-08-03
 class Solution {
  public:

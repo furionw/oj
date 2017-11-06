@@ -1,4 +1,31 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-11-06
+// Your thought becomes sharp at this time and You do better than what you did
+// on 2017-07-21 :)
+class Solution {
+ public:
+  vector<Interval> merge(vector<Interval>& intervals) {
+    if (intervals.size() < 2) return intervals;
+    sort(intervals.begin(), intervals.end(),
+         [](const Interval& lhs, const Interval& rhs) {
+           return lhs.start < rhs.start;
+         });
+    int start = intervals.front().start, end = intervals.front().end;
+    vector<Interval> result;
+    for (int i = 1; i < intervals.size(); ++i) {
+      if (end < intervals[i].start) {
+        result.emplace_back(start, end);
+        start = intervals[i].start;
+        end = intervals[i].end;
+      } else {
+        end = max(end, intervals[i].end);
+      }
+    }
+    result.emplace(start, end);
+    return result;
+  }
+};
+
 // Date: 2017-07-21
 class Solution {
  public:

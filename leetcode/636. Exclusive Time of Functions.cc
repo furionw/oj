@@ -1,4 +1,35 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-11-06
+// Case 1: ["0:start:0", "1:start:2", "1:end:5", "0:end:6"]
+class Solution {
+ public:
+  vector<int> exclusiveTime(int n, vector<string>& logs) {
+    vector<int> result(n, 0);
+    if (logs.empty()) return result;
+    int prev_time, id;
+    char s[6];
+    // I think it's better to initialize 'prev_time' here than what I
+    // did on 2017-08-17
+    sscanf(logs.front().data(), "%d:%[^:]:%d", &id, s, &prev_time);
+    stack<int> ids;
+    ids.push(id);
+    for (int i = 1; i < logs.size(); ++i) {
+      int cur_time;
+      sscanf(logs[i].data(), "%d:%[^:]:%d", &id, s, &cur_time);
+      if (s[0] == 's') {
+        if (!ids.empty()) result[ids.top()] += cur_time - prev_time;
+        ids.push(id);
+        prev_time = cur_time;
+      } else {
+        result[ids.top()] += cur_time - prev_time + 1;
+        ids.pop();
+        prev_time = cur_time + 1;
+      }
+    }
+    return result;
+  }
+};
+
 // Date: 2017-08-17
 class Solution {
  public:

@@ -1,11 +1,33 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-11-06
+class Solution {
+ public:
+  int leastBricks(vector<vector<int>>& wall) {
+    unordered_map<int, int> offset_to_cnt_map;
+    for (const auto& row : wall) {
+      if (row.empty()) continue;
+      int acc = 0;
+      for (int i = 0; i < row.size() - 1; ++i) {
+        ++offset_to_cnt_map[acc += row[i]];
+      }
+    }
+    // Cannot intialize as INT_MAX, or your impl will fail in the case: [[1]]
+    int minimal_bricks_to_cross = wall.size();
+    for (const auto& p : offset_to_cnt_map) {
+      minimal_bricks_to_cross = min(minimal_bricks_to_cross,
+                                    int(wall.size()) - p.second);
+    }
+    return minimal_bricks_to_cross;
+  }
+};
+
 // Date: 2017-08-17
 class Solution {
  public:
   int leastBricks(vector<vector<int>>& wall) {
     unordered_map<int, int> offset_to_cnt_map;
     for (const auto& row : wall) {
-      for (int i = 0, acc = 0; i + 1< row.size(); ++i) {
+      for (int i = 0, acc = 0; i + 1 < row.size(); ++i) {
         ++offset_to_cnt_map[acc += row[i]];
       }
     }
