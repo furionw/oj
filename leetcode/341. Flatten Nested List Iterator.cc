@@ -1,4 +1,32 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-11-06
+class NestedIterator {
+ public:
+  NestedIterator(vector<NestedInteger> &nestedList)
+      : nested_integers_(nestedList.begin(), nestedList.end()) {}
+
+  int next() {
+    int result = nested_integers_.front().getInteger();
+    nested_integers_.pop_front();
+    return result;
+  }
+ 
+  bool hasNext() {
+    while (!nested_integers_.empty() &&
+           !nested_integers_.front().isInteger()) {
+      auto front = nested_integers_.front().getList();
+      nested_integers_.pop_front();
+      for (auto itr = front.rbegin(); itr != front.rend(); ++itr) {
+        nested_integers_.push_front(*itr);
+      }
+    }
+    return !nested_integers_.empty();
+  }
+ 
+ private:
+  list<NestedInteger> nested_integers_;
+};
+
 // Date: 2017-07-24
 class NestedIterator {
  public:
