@@ -17,8 +17,8 @@ struct Node {
 template <class T, class NodesType>
 class DisjointSetBase {
  public:
-  inline void unionSet(const T& key1, const T& key2) {
-    T s1 = findSet(key1), s2 = findSet(key2);
+  inline void UnionSet(const T& key1, const T& key2) {
+    T s1 = FindSet(key1), s2 = FindSet(key2);
     if (s1 != s2) {
       Node<T>& node1 = nodes_[s1], node2 = nodes_[s2];
       if (node1.rank > node2.rank) {
@@ -30,18 +30,18 @@ class DisjointSetBase {
     }    
   }
 
-  inline bool querySet(const T& key1, const T& key2) {
-    return findSet(key1) == findSet(key2);
+  inline bool QuerySet(const T& key1, const T& key2) {
+    return FindSet(key1) == FindSet(key2);
   }
 
  protected:
   NodesType nodes_;
 
  private:
-  T findSet(const T& key) {
+  T FindSet(const T& key) {
     Node<T>& node = nodes_[key];
     if (node.parent != key) {
-      return node.parent = findSet(node.parent);
+      return node.parent = FindSet(node.parent);
     } else {
       return node.parent;
     }
@@ -51,22 +51,22 @@ class DisjointSetBase {
 template <class T>
 class DisjointSet : public DisjointSetBase<T, unordered_map<T, Node<T>>> {
  public:
-  inline void unionSet(const T& key1, const T& key2) {
-    // Note that both unionSet and querySet need those two tryToMakeSet()
-    tryToMakeSet(key1);
-    tryToMakeSet(key2);
-    DisjointSetBase<T, unordered_map<T, Node<T>>>::unionSet(key1, key2);
+  inline void UnionSet(const T& key1, const T& key2) {
+    // Note that both UnionSet and QuerySet need those two TryToMakeSet()
+    TryToMakeSet(key1);
+    TryToMakeSet(key2);
+    DisjointSetBase<T, unordered_map<T, Node<T>>>::UnionSet(key1, key2);
   }
 
-  inline bool querySet(const T& key1, const T& key2) {
-    // Note that both unionSet and querySet need those two tryToMakeSet()
-    tryToMakeSet(key1);
-    tryToMakeSet(key2);
-    return DisjointSetBase<T, unordered_map<T, Node<T>>>::querySet(key1, key2);
+  inline bool QuerySet(const T& key1, const T& key2) {
+    // Note that both UnionSet and QuerySet need those two TryToMakeSet()
+    TryToMakeSet(key1);
+    TryToMakeSet(key2);
+    return DisjointSetBase<T, unordered_map<T, Node<T>>>::QuerySet(key1, key2);
   }
 
  private:
-  inline void tryToMakeSet(const T& key) {
+  inline void TryToMakeSet(const T& key) {
     // It's necessary to tell the compiler explicitly that the names are in
     // fact dependent on the instantiation of the parent, via using this->
     // Or we will get compilation error in g++
