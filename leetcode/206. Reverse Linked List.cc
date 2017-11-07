@@ -1,4 +1,17 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-11-07
+class Solution {
+ public:
+  ListNode* reverseList(ListNode* head) {
+    ListNode* prev = nullptr;
+    while (head != nullptr) {
+      swap(prev, head->next);
+      swap(prev, head);
+    }
+    return prev;
+  }
+};
+
 // Date: 2017-07-11
 // Method 3: Iterate
 class Solution {

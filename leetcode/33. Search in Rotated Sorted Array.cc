@@ -1,4 +1,32 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-11-07
+class Solution {
+ public:
+  int search(vector<int>& nums, int target) {
+    if (nums.empty()) return -1;
+    int l = 0, r = nums.size();
+    while (l < r) {
+      int mid = l + r >> 1;
+      if (nums[mid] == target) {
+        return mid;
+      } else if (target < nums[mid]) {
+        if (nums[mid] <= nums[r - 1] || nums[l] <= target) {
+          r = mid;
+        } else {
+          l = mid + 1;
+        }
+      } else {
+        if (nums[l] <= nums[mid] || target <= nums[r - 1]) {
+          l = mid + 1;
+        } else {
+          r = mid;
+        }
+      }
+    }
+    return nums[l] == target ? l : -1;
+  }
+};
+
 // Date: 2017-08-17
 class Solution {
  public:

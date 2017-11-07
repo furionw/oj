@@ -1,4 +1,37 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-11-07
+class Solution {
+ public:
+  bool exist(vector<vector<char>>& board, string word) {
+    if (word.empty()) return true;
+    for (int i = 0; i < board.size(); ++i) {
+      for (int j = 0; j < board[0].size(); ++j) {
+        if (board[i][j] == word.front() && Dfs(&board, i, j, word, 0)) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+ 
+ private:
+  bool Dfs(vector<vector<char>>* board, int i, int j, const string& word,
+           int idx) const {
+    if (idx + 1 == word.size()) return true;
+    (*board)[i][j] = 0;
+    static constexpr int delta[] = {0, 1, 0, -1, 0};
+    for (int d = 0; d < 4; ++d) {
+      int x = i + delta[d], y = j + delta[d + 1];
+      if (0 <= x && x < board->size() && 0 <= y && y < (*board)[0].size() &&
+          (*board)[x][y] == word[idx + 1] && Dfs(board, x, y, word, idx + 1)) {
+        return true;
+      }
+    }
+    (*board)[i][j] = word[idx];
+    return false; 
+  }
+};
+
 // Date: 2017-08-13
 class Solution {
  public:

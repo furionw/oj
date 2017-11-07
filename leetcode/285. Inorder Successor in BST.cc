@@ -1,4 +1,20 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-11-07
+// Refer to the method 2 on 2017-08-15
+class Solution {
+ public:
+  TreeNode* inorderSuccessor(TreeNode* root, TreeNode* p) {
+    if (root == nullptr || p == nullptr) {
+      return nullptr;
+    } else if (root->val <= p->val) {
+      return inorderSuccessor(root->right, p);
+    } else {
+      auto left = inorderSuccessor(root->left, p);
+      return left != nullptr ? left : root;
+    }
+  }
+};
+
 // Date: 2017-08-15
 // Method 2: refer to other's solution
 class Solution {

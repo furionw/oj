@@ -1,4 +1,41 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-11-07
+// Congratulations! It's better than your solution on 2017-08-13.
+class Solution {
+ public:
+  vector<string> addOperators(string num, int target) {
+    vector<string> result;
+    for (int len = 1; len <= num.size(); ++len) {
+      string substr = num.substr(0, len);
+      int val = stol(substr);
+      if (substr != to_string(val)) break;
+      F(num, len, '+', val, val, substr, target, &result);
+    }
+    return result;
+  }
+ 
+ private:
+  void F(const string& num, int idx, char prev_op, int prev_num, int cur,
+         const string& str, int target, vector<string>* result) const {
+    if (idx == num.size()) {
+      if (cur == target) result->push_back(str);
+      return;
+    }
+    for (int i = idx; i < num.size(); ++i) {
+      string substr = num.substr(idx, i - idx + 1);
+      int operand = stoi(substr);
+      if (substr != to_string(operand)) break;
+      F(num, i + 1, '+', operand, cur + operand, str + '+' + substr, target,
+        result);
+      F(num, i + 1, '-', operand, cur - operand, str + '-' + substr, target,
+        result);
+      F(num, i + 1, prev_op, prev_num * operand,
+        cur + (prev_op == '+' ? 1 : -1) * (operand - 1) * prev_num,
+        str + '*' + substr, target, result);
+    }
+  }
+};
+
 // Date: 2017-08-13
 class Solution {
  public:

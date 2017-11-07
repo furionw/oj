@@ -1,4 +1,31 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-11-07
+class Solution {
+ public:
+  string multiply(string num1, string num2) {
+    reverse(num1.begin(), num1.end());
+    reverse(num2.begin(), num2.end());
+    int n = num1.size(), m = num2.size();
+    vector<int> nums(n + m, 0);
+    for (int i = 0; i < n; ++i) {
+      for (int j = 0; j < m; ++j) {
+        nums[i + j] += (num1[i] - '0') * (num2[j] - '0');
+      }
+    }
+    string result;
+    for (int i = 0; i + 1 < nums.size(); ++i) {
+      nums[i + 1] += nums[i] / 10;
+      result += nums[i] % 10 + '0';
+    }
+    result += nums.back() + '0';
+    while (result.size() > 1 && result.back() == '0') {
+      result.pop_back();
+    }
+    reverse(result.begin(), result.end());
+    return result;
+  }
+};
+
 // Date: 2017-07-22
 class Solution {
  public:

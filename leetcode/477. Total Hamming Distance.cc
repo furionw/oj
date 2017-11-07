@@ -1,4 +1,25 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-11-07
+// Case 1: ["0011", "1100", "0001"] -> 8
+// The solution on 2017-02-19 is more space efficient
+class Solution {
+ public:
+  int totalHammingDistance(vector<int>& nums) {
+    vector<int> cnts(32, 0);
+    int n = nums.size();
+    for (int num : nums) {
+      for (int i = 0; num; ++i, num >>= 1) {
+        cnts[i] += num & 1;
+      }
+    }
+    int result = 0;
+    for (int cnt : cnts) {
+      result += (n - cnt) * cnt;
+    }
+    return result;
+  }
+};
+
 // Date: 2017-08-04
 // The solution on 2017-02-19 is more space efficient
 class Solution {

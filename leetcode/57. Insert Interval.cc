@@ -1,4 +1,27 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-11-07
+// Congratulations! This is the best solution ever :)
+class Solution {
+ public:
+  vector<Interval> insert(vector<Interval>& intervals, Interval new_interval) {
+    vector<Interval> result;
+    int i = 0;
+    while (i < intervals.size() && intervals[i].end < new_interval.start) {
+      result.push_back(intervals[i++]);
+    }
+    while (i < intervals.size() && intervals[i].start <= new_interval.end) {
+      new_interval.start = min(new_interval.start, intervals[i].start);
+      new_interval.end = max(new_interval.end, intervals[i].end);
+      ++i;
+    }
+    result.emplace_back(new_interval.start, new_interval.end);
+    for (; i < intervals.size(); ++i) {
+      result.push_back(intervals[i]);
+    }
+    return result;
+  }
+};
+
 // Date: 2017-08-16
 // The solution on 2017-01-11 is much better
 class Solution {

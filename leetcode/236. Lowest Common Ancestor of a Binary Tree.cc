@@ -1,4 +1,20 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-11-07
+class Solution {
+ public:
+  TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
+    if (root == nullptr || root == p || root == q) {
+      return root;
+    } else {
+      auto left = lowestCommonAncestor(root->left, p, q);
+      auto right = lowestCommonAncestor(root->right, p, q);
+      return left != nullptr && right != nullptr
+             ? root
+             : left != nullptr ? left : right;
+    }
+  }
+};
+
 // Date: 2017-08-14
 class Solution {
  public:
@@ -59,7 +75,6 @@ class Solution {
   }
 };
 
-// Copyright 2016 Qi Wang
 // Date: 2016-10-09
 class Solution {
  public:
