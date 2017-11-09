@@ -1,4 +1,32 @@
 // Copyright 2017 Qi Wang
+// There are at least 3 ways to address this problem:
+//   1. Use unordered_map<int, vector<int>>. This impl requires lots of memory.
+//   2. Use vector<int> as what you did on 2016-11-26.
+//   3. Use Reservoir Sampling method, which shares the same time complexity as
+//      method 2, but is more space efficient.
+
+// Date: 2017-11-08
+class Solution {
+ public:
+  Solution(vector<int> nums) : nums_(move(nums)) {}
+  
+  int pick(int target) {
+    int cnt = 0;
+    int result = -1;
+    for (int i = 0; i < nums_.size(); ++i) {
+      if (nums_[i] == target) {
+        if (rand() % ++cnt == 0) {
+          result = i;
+        }
+      }
+    }
+    return result;
+  }
+ 
+ private:
+  vector<int> nums_;
+};
+
 // Date: 2017-08-13
 class Solution {
  public:

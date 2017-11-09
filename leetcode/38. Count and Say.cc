@@ -1,4 +1,34 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-11-08
+class Solution {
+ public:
+  string countAndSay(int n) {
+    if (n < 1) return "";
+    string result = "1";
+    for (int i = 1; i < n; ++i) {
+      result = CountAndSay(result);
+    }
+    return result;
+  }
+ 
+ private:
+  string CountAndSay(const string& s) const {
+    string result;
+    int cnt = 1;
+    char prev_c = s.front();
+    for (int i = 1; i < s.size(); ++i) {
+      if (s[i] == prev_c) {
+        ++cnt;
+      } else {
+        result += to_string(cnt) + prev_c;
+        cnt = 1;
+        prev_c = s[i];
+      }
+    }
+    return result + to_string(cnt) + prev_c;
+  }
+};
+ 
 // Date: 2017-08-16
 class Solution {
  public:

@@ -1,4 +1,24 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-11-08
+// Please note that this impl won't pass the LeetCode OJ, while it can achieve
+// the minimal number of the write operations.
+// Mentioned in https://instant.1point3acres.com/thread/290474
+class Solution {
+ public:
+  void moveZeroes(vector<int>& nums) {
+    if (nums.empty()) return;
+    int zero_idx = 0, non_zero_idx = nums.size() - 1;
+    while (zero_idx < non_zero_idx) {
+      for (; zero_idx < non_zero_idx && nums[zero_idx] != 0; ++zero_idx) {}
+      for (; zero_idx < non_zero_idx && nums[non_zero_idx] == 0;
+           --non_zero_idx) {}
+      if (zero_idx < non_zero_idx) {
+        swap(nums[zero_idx++], nums[non_zero_idx--]);
+      }
+    }
+  }
+};
+
 // Date: 2017-10-21
 class Solution {
  public:

@@ -1,4 +1,24 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-11-08
+// Case 1: []
+// Case 2: [10]
+// Case 3: [1, 2, 3]
+class Solution {
+ public:
+  vector<int> productExceptSelf(vector<int>& nums) {
+    if (nums.empty()) return {};
+    if (nums.size() == 1) return {1};
+    vector<int> result(nums.size(), 1);
+    for (int i = result.size() - 2; i >= 0; --i) {
+      result[i] = result[i + 1] * nums[i + 1];
+    }
+    for (int i = 1, val = 1; i < result.size(); ++i) {
+      result[i] *= (val *= nums[i - 1]);
+    }
+    return result;
+  }
+};
+
 // Date: 2017-07-25
 class Solution {
  public:

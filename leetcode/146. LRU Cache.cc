@@ -1,4 +1,50 @@
 // Copyright 2017 Qi Wang
+// 6th time
+// Date: 2017-11-08
+class LRUCache {
+ public:
+  LRUCache(int capacity) : CAPACITY_(capacity) {}
+ 
+  int get(int key) {
+    if (key_to_itr_map_.count(key)) {
+      MoveElemToFront(key);
+      return nums_.front().second;
+    } else {
+      return -1;
+    }
+  }
+  
+  void put(int key, int value) {
+    if (key_to_itr_map_.count(key)) {
+      MoveElemToFront(key);
+      nums_.front().second = value;
+    } else {
+      nums_.emplace_front(key, value);
+      key_to_itr_map_[key] = nums_.begin();
+      if (nums_.size() > CAPACITY_) {
+        EvictTail();
+      }
+    }
+  }
+ 
+ private:
+  void MoveElemToFront(int key) {
+    nums_.splice(nums_.begin(), nums_, key_to_itr_map_[key]);
+  }
+ 
+  void EvictTail() {
+    int key = nums_.back().first;
+    nums_.pop_back();
+    // nums_.erase(key_to_itr_map_[key]);
+    key_to_itr_map_.erase(key);
+  }
+ 
+  const int CAPACITY_;
+  // The tail is the least frequent K/V
+  list<pair<int, int>> nums_;
+  unordered_map<int, list<pair<int, int>>::iterator> key_to_itr_map_;
+};
+
 // 5th time
 // Date: 2017-07-26
 class LRUCache {
@@ -33,8 +79,6 @@ class LRUCache {
   unordered_map<int, list<pair<int, int>>::iterator> map_;
   const int capacity_;
 };
-
-
 
 // 4th time
 // 66ms, beats 89% cpp solutions

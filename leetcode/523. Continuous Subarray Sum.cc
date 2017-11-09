@@ -1,4 +1,33 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-11-08
+// Case 1: [0], 0 -> false
+// Case 2: [0, 0], 0 -> true
+// Case 3: [1, 2, 3, 4], 5 -> true
+class Solution {
+ public:
+  bool checkSubarraySum(vector<int>& nums, int k) {
+    if (k == 0) {
+      for (int i = 0; i + 1 < nums.size(); ++i) {
+        if (nums[i] == 0 && nums[i + 1] == 0) return true;
+      }
+      return false;
+    }
+    unordered_map<int, int> remainder_to_idx_map;
+    remainder_to_idx_map[0] = -1;
+    for (int i = 0, remainder = 0; i < nums.size(); ++i) {
+      remainder = (remainder + nums[i]) % k;
+      if (remainder_to_idx_map.count(remainder)) {
+        if (i - remainder_to_idx_map[remainder] > 1) {
+          return true;
+        }
+      } else {
+        remainder_to_idx_map[remainder] = i;
+      }
+    }
+    return false;
+  }
+};
+
 // Date: 2017-08-06
 class Solution {
  public:
