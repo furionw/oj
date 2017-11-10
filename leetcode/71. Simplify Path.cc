@@ -1,4 +1,43 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-11-09
+// Case 1: "/" -> "/"
+// Case 2: "//" -> "/"
+// Case 3: "/a/.../b/.." -> "/a/..."
+class Solution {
+ public:
+  string simplifyPath(string path) {
+    if (path.empty()) return "";
+    list<string> dirs;
+    for (int i = 0; i < path.size(); ++i) {
+      if (path[i] == '/') continue;
+      int dot_cnt = 0;
+      for (; i + dot_cnt < path.size() && path[i + dot_cnt] == '.';
+           ++dot_cnt) {}
+      if (dot_cnt == 1 &&
+          (i + dot_cnt == path.size() || path[i + dot_cnt] == '/')) {
+        i += dot_cnt;
+      } else if (dot_cnt == 2 &&
+          (i + dot_cnt == path.size() || path[i + dot_cnt] == '/')) {
+        if (!dirs.empty()) dirs.pop_back();
+        i += dot_cnt;
+      } else {
+        int next_pos = path.find('/', i);
+        dirs.push_back(path.substr(i, next_pos - i));
+        if (next_pos == string::npos) {
+          break;
+        } else {
+          i = next_pos;
+        }
+      }
+    }
+    if (dirs.empty()) return "/";
+    return accumulate(dirs.begin(), dirs.end(), string(""),
+                      [](const string& path, const string& dir) {
+                        return path + string(1, '/') + dir;
+                      });
+  }
+};
+
 // Date: 2017-07-26
 class Solution {
  public:

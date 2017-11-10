@@ -1,4 +1,22 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-11-09
+class Solution {
+ public:
+  int minSubArrayLen(int s, vector<int>& nums) {
+    map<int, int, greater<int>> acc_to_idx_map;
+    acc_to_idx_map[0] = -1;
+    int min_len = INT_MAX;
+    for (int i = 0, acc = 0; i < nums.size(); ++i) {
+      acc_to_idx_map[acc += nums[i]] = i;
+      auto itr = acc_to_idx_map.lower_bound(acc - s);
+      if (itr != acc_to_idx_map.end()) {
+        min_len = min(min_len, i - itr->second);
+      }
+    }
+    return min_len == INT_MAX ? 0 : min_len;
+  }
+};
+
 // Date: 2017-08-16
 class Solution {
  public:

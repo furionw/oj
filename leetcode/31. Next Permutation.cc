@@ -1,4 +1,33 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-11-09
+// Method 2
+// Case 1: 12543 -> 13245
+class Solution {
+ public:
+  void nextPermutation(vector<int>& nums) {
+    if (nums.size() <= 1) return;
+    for (int i = nums.size() - 2; i >= 0; --i) {
+      for (int j = nums.size() - 1; j > i; --j) {
+        if (nums[j] > nums[i]) {
+          swap(nums[i], nums[j]);
+          reverse(nums.begin() + i + 1, nums.end());
+          return;
+        }
+      }
+    }
+    reverse(nums.begin(), nums.end());
+  }
+};
+
+// Date: 2017-11-08
+// Method 1
+class Solution {
+ public:
+  void nextPermutation(vector<int>& nums) {
+    next_permutation(nums.begin(), nums.end());
+  }
+};
+
 // Date: 2017-09-18
 // Case 1: {1, 3, 2} -> {2, 1, 3}
 // Case 2: {3, 1, 2} -> {3, 2, 1}
@@ -62,8 +91,6 @@ class Solution {
 };
 
 // Method 1
-// Date: 2016-12-06
-// Copyright 2016 Qi Wang
 // Date: 2016-12-06
 class Solution {
  public:

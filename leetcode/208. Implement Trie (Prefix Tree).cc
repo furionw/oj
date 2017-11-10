@@ -1,4 +1,69 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-11-09
+// Please handle the empty string carefully.
+class Trie {
+ public:
+  Trie() {}
+ 
+  void insert(string word) {
+    root_.Insert(word, 0);
+  }
+  
+  bool search(string word) {
+    return root_.Search(word, 0);
+  }
+    
+  bool startsWith(string prefix) {
+    return root_.StartsWith(prefix, 0);
+  }
+ 
+ private:
+  class TrieNode {
+   public:
+    TrieNode() {
+      memset(children_, 0, sizeof children_);
+    }
+ 
+    void Insert(const string& word, int idx) {
+      if (idx == word.size()) {
+        is_word_ = true;
+      } else {
+        int offset = word[idx] - 'a';
+        if (children_[offset] == nullptr) {
+          children_[offset] = new TrieNode();
+        }
+        children_[offset]->Insert(word, idx + 1);
+      }
+    }
+ 
+    bool Search(const string& word, int idx) const {
+      if (idx == word.size()) {
+        return is_word_;
+      } else {
+        int offset = word[idx] - 'a';
+        return children_[offset] != nullptr &&
+               children_[offset]->Search(word, idx + 1);
+      }
+    }
+ 
+    bool StartsWith(const string& prefix, int idx) const {
+      if (idx == prefix.size()) {
+        return true;
+      } else {
+        int offset = prefix[idx] - 'a';
+        return children_[offset] != nullptr &&
+               children_[offset]->StartsWith(prefix, idx + 1);
+      }
+    }
+    
+   private:
+    TrieNode* children_[26];
+    bool is_word_ = false;
+  };
+ 
+  TrieNode root_;
+};
+
 // Date: 2017-07-25
 class Trie {
  public:

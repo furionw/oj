@@ -1,4 +1,34 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-11-09
+// Refer to the soluton on 2017-09-07
+class Solution {
+ public:
+  vector<pair<int, int>> getSkyline(vector<vector<int>>& buildings) {
+    vector<pair<int, int>> idx_and_height_vt;
+    for (const auto& row : buildings) {
+      idx_and_height_vt.emplace_back(row[0], -row[2]);
+      idx_and_height_vt.emplace_back(row[1], row[2]);
+    }
+    sort(idx_and_height_vt.begin(), idx_and_height_vt.end());
+    vector<pair<int, int>> result;
+    multiset<int> heights;
+    heights.insert(0);
+    int prev = 0;
+    for (const auto& p : idx_and_height_vt) {
+      if (p.second < 0) {
+        heights.insert(-p.second);
+      } else {
+        heights.erase(heights.find(p.second));
+      }
+      if (*heights.rbegin() != prev) {
+        result.emplace_back(p.first, *heights.rbegin());
+        prev = *heights.rbegin();
+      }
+    }
+    return result;
+  }
+};
+
 // Date: 2017-09-07
 class Solution {
  public:

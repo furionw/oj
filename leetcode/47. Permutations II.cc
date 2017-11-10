@@ -1,4 +1,33 @@
-// Copyright 2016 Qi Wang
+// Copyright 2017 Qi Wang
+// Date: 2017-11-09
+class Solution {
+ public:
+  vector<vector<int>> permuteUnique(vector<int>& nums) {
+    sort(nums.begin(), nums.end());
+    vector<vector<int>> result;
+    do {
+      result.push_back(nums);
+    } while (NextPermutation(&nums));
+    return result;
+  }
+
+ private:
+  bool NextPermutation(vector<int>* nums) {
+    if (nums->size() <= 1) return false;
+    for (int i = nums->size() - 2; i >= 0; --i) {
+      for (int j = nums->size() - 1; j > i; --j) {
+        if ((*nums)[j] > (*nums)[i]) {
+          swap((*nums)[i], (*nums)[j]);
+          reverse(nums->begin() + i + 1, nums->end());
+          return true;
+        }
+      }
+    }
+    reverse(nums->begin(), nums->end());
+    return false;
+  }
+};
+
 // Date: 2016-12-27
 class Solution {
  public:

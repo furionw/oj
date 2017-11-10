@@ -1,4 +1,26 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-11-09
+class Solution {
+ public:
+  TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
+    if (root == nullptr || p == nullptr || q == nullptr) return nullptr;
+    if (p->val > q->val) swap(p, q);
+    return LCA(root, p, q);
+  }
+ 
+ private:
+  TreeNode* LCA(TreeNode* root, TreeNode* p, TreeNode* q) const {
+    if (root == p || root == q) return root;
+    if (root->val > q->val) {
+      return LCA(root->left, p, q);
+    } else if (root->val < p->val) {
+      return LCA(root->right, p, q);
+    } else {
+      return root;
+    }
+  }
+};
+
 // Date: 2017-07-14
 class Solution {
  public:

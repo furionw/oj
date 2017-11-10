@@ -1,4 +1,30 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-11-09
+class Solution {
+ public:
+  int longestConsecutive(vector<int>& nums) {
+    unordered_set<int> num_set;
+    for (int num : nums) {
+      num_set.insert(num);
+    }
+    int result = 0;
+    while (!num_set.empty()) {
+      int cnt = 1, num = *num_set.begin();
+      num_set.erase(num);
+      for (int offset = 1; num_set.count(num + offset); ++offset) {
+        ++cnt;
+        num_set.erase(num + offset);
+      }
+      for (int offset = 1; num_set.count(num - offset); ++offset) {
+        ++cnt;
+        num_set.erase(num - offset);
+      }
+      result = max(result, cnt);
+    }
+    return result;
+  }
+};
+
 // Date: 2017-07-27
 class Solution {
  public:
