@@ -1,4 +1,31 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-11-10
+class Solution {
+ public:
+  void wallsAndGates(vector<vector<int>>& rooms) {
+    for (int i = 0; i < rooms.size(); ++i) {
+      for (int j = 0; j < rooms[0].size(); ++j) {
+        if (rooms[i][j] == 0) {
+          Dfs(&rooms, i, j, 0);
+        }
+      }
+    }
+  }
+ 
+ private:
+  void Dfs(vector<vector<int>>* rooms, int i, int j, int dist) const {
+    (*rooms)[i][j] = dist;
+    static constexpr int delta[] = {0, 1, 0, -1, 0};
+    for (int d = 0; d < 4; ++d) {
+      int x = i + delta[d], y = j + delta[d + 1];
+      if (0 <= x && x < rooms->size() && 0 <= y && y < (*rooms)[0].size() &&
+          (*rooms)[x][y] > dist + 1) {
+        Dfs(rooms, x, y, dist + 1);
+      }
+    }
+  }
+};
+
 // Date: 2017-08-01
 // BFS
 class Solution {

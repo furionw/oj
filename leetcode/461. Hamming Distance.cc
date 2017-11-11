@@ -1,4 +1,16 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-11-10
+class Solution {
+ public:
+  int hammingDistance(int x, int y) {
+    int result = 0;
+    for (int mask = 1 << 30; mask; mask >>= 1) {
+      result += (x & mask) != (y & mask);
+    }
+    return result;
+  }
+};
+
 // Date: 2017-08-05
 class Solution {
  public:

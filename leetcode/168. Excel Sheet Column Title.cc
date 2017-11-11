@@ -1,4 +1,26 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-11-10
+// Case 1: 1 -> A
+//       : 2 -> B
+//       : …
+//       : 26 -> Z
+//       : 27 -> AA
+//       : ...
+//       : 52 -> AZ
+//       : 53 -> BA
+class Solution {
+ public:
+  string convertToTitle(int n) {
+    if (n <= 0) return "";
+    string result;
+    for (; n; n = (n - 1) / 26) {
+      result += (n % 26 + 25) % 26 + 'A';
+    }
+    reverse(result.begin(), result.end());
+    return result;
+  }
+};
+
 // Date: 2017-08-13
 class Solution {
  public:

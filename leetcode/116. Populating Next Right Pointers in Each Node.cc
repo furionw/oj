@@ -1,4 +1,21 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-11-10
+class Solution {
+ public:
+  void connect(TreeLinkNode *root) {
+    if (root == nullptr) return;
+    // Nonleaf node
+    if (root->left != nullptr) {
+      root->left->next = root->right;
+      if (root->next != nullptr) {
+        root->right->next = root->next->left;
+      }
+      connect(root->left);
+      connect(root->right);
+    }
+  }
+};
+
 // Date: 2017-08-01
 class Solution {
  public:

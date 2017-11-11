@@ -1,4 +1,22 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-11-10
+class Solution {
+ public:
+  double myPow(double x, int n) {
+    if (n == 0) {
+      return 1;
+    } else if (n == INT_MIN) {
+      return 1 / (x * myPow(x, INT_MAX));
+    } else if (n < 0) {
+      if (x == 0) return INT_MIN;
+      return 1 / myPow(x, -n);
+    } else {
+      double val = myPow(x, n >> 1);
+      return val * val * (n % 2 == 1 ? x : 1);
+    }
+  }
+};
+
 // Date: 2017-08-14
 class Solution {
  public:

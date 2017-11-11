@@ -1,4 +1,39 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-11-10
+class Solution {
+ public:
+  bool isPalindrome(ListNode* head) {
+    if (head == nullptr) return true;
+    int len = 0;
+    for (auto cur = head; cur != nullptr; cur = cur->next) {
+      ++len;
+    }
+    int offset = (len + 1) >> 1;
+    auto head2 = head;
+    for (int i = 0; i < offset; ++i) {
+      head2 = head2->next;
+    }
+    head2 = Reverse(head2);
+    for (; head != nullptr && head2 != nullptr;
+         head = head->next, head2 = head2->next) {
+      if (head->val != head2->val) {
+        return false;
+      }
+    }
+    return true;
+  }
+ 
+ private:
+  ListNode* Reverse(ListNode* head) const {
+    ListNode* prev = nullptr;
+    while (head != nullptr) {
+      swap(prev, head->next);
+      swap(prev, head);
+    }
+    return prev;
+  }
+};
+
 // Date: 2017-08-03
 class Solution {
  public:

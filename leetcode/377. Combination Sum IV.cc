@@ -1,4 +1,44 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-11-10
+// Refer to the solution on 2017-08-15
+class Solution {
+ public:
+  int combinationSum4(vector<int>& nums, int target) {
+    vector<int> dp(target + 1, 0);
+    dp[0] = 1;
+    for (int i = 1; i <= target; ++i) {
+      for (int num : nums) {
+        if (i - num >= 0) {
+          dp[i] += dp[i - num];
+        }
+      }
+    }
+    return dp.back();
+  }
+};
+
+// Date: 2017-11-10
+// Method 1
+// TLE
+class Solution {
+ public:
+  int combinationSum4(vector<int>& nums, int target) {
+    return F(nums, target);
+  }
+ 
+ private:
+  int F(const vector<int>& nums, int target) const {
+    if (target == 0) return 1;
+    int result = 0;
+    for (int i = 0; i < nums.size(); ++i) {
+      if (target >= nums[i]) {
+        result += F(nums, target - nums[i]);
+      }
+    }
+    return result;
+  }
+};
+
 // Date: 2017-08-15
 class Solution {
  public:

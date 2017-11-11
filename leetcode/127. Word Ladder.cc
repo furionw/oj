@@ -1,4 +1,48 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-11-10
+// Refer to the previous solution on 2017-07-30.
+class Solution {
+ public:
+  int ladderLength(string beginWord, string endWord, vector<string>& words) {
+    if (find(words.begin(), words.end(), endWord) == words.end())
+      return 0;
+    vector<int> dist(words.size(), INT_MAX);
+    vector<bool> vi(words.size(), false);
+    for (int i = 0; i < words.size(); ++i) {
+      if (Transformable(beginWord, words[i])) {
+        dist[i] = 2;
+      }
+    }
+    while (true) {
+      int idx = -1, min_dist = INT_MAX;
+      for (int i = 0; i < dist.size(); ++i) {
+        if (!vi[i] && dist[i] < min_dist) {
+          idx = i;
+          min_dist = dist[i];
+        }
+      }
+      if (idx == -1) break;
+      if (words[idx] == endWord) return min_dist;
+      vi[idx] = true;
+      for (int i = 0; i < dist.size(); ++i) {
+        if (Transformable(words[idx], words[i]) && min_dist + 1 < dist[i]) {
+          dist[i] = min_dist + 1;
+        } 
+      }
+    }
+    return 0;
+  }
+ 
+ private:
+  bool Transformable(const string& lhs, const string& rhs) const {
+    int diff = 0;
+    for (int i = 0; i < lhs.size() && diff < 2; ++i) {
+      diff += lhs[i] != rhs[i];
+    }
+    return diff == 1;
+  }
+};
+
 // Date: 2017-07-30
 class Solution {
  public:

@@ -1,4 +1,26 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-11-10
+class Solution {
+ public:
+  int romanToInt(string s) {
+    unordered_map<char, int> char_to_int_map {
+      {'I', 1}, {'V', 5}, {'X', 10}, {'L', 50}, {'C', 100}, {'D', 500},
+      {'M', 1000}
+    };
+    int result = 0;
+    for (int i = 0; i < s.size();) {
+      if (i + 1 < s.size() &&
+          char_to_int_map[s[i + 1]] > char_to_int_map[s[i]]) {
+        result += char_to_int_map[s[i + 1]] - char_to_int_map[s[i]];
+        i += 2;
+      } else {
+        result += char_to_int_map[s[i++]];
+      }
+    }
+    return result;
+  }
+};
+
 // Date: 2017-07-31
 // Note that the solution on 2016-12-19 is more concise
 class Solution {

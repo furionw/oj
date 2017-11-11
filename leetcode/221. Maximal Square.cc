@@ -1,4 +1,28 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-11-10
+// Refer to: https://discuss.leetcode.com/topic/15328/easy-dp-solution-in-c-with-detailed-explanations-8ms-o-n-2-time-and-o-n-space
+class Solution {
+ public:
+  int maximalSquare(vector<vector<char>>& matrix) {
+    if (matrix.empty() || matrix[0].empty()) return 0;
+    int m = matrix.size(), n = matrix[0].size();
+    vector<int> dp(n + 1, 0);
+    int max_sz = 0;
+    for (int i = 0; i < m; ++i) {
+      for (int j = 1; j <= n; ++j) {
+        if (matrix[i][j - 1] == '1') {
+          int k = min(dp[j - 1], dp[j]);
+          dp[j] = matrix[i - k][j - k - 1] == '1' ? k + 1 : k;
+          max_sz = max(max_sz, dp[j]);
+        } else {
+          dp[j] = 0;
+        }
+      }
+    }
+    return max_sz * max_sz;
+  }
+};
+
 // Date: 2017-08-15
 // Please refer to other's solutions for more concise and efficient impl
 class Solution {

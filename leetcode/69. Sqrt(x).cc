@@ -1,4 +1,26 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-11-10
+class Solution {
+ public:
+  int mySqrt(int x) {
+    if (x < 0) return INT_MIN;
+    uint64_t l = 0, r = x, result = 0;
+    while (l <= r) {
+      uint64_t mid = l + r >> 1;
+      uint64_t val = mid * mid;
+      if (val == x) {
+        return mid;
+      } else if (val < x) {
+        l = mid + 1;
+        result = mid;
+      } else {
+        r = mid - 1;
+      }
+    }
+    return result;
+  }
+};
+
 // Date: 2017-08-01
 class Solution {
  public:

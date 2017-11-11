@@ -1,4 +1,38 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-11-10
+// Refer to: https://discuss.leetcode.com/topic/34875/easy-short-concise-and-fast-java-dfs-3-ms-solution
+class Solution {
+ public:
+  vector<string> removeInvalidParentheses(string s) {
+    vector<string> result;
+    Remove(s, 0, 0, {'(', ')'}, &result);
+    return result;
+  }
+ 
+ private:
+  void Remove(string s, int last_i, int last_j, const vector<char>& par,
+              vector<string>* result) const {
+    for (int i = last_i, cnt = 0; i < s.size(); ++i) {
+      if (s[i] == par[0]) ++cnt;
+      if (s[i] == par[1]) --cnt;
+      if (cnt >= 0) continue;
+      for (int j = last_j; j <= i; ++j) {
+        // First par[1] in a series of par[1]s
+        if (s[j] == par[1] && (j == last_j || s[j - 1] != par[1])) {
+          Remove(s.substr(0, j) + s.substr(j + 1), i, j, par, result);
+        }
+      }
+      return;
+    }
+    reverse(s.begin(), s.end());
+    if (par[0] == '(') {
+      Remove(s, 0, 0, {')', '('}, result);
+    } else {
+      result->push_back(s);
+    }
+  }
+};
+
 // Date: 2017-08-12
 class Solution {
  public:

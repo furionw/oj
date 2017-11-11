@@ -1,4 +1,26 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-11-10
+// Case 1: [1, 1, 1, 2, 2, 3] -> [1, 1, 2, 2, 3, ...], 5
+class Solution {
+ public:
+  int removeDuplicates(vector<int>& nums) {
+    if (nums.empty()) return 0;
+    int result = 1;
+    int prev = nums.front(), cnt = 1;
+    for (int i = 1; i < nums.size(); ++i) {
+      if (nums[i] == prev) {
+        if (++cnt == 2) {
+          nums[result++] = nums[i];
+        }
+      } else {
+        cnt = 1;
+        prev = nums[result++] = nums[i];
+      }
+    }
+    return result;
+  }
+};
+
 // Date: 2017-08-16
 class Solution {
  public:
