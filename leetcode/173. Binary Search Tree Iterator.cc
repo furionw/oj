@@ -1,4 +1,33 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-11-12
+class BSTIterator {
+ public:
+  BSTIterator(TreeNode *root) {
+    PopulateStk(root);
+  }
+ 
+  bool hasNext() {
+    return !stk_.empty();
+  }
+ 
+  int next() {
+    if (stk_.empty()) return INT_MIN;
+    auto node = stk_.top(); stk_.pop();
+    int result = node->val;
+    PopulateStk(node->right);
+    return result;
+  }
+ 
+ private:
+  void PopulateStk(TreeNode* root) {
+    for (; root != nullptr; root = root->left) {
+      stk_.push(root);
+    }
+  }
+ 
+  stack<TreeNode*> stk_;
+};
+
 // Date: 2017-07-22
 // The solution on 2016-12-08 is more concise.
 class BSTIterator {
