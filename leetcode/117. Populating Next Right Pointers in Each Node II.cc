@@ -1,4 +1,35 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-11-11
+// Refer to the solution on 2017-08-01
+class Solution {
+ public:
+  void connect(TreeLinkNode *root) {
+    TreeLinkNode* cur = root;
+    while (cur != nullptr) {
+      TreeLinkNode* next_level_head = nullptr;
+      for (TreeLinkNode* prev = nullptr; cur != nullptr; cur = cur->next) {
+        if (cur->left != nullptr) {
+          if (next_level_head == nullptr) {
+            next_level_head = cur->left;
+          } else {
+            prev->next = cur->left;
+          }
+          prev = cur->left;
+        }
+        if (cur->right != nullptr) {
+          if (next_level_head == nullptr) {
+            next_level_head = cur->right;
+          } else {
+            prev->next = cur->right;
+          }
+          prev = cur->right;
+        }
+      }
+      cur = next_level_head;
+    }
+  }
+};
+
 // Date: 2017-08-01
 class Solution {
  public:

@@ -1,4 +1,46 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-11-11
+// Please refer to the solution on 2017-08-04
+class Solution {
+ public:
+  ListNode* reverseKGroup(ListNode* head, int k) {
+    if (k <= 1) return head;
+    ListNode *result = nullptr, *prev = nullptr;
+    while (head != nullptr) {
+      ListNode *cur = head, *old_tail = nullptr;
+      int cnt = 0;
+      for (; head->next != nullptr && cnt < k - 1; ++cnt, head = head->next) {}
+      if (cnt < k - 1) {
+        if (prev != nullptr) prev->next = cur;
+        return result != nullptr ? result : cur;
+      }
+      auto next = head->next;
+      head->next = nullptr;
+      auto p = Reverse(cur);
+      if (result == nullptr) {
+        result = p.first;
+      } else {
+        prev->next = p.first;
+      }
+      prev = p.second;
+      head = next;
+    }
+    return result;
+  }
+ 
+ private:
+  // Returns {new_head, new_tail}
+  pair<ListNode*, ListNode*> Reverse(ListNode* node) const {
+    ListNode* new_tail = node;
+    ListNode* prev = nullptr;
+    while (node != nullptr) {
+      swap(prev, node->next);
+      swap(prev, node);
+    }
+    return {prev, new_tail};
+  }
+};
+
 // Date: 2017-08-04
 class Solution {
  public:

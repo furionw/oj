@@ -1,4 +1,33 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-11-11
+class Solution {
+ public:
+  int numDecodings(string s) {
+    if (s.empty() || s[0] == '0') return 0;
+    unordered_map<string, int> str_to_way_map {
+      {"*", 9}, {"**", 15}, {"1*", 9}, {"2*", 6}, {"*0", 2}
+    };
+    for (int i = 1; i <= 9; ++i) {
+      str_to_way_map[string(1, '*') + to_string(i)] = 1 + (i <= 6);
+    }
+    for (int i = 1; i <= 26; ++i) {
+      str_to_way_map[to_string(i)] = 1;
+    }
+    uint64_t first = 1, second = str_to_way_map[s.substr(0, 1)];
+    for (int i = 1; i < s.size(); ++i) {
+      int a = str_to_way_map[s.substr(i, 1)];
+      int b = str_to_way_map[s.substr(i - 1, 2)];
+      int next = (b * first + a * second) % int(1e9 + 7);
+      // Here we assume first and second are non-zero, if the next is
+      // zero, we can ensure that the given string cannot be decoded.
+      if (next == 0) return 0;
+      first = second;
+      second = next;
+    }
+    return second;
+  }
+};
+
 // Date: 2017-08-29
 // Case 1: "12"
 class Solution {

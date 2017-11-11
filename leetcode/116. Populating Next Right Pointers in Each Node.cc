@@ -1,4 +1,28 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-11-11
+class Solution {
+ public:
+  void connect(TreeLinkNode *root) {
+    if (root == nullptr) return;
+    TreeLinkNode* cur = root;
+    while (cur->left != nullptr) {
+      TreeLinkNode* next_level_head = nullptr;
+      for (TreeLinkNode* prev = nullptr; cur != nullptr; cur = cur->next) {
+        if (next_level_head == nullptr) {
+          next_level_head = cur->left;
+          prev = cur->left;
+        } else {
+          prev->next = cur->left;
+          prev = cur->left;
+        }
+        prev->next = cur->right;
+        prev = cur->right;
+      }
+      cur = next_level_head;
+    }
+  }
+};
+ 
 // Date: 2017-11-10
 class Solution {
  public:

@@ -13,6 +13,9 @@ class Solution {
     for (int i = 1; i < s.size(); ++i) {
       int next = nums.count(s.substr(i - 1, 2)) * first +
                  nums.count(s.substr(i, 1)) * second;
+      // Revisited on 2017-11-11.
+      // Here we assume first and second are non-zero, if the next is
+      // zero, we can ensure that the given string cannot be decoded.
       if (next == 0) return 0;
       first = second;
       second = next;

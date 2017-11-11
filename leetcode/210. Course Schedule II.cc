@@ -1,4 +1,36 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-11-11
+// Note that the solution on 2016-10-24 using queue is more concise.
+class Solution {
+ public:
+  vector<int> findOrder(int num_courses,
+                        vector<pair<int, int>>& prerequisites)  {
+    vector<int> ins(num_courses, 0);
+    vector<list<int>> edges(num_courses);
+    for (const auto& p : prerequisites) {
+      edges[p.second].push_back(p.first);
+      ++ins[p.first];
+    }
+    vector<int> result;
+    for (int i = 0; i < num_courses; ++i) {
+      int u = -1;
+      for (int j = 0; j < num_courses; ++j) {
+        if (ins[j] == 0) {
+          u = j;
+          break;
+        }
+      }
+      if (u == -1) break;
+      ins[u] = -1;
+      result.push_back(u);
+      for (int v : edges[u]) {
+        --ins[v];
+      }
+    }
+    return result.size() == num_courses ? result : vector<int>();
+  }
+};
+
 // Date: 2017-08-03
 // Note that the solution on 2016-10-24 using queue is more concise.
 class Solution {

@@ -1,4 +1,45 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-11-11
+class Solution {
+ public:
+  string alienOrder(vector<string>& words) {
+    unordered_map<char, int> char_to_in_degree_map;
+    unordered_map<char, unordered_set<char>> char_to_edges_map;
+    for (int i = 0; i < words.size(); ++i) {
+      for (int k = 0, j = i + 1; j < words.size() && k < words[i].size() &&
+                                 k < words[j].size();
+           ++k) {
+        if (words[i][k] == words[j][k]) continue;
+        if (char_to_edges_map[words[i][k]].count(words[j][k]) == 0) {
+          ++char_to_in_degree_map[words[j][k]];
+          char_to_edges_map[words[i][k]].insert(words[j][k]);
+        }
+        break;
+      }
+      for (char c : words[i]) {
+        char_to_in_degree_map[c] = char_to_in_degree_map[c];
+      }
+    }
+    string result;
+    while (!char_to_in_degree_map.empty()) {
+      char u = 0;
+      for (const auto& p : char_to_in_degree_map) {
+        if (p.second == 0) {
+          u = p.first;
+          break;
+        }
+      }
+      if (u == 0) return "";
+      result += u;
+      char_to_in_degree_map.erase(u);
+      for (char v : char_to_edges_map[u]) {
+        --char_to_in_degree_map[v];
+      }
+    }
+    return result;
+  }
+};
+
 // Date: 2017-08-03
 class Solution {
  public:
