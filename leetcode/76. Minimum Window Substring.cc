@@ -1,4 +1,29 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-11-12
+class Solution {
+ public:
+  string minWindow(string s, string t) {
+    if (s.size() < t.size() || t.empty()) return "";
+    unordered_map<char, int> char_to_cnt_map;
+    for (char c : t) ++char_to_cnt_map[c];
+    int min_len = INT_MAX, min_begin = -1;
+    for (int i = 0, char_to_match = t.size(), begin = 0; i < s.size(); ++i) {
+      if (char_to_cnt_map[s[i]] > 0) --char_to_match;
+      --char_to_cnt_map[s[i]];
+      if (char_to_match == 0) {
+        while (char_to_cnt_map[s[begin]] < 0) {
+          ++char_to_cnt_map[s[begin++]];
+        }
+        if (i - begin + 1 < min_len) {
+          min_begin = begin;
+          min_len = i - begin + 1;
+        }
+      }
+    }
+    return min_begin != -1 ? s.substr(min_begin, min_len) : "";
+  }
+};
+
 // Date: 2017-11-04
 // Case 1: "", ""
 // Case 2: "abcdccb", "bcc"

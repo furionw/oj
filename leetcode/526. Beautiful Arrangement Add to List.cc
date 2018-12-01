@@ -12,7 +12,7 @@ class Solution {
     if (cur_idx > n) return 1;
     int result = 0;
     for (int i = 1; i <= n; ++i) {
-      if (bits.test[i] && (n % i == 0 || i % n == 0)) {
+      if (!bits.test(i) && (cur_idx % i == 0 || i % cur_idx == 0)) {
         bits.set(i);
         result += count_arrangement(cur_idx + 1, n, bits);
         bits.reset(i);

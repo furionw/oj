@@ -1,4 +1,62 @@
 // Copyright 2017 Qi Wang
+// Date: 2017-11-12
+class Solution {
+ public:
+  vector<vector<string>> accountsMerge(vector<vector<string>>& accounts) {
+    unordered_map<string, string> email_to_parent_map;
+    unordered_map<string, string> email_to_person_map;
+    for (const auto& row : accounts) {
+      if (row.size() <= 1) continue;
+      email_to_person_map[row[1]] = row[0];
+      TryToMakeSet(&email_to_parent_map, row[1]);
+      for (int i = 2; i < row.size(); ++i) {
+        email_to_person_map[row[i]] = row[0];
+        TryToMakeSet(&email_to_parent_map, row[i]);
+        Union(&email_to_parent_map, row[i - 1], row[i]);
+      }
+    }
+    unordered_map<string, set<string>> email_to_emails_map;
+    for (const auto& p : email_to_parent_map) {
+      email_to_emails_map[Find(&email_to_parent_map, p.second)].insert(p.first);
+    }
+    vector<vector<string>> result;
+    for (const auto& p : email_to_emails_map) {
+      vector<string> row(1, email_to_person_map[p.first]);
+      row.resize(1 + p.second.size());
+      copy(p.second.begin(), p.second.end(), row.begin() + 1);
+      result.push_back(row);
+    }
+    return result;
+  }
+
+ private:
+  void TryToMakeSet(unordered_map<string, string>* email_to_parent_map,
+                    const string& email) const {
+    if ((*email_to_parent_map)[email].empty()) {
+      (*email_to_parent_map)[email] = email;
+    }
+  }
+
+  void Union(unordered_map<string, string>* email_to_parent_map,
+             const string& a, const string& b) const {
+    auto pa = Find(email_to_parent_map, a),
+         pb = Find(email_to_parent_map, b);
+    if (pa != pb) {
+      (*email_to_parent_map)[pa] = pb;
+    }
+  }
+
+  string Find(unordered_map<string, string>* email_to_parent_map,
+            const string& a) const {
+    if ((*email_to_parent_map)[a] != a) {
+      return (*email_to_parent_map)[a] = Find(email_to_parent_map,
+                                              (*email_to_parent_map)[a]);
+    } else {
+      return a;
+    }
+  }
+};
+
 // Date: 2017-11-06
 template <class T>
 struct Node {
