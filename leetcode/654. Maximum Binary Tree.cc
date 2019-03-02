@@ -1,4 +1,26 @@
-// Copyright 2017 Qi Wang
+// Copyright 2019 Qi Wang
+// Date: 2019-03-02
+// Refer to: https://leetcode.com/problems/maximum-binary-tree/discuss/106146/C%2B%2B-O(N)-solution
+class Solution {
+ public:
+  TreeNode* constructMaximumBinaryTree(vector<int>& nums) {
+    if (nums.empty()) return nullptr;
+    vector<TreeNode*> stk;
+    for (int num: nums) {
+      auto cur = new TreeNode(num);
+      while (!stk.empty() && stk.back()->val < num) {
+        cur->left = stk.back();
+        stk.pop_back();
+      }
+      if (!stk.empty()) {
+        stk.back()->right = cur;
+      }
+      stk.push_back(cur);
+    }
+    return stk[0];
+  }
+};
+
 // Date: 2017-08-07
 class Solution {
  public:
