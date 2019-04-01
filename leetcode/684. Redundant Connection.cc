@@ -26,4 +26,3 @@ class Solution {
                              : (*parent)[x] = UnionFind(parent, (*parent)[x]);
   }
 };
- 
