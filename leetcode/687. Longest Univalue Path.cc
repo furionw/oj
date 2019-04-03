@@ -1,4 +1,33 @@
-// Copyright 2017 Qi Wang
+// Copyright 2019 Qi Wang
+// Date: 2019-04-03
+class Solution {
+ public:
+  int longestUnivaluePath(TreeNode* root) {
+    int result = 0;
+    longestUnivaluePath(root, &result);
+    return result;
+  }
+ 
+ private:
+  int longestUnivaluePath(TreeNode* root, int* result) {
+    if (root == nullptr) {
+      return 0;
+    }
+    int left = 0;
+    if (root->left != nullptr) {
+      int len = longestUnivaluePath(root->left, result);
+      left = root->val == root->left->val ? len + 1 : 0;
+    }
+    int right = 0;
+    if (root->right != nullptr) {
+      int len = longestUnivaluePath(root->right, result);
+      right = root->val == root->right->val ? len + 1 : 0;
+    }
+    *result = max(*result, left + right);
+    return max(left, right);
+  }
+};
+
 // Date: 2017-10-15
 class Solution {
  public:
