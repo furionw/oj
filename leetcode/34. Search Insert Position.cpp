@@ -1,3 +1,5 @@
+// Copyright 2014 Qi Wang
+// Date: 2014-07
 class Solution 
 {
 public:
