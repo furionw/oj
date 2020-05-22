@@ -4,17 +4,17 @@
 class Solution {
   public int leastInterval(char[] tasks, int n) {
     int[] count = new int[26];
-    int maxCount = 0, numMax = 0;
+    int round = 0, intraRoundTasks = 0;
     for (char t : tasks) {
       count[t - 'A']++;
-      if (count[t - 'A'] > maxCount) {
-        maxCount = count[t - 'A'];
-        numMax = 1;
-      } else if (count[t - 'A'] == maxCount) {
-        numMax++;
+      if (count[t - 'A'] > round) {
+        round = count[t - 'A'];
+        intraRoundTasks = 1;
+      } else if (count[t - 'A'] == round) {
+        intraRoundTasks++;
       }
     }
-    return Math.max(tasks.length, (maxCount - 1) * (n + 1) + numMax);
+    return Math.max(tasks.length, (round - 1) * (n + 1) + intraRoundTasks);
   }
 }
 
