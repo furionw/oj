@@ -1,36 +1,38 @@
 // Copyright 2020 Qi Wang
-// Date: 2020-04-18
+// Date: 2020-05-24
 class Solution {
   public int divide(int dividend, int divisor) {
-    if (dividend == Integer.MIN_VALUE) {
-      if (divisor == -1) {
-        return Integer.MAX_VALUE;
-      } else if ((divisor & 1)== 1) {
+    if (divisor == -1) {
+      return dividend == Integer.MIN_VALUE ? Integer.MAX_VALUE : -dividend;
+    } else if (divisor == 1) {
+      return dividend;
+    } else if (dividend == Integer.MIN_VALUE) {
+      if ((divisor & 1) == 1) {
         return divide(Integer.MIN_VALUE + 1, divisor);
       } else {
         return divide(Integer.MIN_VALUE >> 1, divisor >> 1);
       }
+    } else if (divisor == Integer.MIN_VALUE) {
+      return 0;
     }
-    boolean positive = true;
+
     if (dividend < 0) {
-      dividend = -dividend;
-      positive = !positive;
+      return -divide(-dividend, divisor);
     }
     if (divisor < 0) {
-      divisor = -divisor;
-      positive = !positive;
+      return -divide(dividend, -divisor);
     }
+
+    // Now, both dividend and divisor are positive numbers.
     int result = 0;
     while (dividend >= divisor) {
-      int cnt = 1;
-      int num = divisor;
-      while ((num << 1) <= dividend) {
-        num <<= 1;
-        cnt <<= 1;
+      int cnt = 1, subtract = divisor;
+      for (; (dividend >> 1) >= subtract; subtract <<= 1) {
+        cnt += cnt;
       }
-      dividend -= num;
+      dividend -= subtract;
       result += cnt;
     }
-    return positive ? result : -result;
+    return result;
   }
 }
