@@ -15,7 +15,7 @@ class Solution {
  private:
   int cal(long long n) {
     int cur = 0;
-    for (int tmp = n; tmp > 0; tmp /= 10) {
+    for (long long tmp = n; tmp > 0; tmp /= 10) {
       cur += tmp % 10;
     }
     return cur;
