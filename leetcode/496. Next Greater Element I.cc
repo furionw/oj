@@ -1,4 +1,30 @@
-// Copyright 2017 Qi Wang
+// Date: 2022-11-02
+class Solution {
+ public:
+  vector<int> nextGreaterElement(vector<int>& nums1, vector<int>& nums2) {
+    vector<int> result;
+    for (int num1 : nums1) {
+      bool foundEq = false;
+      bool foundGr = false;
+      for (int num2 : nums2) {
+        if (num1 == num2) {
+          foundEq = true;
+          continue;
+        }
+        if (foundEq && num2 > num1) {
+          result.push_back(num2);
+          foundGr = true;
+          break;
+        }
+      }
+      if (!foundGr) {
+        result.push_back(-1);
+      }
+    }
+    return result;
+  }
+};
+
 // Date: 2017-02-07
 // Refer to: https://discuss.leetcode.com/topic/77916/java-10-lines-linear-time-complexity-o-n-with-explanation
 // Complexity: O(n) time
@@ -9,12 +35,16 @@ class Solution {
     vector<int> result(findNums.size());
     stack<int> stk;
     for (int num : nums) {
-      for (; !stk.empty() && num > stk.top(); stk.pop())
+      for (; !stk.empty() && num > stk.top(); stk.pop()) {
         next[stk.top()] = num;
+      }
       stk.push(num);
     }
-    for (size_t i = 0; i < findNums.size(); ++i)
-      result[i] = next.count(findNums[i]) == 1 ? next[findNums[i]] : -1;
+    for (size_t i = 0; i < findNums.size(); ++i) {
+      result[i] = next.count(findNums[i]) == 1
+          ? next[findNums[i]]
+          : -1;
+    }
     return result;
   }
 };
