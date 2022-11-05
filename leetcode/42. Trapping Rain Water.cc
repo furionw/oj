@@ -1,4 +1,28 @@
-// Copyright 2017 Qi Wang
+// Date: 2022-11-04
+class Solution {
+ public:
+  int trap(vector<int>& height) {
+    int n = height.size();
+    vector<int> leftmost;
+    int maxx = 0;
+    for (int h : height) {
+      leftmost.push_back(maxx);
+      maxx = max(h, maxx);
+    }
+    maxx = 0;
+    vector<int> rightmost(n, 0);
+    for (int i = height.size() - 1; i >= 0; --i) {
+      rightmost[i] = maxx;
+      maxx = max(height[i], maxx);
+    }
+    int result = 0;
+    for (size_t i = 0; i < height.size(); ++i) {
+      result += max(0, min(leftmost[i], rightmost[i]) - height[i]);
+    }
+    return result;
+  }
+};
+
 // Date: 2017-10-24
 class Solution {
  public:
