@@ -1,4 +1,32 @@
-// Copyright 2017 Qi Wang
+// 2022-11-06
+class Solution {
+ public:
+  vector<int> nextGreaterElements(vector<int>& nums) {
+    vector<int> res(nums.size(), -1);
+    vector<bool> found(nums.size(), false);
+    stack<int> s;
+    for (int i = nums.size() - 1; i >= 0; --i) {
+      for (; !s.empty() && nums[i] >= s.top(); s.pop()) {}
+      if (!s.empty()) {
+        res[i] = s.top();
+        found[i] = true;
+      }
+      s.push(nums[i]);
+    }
+    for (int i = nums.size() - 1; i >= 0; --i) {
+      if (found[i]) {
+        continue;
+      }
+      for (; !s.empty() && nums[i] >= s.top(); s.pop()) {}
+      if (!s.empty()) {
+        res[i] = s.top();
+      }
+    }
+    return res;
+  }
+};
+
+
 // Date: 2017-02-07
 // Refer to my second impl in the 496. This implementation really boosts up
 // Complexity: O(n) time
