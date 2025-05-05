@@ -1,6 +1,78 @@
-// Copyright 2017 Qi Wang
-// Date: 2017-01-04
-// Method 1: TLE
+// 2025-05-04
+// TLE again
+class Solution {
+ public:
+  vector<int> countSmaller(vector<int>& _nums) {
+    nums = _nums;
+    n = nums.size();
+    t = vector<int>(4 * (n + 1));
+    build(0, n - 1, 1);
+    vector<int> result(n, 0);
+    for (size_t i = 0; i < result.size() - 1; ++i) {
+      result[i] = query(0, n - 1, 1, i + 1, n - 1, nums[i]);
+    }
+    return result;
+  }
+
+ private:
+  int query(
+      int l, int r, int idx,
+      int qL, int qR, int num) {
+    // cout << "foo " << l << ", " << r << ", " << idx << endl;
+    // cout << "qL, qR = " << qL << ", " << qR << endl;
+    // cout << "\n";
+    assert(qL <= qR);
+    if (l == qL && r == qR) {
+      return query2(l, r, idx, num);
+    }
+    int mid = (l + r) / 2;
+    if (qR <= mid) {
+      return query(l, mid, left(idx), qL, qR, num);
+    } else if (qL > mid) {
+      return query(mid + 1, r, right(idx), qL, qR, num);
+    } else {
+      return query(l, mid, left(idx), qL, mid, num) +
+          query(mid + 1, r, right(idx), mid + 1, qR, num);
+    }
+  }
+
+  int query2(int l, int r, int idx, int num) {
+    // cout << "bar " << l << ", " << r << ", " << idx << endl;
+    if (l > r) {
+      return 0;
+    }
+    if (l == r) {
+      return t[idx] < num;
+    }
+    if (t[idx] < num) {
+      return r - l + 1;
+    }
+    int mid = (l + r) / 2;
+    return query2(l, mid, left(idx), num) + query2(mid + 1, r, right(idx), num);
+  }
+
+  inline int left(int i) const { return i << 1; }
+
+  inline int right(int i) const { return left(i) + 1; }
+
+  int build(int begin, int end, int idx) {
+    if (begin == end) {
+      // cout << idx << ", " << begin << endl;
+      return t[idx] = nums[begin];
+    }
+    int mid = (begin + end) / 2;
+    return t[idx] = max(
+      build(begin, mid, left(idx)),
+      build(mid + 1, end, right(idx))
+    );
+  }
+
+  int n;
+  vector<int> nums;
+  vector<int> t;
+};
+
+// 2017-01-04
 class Solution {
  public:
   vector<int> countSmaller(vector<int>& nums) {
