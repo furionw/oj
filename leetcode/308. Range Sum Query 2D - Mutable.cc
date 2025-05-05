@@ -1,4 +1,75 @@
-// Copyright 2017 Qi Wang
+// 2025-05-04
+class NumMatrix {
+ public:
+    NumMatrix(vector<vector<int>>& matrix)
+        : m(matrix.size()), n(matrix[0].size()),
+          trees(m, vector<int>(n * 2, -1)) {
+      for (int i = 0; i < m; ++i) {
+        buildTree(matrix[i], trees[i]);
+      }
+    }
+    
+    void update(int row, int col, int val) {
+      auto& tree = trees[row];
+      int delta = val - tree[col + n];
+      for (int i = col + n; i > 0; i /= 2) {
+        tree[i] += delta;
+      }
+    }
+    
+    int sumRegion(int row1, int col1, int row2, int col2) {
+      int result = 0;
+      for (int i = row1; i <= row2; ++i) {
+        result += sumRegion(trees[i], col1, col2);
+      }
+      return result;
+    }
+
+ private:
+  void buildTree(const vector<int>& nums, vector<int>& tree) {
+    for (int i = n; i < 2 * n; ++i) {
+      tree[i] = nums[i - n];
+    }
+    for (int i = n - 1; i > 0; --i) {
+      tree[i] = tree[2 * i] + tree[2 * i + 1];
+    }
+  }
+
+  int sumRegion(const vector<int>& tree, int l, int r) {
+    int result = 0;
+    l += n;
+    r += n;
+  
+    while (l <= r) {
+      if (l % 2 == 1) {
+        result += tree[l];
+        l = l / 2 + 1;
+      } else {
+        l /= 2;
+      }
+      if (r % 2 == 0) {
+        result += tree[r];
+        r = r / 2 - 1;
+      } else {
+        r /= 2;
+      }
+    }
+
+    return result;
+  }
+
+  int m;
+  int n;
+  vector<vector<int>> trees;
+};
+
+/**
+ * Your NumMatrix object will be instantiated and called as such:
+ * NumMatrix* obj = new NumMatrix(matrix);
+ * obj->update(row,col,val);
+ * int param_2 = obj->sumRegion(row1,col1,row2,col2);
+ */
+
 // Date: 2017-09-10
 // Refer to: https://www.topcoder.com/community/data-science/data-science-tutorials/binary-indexed-trees/
 class BIT {
