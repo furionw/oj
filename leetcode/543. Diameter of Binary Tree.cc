@@ -1,5 +1,58 @@
-// Copyright 2017 Qi Wang
-// Date: 2017-10-26
+// 2025-05-06
+// Refer to past solution
+class Solution {
+ public:
+  int diameterOfBinaryTree(TreeNode* root) {
+    int result = 0;
+    depth(root, result);
+    return result;
+  }
+ 
+ private:
+  int depth(TreeNode* root, int& result) {
+    if (root == nullptr) {
+      return 0;
+    }
+    int l = depth(root->left, result);
+    int r = depth(root->right, result);
+    result = max(result, l + r);
+    return max(l, r) + 1;
+  }
+};
+
+// 2025-05-06
+class Solution {
+ public:
+  int diameterOfBinaryTree(TreeNode* root) {
+    auto result = impl(root);
+    return max(result.first, result.second);
+  }
+ 
+ private:
+  pair<int, int> impl(TreeNode* root) {
+    if (root->left == nullptr && root->right == nullptr) {
+      return {0, 0};
+    } else if (root->left != nullptr && root->right != nullptr) {
+      auto l = impl(root->left);
+      auto r = impl(root->right);
+      return {
+        max(l.first, r.first) + 1,
+        max(
+            max(l.second, r.second),
+            l.first + r.first + 2
+        ),
+      };
+    } else if (root->left != nullptr) {
+      auto l = impl(root->left);
+      return {l.first + 1, l.second};
+    } else {
+      auto r = impl(root->right);
+      return {r.first + 1, r.second};
+    }
+  }
+};
+
+// 2017-10-26
 class Solution {
  public:
   int diameterOfBinaryTree(TreeNode* root) {
