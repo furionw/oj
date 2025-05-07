@@ -1,4 +1,40 @@
-// Copyright 2017 Qi Wang
+// 2025-05-06
+// Refer to the Editorial
+class Solution {
+ public:
+  vector<vector<int>> getSkyline(vector<vector<int>>& buildings) {
+    vector<pair<int, int>> edges;
+    for (int i = 0; i < buildings.size(); ++i) {
+      edges.push_back({buildings[i][0], i});
+      edges.push_back({buildings[i][1], i});
+    }
+    sort(edges.begin(), edges.end());
+
+    vector<vector<int>> result;
+    priority_queue<pair<int, int>> pq;
+    for (int i = 0; i < edges.size(); ) {
+      const auto& e = edges[i];
+      int curX = e.first;
+      for (; i < edges.size() && edges[i].first == curX; ++i) {
+        int b = edges[i].second;
+        const auto& building = buildings[b];
+        if (curX == building[0]) {
+          pq.push({building[2], building[1]});
+        }
+      }
+      for (; !pq.empty() && pq.top().second <= curX; pq.pop()) {}
+      if (pq.empty()) {
+        result.push_back({curX, 0});
+      } else if (result.empty() || pq.top().first != result.back()[1]) {
+        result.push_back({curX, pq.top().first});
+      }
+    }
+
+    return result;
+  }
+};
+
+
 // Date: 2017-11-09
 // Refer to the soluton on 2017-09-07
 class Solution {
