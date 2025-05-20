@@ -1,5 +1,37 @@
-// Copyright 2017 Qi Wang
-// Date: 2017-11-11
+// 2025-05-19
+class Solution {
+ public:
+  vector<int> findOrder(int n, vector<vector<int>>& prerequisites) {
+    vector<vector<int>> edges(n, vector<int>{});
+    vector<int> ins(n, 0);
+    for (const auto& e : prerequisites) {
+      // Need to take e[1] before taking e[0]
+      // Taking e[1] can reduce e[0]'s dependency by 1
+      edges[e[1]].push_back(e[0]);
+      ++ins[e[0]];
+    }
+    queue<int> q;
+    for (int i = 0; i < n; ++i) {
+      if (ins[i] == 0) {
+        q.push(i);
+      }
+    }
+    vector<int> result;
+    while (!q.empty()) {
+      int u = q.front();
+      q.pop();
+      result.push_back(u);
+      for (auto v : edges[u]) {
+        if (--ins[v] == 0) {
+          q.push(v);
+        }
+      }
+    }
+    return result.size() == n ? result : vector<int>{};
+  }
+};
+
+// 2017-11-11
 // Note that the solution on 2016-10-24 using queue is more concise.
 class Solution {
  public:
@@ -69,7 +101,7 @@ class Solution {
   }
 };
 
-// Date: 2016-10-24
+// 2016-10-24
 class Solution {
  public:
   vector<int> findOrder(int numCourses, vector<pair<int, int>>& prerequisites) {
