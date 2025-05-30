@@ -1,3 +1,44 @@
+// 2025-05-28
+class Solution {
+ public:
+  vector<vector<int>> getSkyline(vector<vector<int>>& buildings) {
+    vector<vector<int>> edges;
+    for (int i = 0; i < buildings.size(); ++i) {
+      edges.push_back({buildings[i][0], i});
+      edges.push_back({buildings[i][1], i});
+    }
+    sort(edges.begin(), edges.end());
+    vector<vector<int>> result;
+    priority_queue<pair<int, int>> pq;
+
+    for (int i = 0; i < edges.size(); ++i) {
+      const auto& e = edges[i];
+      const auto& b = buildings[e[1]];
+      int x = e[0];
+      int h = b[2];
+      pq.push({h, b[1]});
+
+      for (; i + 1 < edges.size() && edges[i + 1][0] == x; ++i) {
+        const auto& b2 = buildings[edges[i + 1][1]];
+        pq.push({b2[2], b2[1]});
+        // Note: can do something like this instead for efficiency. (see previous solution)
+        // if (x == b2[0]) {
+        //   pq.push({b2[2], b2[1]});
+        // }
+      }
+
+      for (; !pq.empty() && pq.top().second <= x; pq.pop()) {}
+      
+      if (pq.empty()) {
+        result.push_back({x, 0});
+      } else if (result.empty() || pq.top().first != result.back()[1]) {
+        result.push_back({x, pq.top().first});
+      }
+    }
+    return result;
+  }
+};
+
 // 2025-05-06
 // Refer to the Editorial
 class Solution {
