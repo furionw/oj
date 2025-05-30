@@ -1,3 +1,139 @@
+// 2025-05-29
+// Merge Sort -- refer to the Editorial
+class Solution {
+ public:
+  vector<int> countSmaller(vector<int>& nums) {
+    vector<int> result(nums.size());
+    vector<int> indices(nums.size());
+    for (int i = 0; i < indices.size(); ++i) {
+      indices[i] = i;
+    }
+    mergeSort(indices, 0, nums.size() - 1, nums, result);
+    return result;
+  }
+
+  void mergeSort(vector<int>& indices, int l, int r,
+      const vector<int>& nums, vector<int>& result) {
+    if (l >= r) {
+      return;
+    }
+    int mid = (l + r) >> 1;
+    mergeSort(indices, l, mid, nums, result);
+    mergeSort(indices, mid + 1, r, nums, result);
+    merge(indices, l, r, nums, result);
+  }
+
+  void merge(vector<int>& indices, int l, int r,
+      const vector<int>& nums, vector<int>& result) {
+    int mid = (l + r) >> 1;
+    int i = l;
+    int j = mid + 1;
+    vector<int> temp;
+    temp.reserve(j - i + 1);
+    while (i <= mid && j <= r) {
+      int idx1 = indices[i];
+      for (; j <= r && nums[idx1] > nums[indices[j]]; ++j) {
+        temp.push_back(indices[j]);
+      }
+      temp.push_back(idx1);
+      result[idx1] += j - (mid + 1);
+      ++i;
+    }
+    for (; i <= mid; ++i) {
+      int idx1 = indices[i];
+      temp.push_back(idx1);
+      result[idx1] += r - mid;
+    }
+    for (; j <= r; ++j) {
+      temp.push_back(indices[j]);
+    }
+    move(temp.begin(), temp.end(), indices.begin() + l);
+  }
+};
+
+// 2025-05-29
+// Binary Index Tree
+// Refer to
+//   - https://leetcode.com/problems/count-of-smaller-numbers-after-self/editorial/
+//   - https://www.topcoder.com/thrive/articles/Binary%20Indexed%20Trees
+class Solution {
+ public:
+  vector<int> countSmaller(vector<int>& nums) {
+    vector<int> result(nums.size());
+    for (int i = nums.size() - 1; i >= 0; --i) {
+      int num = nums[i] + offset;
+      result[i] = q(num - 1);
+      inc(num);
+    }
+    return result;
+  }
+
+ private:
+  void inc(int idx) {
+    while (idx < t.size()) {
+      ++t[idx];
+      idx += idx & -idx;
+    }
+  }
+
+  int q(int idx) {
+    int result = 0;
+    while (idx > 0) {
+      result += t[idx];
+      idx -= idx & -idx;
+    }
+    return result;
+  }
+
+  int offset = 1e4 + 1;
+  int n = 2 * 1e4 + 2;
+  vector<int> t = vector<int>(n, 0);
+};
+
+// 2025-05-29
+// Segment Tree
+class Solution {
+ public:
+  vector<int> countSmaller(vector<int>& nums) {
+    vector<int> result(nums.size());
+    for (int i = nums.size() - 1; i >= 0; --i) {
+      inc(nums[i] + offset + n);
+      result[i] = q(n, nums[i] + offset + n - 1);
+    }
+    return result;
+  }
+
+ private:
+  void inc(int idx) {
+    for (; idx > 0; idx /= 2) {
+      ++t[idx];
+    }
+  }
+
+  int q(int l, int r) {
+    int result = 0;
+    while (l <= r) {
+      if (l % 2 == 1) {
+        result += t[l];
+        l = l / 2 + 1;
+      } else {
+        l /= 2;
+      }
+      if (r % 2 == 0) {
+        result += t[r];
+        r = r / 2 - 1;
+      } else {
+        r /= 2;
+      }
+    }
+    return result;
+  }
+
+  int n = 2 * 1e4 + 1;
+  int offset = 1e4;
+  vector<int> t = vector<int>(2 * n, 0);
+};
+
 // 2025-05-04
 // TLE again
 class Solution {
