@@ -1,3 +1,94 @@
+// 2025-06-06
+class Trie {
+ public:
+  void insert(const string& str, size_t idx) {
+    if (str.size() == idx) {
+      isWord = true;
+      return;
+    }
+    children_[str[idx]].insert(str, idx + 1);
+  }
+
+  void erase(char c) {
+    children_.erase(c);
+  }
+
+  bool hasChild(char c) const {
+    return children_.find(c) != children_.end();
+  }
+
+  Trie& child(char c) {
+    auto it = children_.find(c);
+    assert(it != children_.end());
+    return it->second;
+  }
+
+  bool empty() const {
+    return !isWord && children_.empty();
+  }
+
+  bool isWord = false;
+
+ private:
+  unordered_map<char, Trie> children_;
+};
+
+class Solution {
+ public:
+  vector<string> findWords(vector<vector<char>>& board, vector<string>& words) {
+    m_ = board.size();
+    n_ = board[0].size();
+    Trie trie;
+    for (const auto& w : words) {
+      trie.insert(w, 0 /*idx*/);
+    }
+    string str;
+    for (int i = 0; i < m_ && !trie.empty(); ++i) {
+      for (int j = 0; j < n_ && !trie.empty(); ++j) {
+        if (trie.hasChild(board[i][j])) {
+          findWords(board, trie.child(board[i][j]), i, j, str);
+        }
+      }
+    }
+    return result_;
+  }
+
+ private:
+  // Assumptions
+  //   - x, y are valid
+  //   - board[x][y] is not visited before
+  void findWords(vector<vector<char>>& board, Trie& trie,
+      int x, int y, string& str) {
+    char c = board[x][y];
+    board[x][y] = -1;
+    str += c;
+    if (trie.isWord) {
+      result_.push_back(str);
+      trie.isWord = false;
+    }
+    vector<int> d {0, 1, 0, -1, 0};
+    for (int k = 0; k < 4 && !trie.empty(); ++k) {
+      int i = x + d[k];
+      int j = y + d[k + 1];
+      if (i < 0 || i >= m_ || j < 0 || j >= n_ || board[i][j] == -1
+          || !trie.hasChild(board[i][j])) {
+        continue;
+      }
+      auto& child = trie.child(board[i][j]);
+      findWords(board, child, i, j, str);
+      if (child.empty()) {
+        trie.erase(board[i][j]);
+      }
+    }
+    str.pop_back();
+    board[x][y] = c;
+  }
+
+  int m_;
+  int n_;
+  vector<string> result_;
+};
+
 // Copyright 2017 Qi Wang
 // Date: 2017-01-03
 // Thie trie is implemented on LC 208. Implement Trie (Prefix Tree)

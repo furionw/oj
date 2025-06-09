@@ -1,4 +1,53 @@
-// Copyright 2017 Qi Wang
+// 2025-06-06
+class Trie {
+ public:
+  void insert(string word) {
+    insert(word, 0 /*idx*/);
+  }
+    
+  bool search(string word) {
+    return search(word, 0 /*idx*/);
+  }
+    
+  bool startsWith(string prefix) {
+    return startsWith(prefix, 0 /*idx*/);
+  }
+
+ private:
+  void insert(string word, size_t idx) {
+    if (idx == word.size()) {
+      isWord_ = true;
+      return;
+    }
+    auto& child = children_[word[idx] - 'a'];
+    if (child == nullptr) {
+      child = make_shared<Trie>();
+    }
+    child->insert(word, idx + 1);
+  }
+    
+  bool search(string word, size_t idx) const {
+    if (idx == word.size()) {
+      return isWord_;
+    }
+    auto& child = children_[word[idx] - 'a'];
+    // auto it = children_.find(word[idx]);
+    return child != nullptr && child->search(word, idx + 1);
+  }
+    
+  bool startsWith(string prefix, size_t idx) const {
+    if (idx == prefix.size()) {
+      return true;
+    }
+    auto& child = children_[prefix[idx] - 'a'];
+    return child != nullptr && child->startsWith(prefix, idx + 1);
+  }
+
+  bool isWord_;
+  shared_ptr<Trie> children_[26];
+};
+
+
 // Date: 2017-11-09
 // Please handle the empty string carefully.
 class Trie {
