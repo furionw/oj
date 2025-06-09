@@ -1,4 +1,105 @@
 // Copyright 2017 Qi Wang
+// 2025-06-05
+class Solution {
+ public:
+  bool exist(vector<vector<char>>& board, string word) {
+    m = board.size();
+    n = board[0].size();
+    visited = vector<vector<bool>>(m, vector<bool>(n, false));
+    for (int i = 0; i < m; ++i) {
+      for (int j = 0; j < n; ++j) {
+        if (exist(board, word, i, j, 0 /*idx*/)) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
+ private:
+  // assumption
+  //   - x, y are valid index
+  //   - board[x][y] not visited before
+  //   - don't know if board[x][y] == word[idx]
+  bool exist(const vector<vector<char>>& board, const string& word,
+      int x, int y, int idx) {
+    if (board[x][y] != word[idx]) {
+      return false;
+    }
+    ++idx;
+    if (idx == word.size()) {
+      return true;
+    }
+    visited[x][y] = true;
+    static vector<vector<int>> deltas = {
+      {0, 1}, {0, -1}, {1, 0}, {-1, 0}
+    };
+    for (const auto& d : deltas) {
+      int i = x + d[0];
+      int j = y + d[1];
+      if (i < 0 || i >= m || j < 0 || j >= n || visited[i][j]) {
+        continue;
+      }
+      if (exist(board, word, i, j, idx)) {
+        return true;
+      }
+    }
+    visited[x][y] = false;
+    return false;
+  }
+
+  vector<vector<bool>> visited;
+  int m;
+  int n;
+};
+
+// 2025-06-05
+class Solution {
+ public:
+  bool exist(vector<vector<char>>& board, string word) {
+    m = board.size();
+    n = board[0].size();
+    visited = vector<vector<bool>>(m, vector<bool>(n, false));
+    for (int i = 0; i < m; ++i) {
+      for (int j = 0; j < n; ++j) {
+        if (board[i][j] == word[0] && exist(board, word, i, j, 1 /*idx*/)) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
+ private:
+  bool exist(const vector<vector<char>>& board, const string& word,
+      int x, int y, int idx) {
+    if (idx == word.size()) {
+      return true;
+    }
+    visited[x][y] = true;
+    static vector<vector<int>> deltas = {
+      {0, 1}, {0, -1}, {1, 0}, {-1, 0}
+    };
+    for (const auto& d : deltas) {
+      int i = x + d[0];
+      int j = y + d[1];
+      if (i < 0 || i >= m || j < 0 || j >= n
+          || visited[i][j] || board[i][j] != word[idx]) {
+        continue;
+      }
+      if (exist(board, word, i, j, idx + 1)) {
+        return true;
+      }
+    }
+    visited[x][y] = false;
+    return false;
+  }
+
+  vector<vector<bool>> visited;
+  int m;
+  int n;
+};
+
 // Date: 2017-11-07
 class Solution {
  public:
