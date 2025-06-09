@@ -1,4 +1,52 @@
+// 2025-05-29
+// Merge sort. Refer to the Editorial
+class Solution {
+ public:
+  int reversePairs(vector<int>& nums) {
+    return mergeCount(0, nums.size() - 1, nums);
+  }
+
+  int mergeCount(int l, int r, vector<int>& nums) {
+    if (l >= r) {
+      return 0;
+    }
+    int mid = (l + r) >> 1;
+    int count = mergeCount(l, mid, nums) + mergeCount(mid + 1, r, nums);
+    for (int i = l, j = mid + 1; i <= mid; ++i) {
+      for (; j <= r && nums[i] > 2LL * nums[j]; ++j) {}
+      count += j - (mid + 1);
+    }
+    merge(l, r, nums);
+    return count;
+  }
+
+  void merge(int l, int r, vector<int>& nums) {
+    int mid = (l + r) >> 1;
+    int i = l;
+    int j = mid + 1;
+    vector<int> temp;
+    temp.reserve(j - i + 1);
+    while (i <= mid && j <= r) {
+      if (nums[i] < nums[j]) {
+        temp.push_back(nums[i]);
+        ++i;
+      } else {
+        temp.push_back(nums[j]);
+        ++j;
+      }
+    }
+    for (; i <= mid; ++i) {
+      temp.push_back(nums[i]);
+    }
+    for (; j <= r; ++j) {
+      temp.push_back(nums[j]);
+    }
+    move(temp.begin(), temp.end(), nums.begin() + l);
+  }
+};
+
 // 2025-05-18
+// Very slow...
 class Solution {
  public:
   int reversePairs(vector<int>& nums) {
