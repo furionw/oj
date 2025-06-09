@@ -1,4 +1,36 @@
-// Copyright 2017 Qi Wang
+// 2025-06-08
+// Refer to: https://www.geeksforgeeks.org/kmp-algorithm-for-pattern-searching/
+class Solution {
+ public:
+  int strStr(string haystack, string needle) {
+    int n = needle.size();
+
+    // longest proper suffix
+    vector<int> lps(n, 0);
+    for (int i = 1, len = 0; i < n; ++i) {
+      while (needle[i] != needle[len] && len > 0) {
+        len = lps[len - 1];
+      }
+      if (needle[i] == needle[len]) {
+        lps[i] = ++len;
+      }
+    }
+
+    int i = 0, j = 0;
+    int m = haystack.size();
+    for (; i < m && j < n; ++i) {
+      while (haystack[i] != needle[j] && j > 0) {
+        j = lps[j - 1];
+      }
+      if (haystack[i] == needle[j]) {
+        ++j;
+      }
+    }
+
+    return j == n ? i - n : -1;
+  }
+};
+
 // Date: 2017-11-09
 class Solution {
  public:

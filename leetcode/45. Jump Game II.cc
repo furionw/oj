@@ -1,4 +1,21 @@
-// Copyright 2016 Qi Wang
+// 2025-06-08
+class Solution {
+ public:
+  int jump(vector<int>& nums) {
+    int steps = 0;
+
+    for (int l = 0, r = 0, m = 0; m < nums.size() - 1; ++steps) {
+      for (int i = l; i <= r; ++i) {
+        m = max(m, i + nums[i]);
+      }
+      l = r + 1;
+      r = m;
+    }
+
+    return steps;
+  }
+};
+
 // Date: 2016-11-25
 class Solution {
  public:

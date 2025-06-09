@@ -1,4 +1,19 @@
-// Copyright 2016 Qi Wang
+// 2025-06-08
+class Solution {
+ public:
+  bool canJump(vector<int>& nums) {
+    int longest = 0;
+    for (int i = 0; i < nums.size() && longest < nums.size(); ++i) {
+      if (longest < i) {
+        return false;
+      }
+      longest = max(longest, i + nums[i]);
+    }
+    return longest >= nums.size() - 1;
+  }
+};
+
+
 // Date: 2016-12-16
 class Solution {
  public:
