@@ -1,4 +1,53 @@
-// Copyright 2017 Qi Wang
+// 2025-06-10
+class Solution {
+ public:
+  vector<int> maxSlidingWindow(vector<int>& nums, int k) {
+    // deque is more performant than list
+    deque<int> maxs;
+    for (int i = 0; i < k - 1; ++i) {
+      for (; !maxs.empty() && nums[maxs.back()] <= nums[i]; maxs.pop_back()) {}
+      maxs.push_back(i);
+    }
+
+    vector<int> result;
+    for (int i = k - 1; i < nums.size(); ++i) {
+      for (; !maxs.empty() && nums[maxs.back()] <= nums[i]; maxs.pop_back()) {}
+      maxs.push_back(i);
+      for (; i - maxs.front() >= k; maxs.pop_front()) {}
+      result.push_back(nums[maxs.front()]);
+    }
+    return result;
+  }
+};
+
+// 2025-06-10
+class Solution {
+ public:
+  vector<int> maxSlidingWindow(vector<int>& nums, int k) {
+    vector<int> result;
+    priority_queue<pair<int, int>> pq;
+    for (int i = 0; i < nums.size(); ++i) {
+      pq.emplace(nums[i], i);
+      // e.g. k = 3, i = 2
+      if (i >= k - 1) {
+        while (!pq.empty()) {
+          auto [num, idx] = pq.top();
+          // e.g. k = 3, i = 3
+          //   idx = 0 -> discard
+          //   idx = 1 -> select
+          if (i - idx >= k) {
+            pq.pop();
+          } else {
+            result.push_back(num);
+            break;
+          }
+        }
+      }
+    }
+    return result;
+  }
+};
+
 // Date: 2017-09-12
 class Solution {
  public:

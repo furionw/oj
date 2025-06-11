@@ -1,4 +1,22 @@
-// Copyright 2017 Qi Wang
+// 2025-06-10
+class Solution {
+ public:
+  int findTargetSumWays(vector<int>& nums, int target) {
+    unordered_map<int, int> sumToCnt;
+    sumToCnt[0] = 1;
+    for (int num : nums) {
+      unordered_map<int, int> next;
+      for (auto [sum, cnt] : sumToCnt) {
+        next[sum + num] += cnt;
+        next[sum - num] += cnt;
+      }
+      sumToCnt = move(next);
+    }
+    return sumToCnt[target];
+  }
+};
+
+
 // Date: 2017-10-29
 // Method 2
 // Case 1: [1, 1], 2

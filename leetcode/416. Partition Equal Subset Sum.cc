@@ -1,4 +1,106 @@
-// Copyright 2016 Qi Wang
+// 2025-06-10
+// Refer to the Editorial -- 1D dp array
+class Solution {
+ public:
+  bool canPartition(vector<int>& nums) {
+    // calculate sumsetSum
+    int subsetSum = 0;
+    for (int num : nums) {
+      subsetSum += num;
+    }
+    if (subsetSum % 2 != 0) {
+      return false;
+    }
+    subsetSum /= 2;
+
+    int n = nums.size();
+    vector<bool> dp(subsetSum + 1, false);
+    dp[0] = true;
+    for (int i = 1; i <= n; ++i) {
+      for (int j = subsetSum; j >= 1; --j) {
+        int prevJ = j - nums[i - 1];
+        if (prevJ < 0) {
+          continue;
+        }
+        dp[j] = dp[j] || dp[prevJ];
+        if (dp[subsetSum]) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+};
+
+// 2025-06-10
+// Refer to the Editorial
+class Solution {
+ public:
+  bool canPartition(vector<int>& nums) {
+    // calculate sumsetSum
+    int subsetSum = 0;
+    for (int num : nums) {
+      subsetSum += num;
+    }
+    if (subsetSum % 2 != 0) {
+      return false;
+    }
+    subsetSum /= 2;
+
+    int n = nums.size();
+    vector<vector<bool>> dp(n + 1, vector<bool>(subsetSum + 1, false));
+    for (int i = 0; i <= n; ++i) {
+      dp[i][0] = true;
+    }
+    for (int i = 1; i <= n; ++i) {
+      for (int j = 1; j <= subsetSum; ++j) {
+        dp[i][j] = dp[i - 1][j];
+        int prevJ = j - nums[i - 1];
+        if (prevJ < 0) {
+          continue;
+        }
+        dp[i][j] = dp[i][j] || dp[i - 1][prevJ];
+        if (j == subsetSum && dp[i][j]) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+};
+
+// 2025-06-10
+class Solution {
+ public:
+  bool canPartition(vector<int>& nums) {
+    int sum = 0;
+    unordered_set<int> partials;
+    for (int num : nums) {
+      sum += num;
+    }
+    if (sum % 2 != 0) {
+      return false;
+    }
+    int target = sum / 2;
+    for (int num : nums) {
+      unordered_set<int> next;
+      if (num == target) {
+        return true;
+      }
+      next.insert(num);
+      for (int partial: partials) {
+        if (num + partial == target) {
+          return true;
+        }
+        next.insert(num + partial);
+        next.insert(partial);
+      }
+      partials = std::move(next);
+    }
+    return false;
+  }
+};
+
 // Method 2
 // Dynamic programming
 // Refer to: https://discuss.leetcode.com/topic/62271/c-solution-with-dynamic-programming/4
