@@ -1,4 +1,35 @@
-// Copyright 2017 Qi Wang
+// 2025-06-11
+class Solution {
+ public:
+  bool wordBreak(string s, vector<string>& wordDict) {
+    bitset<301> dp;
+    dp[0] = true;
+    int n = s.size();
+    for (int i = 0; i < n; ++i) {
+      if (!dp[i]) {
+        continue;
+      }
+      for (const auto& word: wordDict) {
+        if (equal(s, i, word)) {
+          dp[i + word.size()] = true;
+        }
+      }
+    }
+    return dp[n];
+  }
+
+ private:
+  bool equal(const string& s, int i, const string& word) const {
+    for (char c : word) {
+      if (i == s.size() || s[i] != c) {
+        return false;
+      }
+      ++i;
+    }
+    return true;
+  }
+};
+
 // Date: 2017-11-04
 // Case 1: "", []
 //   return true

@@ -1,4 +1,26 @@
-// Copyright 2016 Qi Wang
+// 2025-06-11
+class Solution {
+ public:
+  int findMaxForm(vector<string>& strs, int m, int n) {
+    vector<vector<int>> dp(m + 1, vector<int>(n + 1, 0));
+    for (const auto& str: strs) {
+      int zeros = count(str.begin(), str.end(), '0');
+      int ones = str.size() - zeros;
+      for (int i = m; i >= 0; --i) {
+        for (int j = n; j >= 0; --j) {
+          int prevZeros = i - zeros;
+          int prevOnes = j - ones;
+          if (prevZeros < 0 || prevOnes < 0) {
+            continue;
+          }
+          dp[i][j] = max(dp[i][j], dp[prevZeros][prevOnes] + 1);
+        }
+      }
+    }
+    return dp[m][n];
+  }
+};
+
 // Date: 2016-12-29
 class Solution {
  public:
