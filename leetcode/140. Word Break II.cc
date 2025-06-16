@@ -1,3 +1,47 @@
+// 2025-06-14
+class Solution {
+ public:
+  vector<string> wordBreak(string s, vector<string>& wordDict) {
+    int n = s.size();
+    vector<vector<string>> dp(n + 1, vector<string>{});
+    dp[0].push_back("");
+    for (int i = 1; i <= n; ++i) {
+      // Looking for words that end with s[i - 1]
+      for (const auto& word: wordDict) {
+        int idx = (i - 1) - int(word.size()) + 1;
+        if (idx < 0 || !equal(s, idx, word)) {
+          continue;
+        }
+        for (const auto& prefix : dp[idx]) {
+          if (prefix.empty()) {
+            dp[i].push_back(word);
+          } else {
+            dp[i].push_back(prefix + " " + word);
+          }
+        }
+      }
+    }
+    return dp[n];
+  }
+
+ private:
+  bool equal(const string& s, int idx, const string& word) const {
+    // e.g. s = "0123456", s.size() = 7, idx = 4, word = "456"
+    // idx + word.size() = 7 == s.size(). true
+    if (idx + word.size() > s.size()) {
+      return false;
+    }
+    for (char c : word) {
+      if (s[idx] != c) {
+        return false;
+      }
+      ++idx;
+    }
+    return true;
+  }
+};
+
+
 // Copyright 2017 Qi Wang
 // Date: 2017-11-04
 class Solution {
