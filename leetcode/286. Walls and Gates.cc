@@ -1,4 +1,43 @@
-// Copyright 2017 Qi Wang
+// 2025-06-16
+class Solution {
+ public:
+  void wallsAndGates(vector<vector<int>>& rooms) {
+    m = rooms.size();
+    n = rooms[0].size();
+    for (int i = 0; i < m; ++i) {
+      for (int j = 0; j < n; ++j) {
+        if (rooms[i][j] == 0) {
+          bfs(rooms, i, j);
+        }
+      }
+    }
+  }
+
+ private:
+  void bfs(vector<vector<int>>& rooms, int i, int j) {
+    queue<pair<int, int>> q;
+    q.emplace(i, j);
+    while (!q.empty()) {
+      auto [x, y] = q.front();
+      q.pop();
+      static constexpr int d[] = {1, 0, -1, 0, 1};
+      for (int k = 0; k < 4; ++k) {
+        i = x + d[k];
+        j = y + d[k + 1];
+        if (i < 0 || i >= m || j < 0 || j >= n || rooms[i][j] == -1
+            || rooms[x][y] + 1 >= rooms[i][j]) {
+          continue;
+        }
+        rooms[i][j] = rooms[x][y] + 1;
+        q.emplace(i, j);
+      } 
+    }
+  }
+
+  int m;
+  int n;
+};
+
 // Date: 2017-11-10
 class Solution {
  public:

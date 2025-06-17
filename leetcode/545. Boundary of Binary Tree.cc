@@ -1,4 +1,72 @@
-// Copyright 2017 Qi Wang
+// 2025-06-16
+class Solution {
+ public:
+  vector<int> boundaryOfBinaryTree(TreeNode* root) {
+    result.push_back(root->val);
+    if (root->left != nullptr && !isLeaf(root->left)) {
+      leftB(root->left);
+    }
+    // inspect();
+    leaves(root->left);
+    leaves(root->right);
+    if (root->right != nullptr && !isLeaf(root->right)) {
+      rightB(root->right);
+    }
+    return result;
+  }
+
+ private:
+  // node is non-empty and non-leaf
+  void leftB(TreeNode* node) {
+    assert(node != nullptr);
+    assert(!isLeaf(node));
+    result.push_back(node->val);
+    if (node->left != nullptr && !isLeaf(node->left)) {
+      leftB(node->left);
+      return;
+    }
+    if (node->left == nullptr && node->right != nullptr && !isLeaf(node->right)) {
+      leftB(node->right);
+    }
+  }
+
+  void leaves(TreeNode* node) {
+    if (node == nullptr) {
+      return;
+    }
+    if (isLeaf(node)) {
+      result.push_back(node->val);
+    }
+    leaves(node->left);
+    leaves(node->right);
+  }
+
+  void rightB(TreeNode* node) {
+    assert(node != nullptr);
+    if (node->right != nullptr && !isLeaf(node->right)) {
+      rightB(node->right);
+    }
+    if (node->right == nullptr && node->left != nullptr && !isLeaf(node->left)) {
+      rightB(node->left);
+    }
+    result.push_back(node->val);
+  }
+
+  bool isLeaf(TreeNode* node) {
+    assert(node != nullptr);
+    return node->left == nullptr && node->right == nullptr;
+  }
+
+  void inspect() {
+    for (int r : result) {
+      cout << r << ", ";
+    }
+    cout << endl;
+  }
+
+  vector<int> result;
+};
+
 // Date: 2017-04-20
 class Solution {
  public:
