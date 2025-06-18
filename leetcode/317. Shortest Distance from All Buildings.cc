@@ -1,4 +1,76 @@
-// Copyright 2017 Qi Wang
+// 2025-06-17
+// Method 2 -- start from buildings
+
+// Method 1
+class Solution {
+ public:
+  int shortestDistance(vector<vector<int>>& grid) {
+    int buildingCount = 0;
+    for (auto& row : grid) {
+      for (int& num : row) {
+        if (num == 1) {
+          num = kBuilding;
+          ++buildingCount;
+        } else if (num == 2) {
+          num = kObstacle;
+        }
+      }
+    }
+    int result = numeric_limits<int>::max();
+    int m = grid.size(), n = grid[0].size();
+    for (int i = 0; i < m; ++i) {
+      for (int j = 0; j < n; ++j) {
+        if (grid[i][j] == kLand) {
+          result = min(result, bfs(grid, i, j, buildingCount));
+        }
+      }
+    }
+    return result == numeric_limits<int>::max() ? -1 : result;
+  }
+
+ private:
+  int bfs(vector<vector<int>> grid, int x, int y, int buildingCount) {
+    int result = 0;
+    int actualBuildingCount = 0;
+    int m = grid.size();
+    int n = grid[0].size();
+    vector<vector<bool>> visited(m, vector<bool>(n, false));
+    queue<pair<int, int>> q;
+    q.emplace(x, y);
+    visited[x][y] = true;
+    while (!q.empty()) {
+      x = q.front().first;
+      y = q.front().second;
+      q.pop();
+      static constexpr int d[] = {-1, 0, 1, 0, -1};
+      for (int k = 0; k < 4; ++k) {
+        int i = x + d[k];
+        int j = y + d[k + 1];
+        if (i < 0 || i >= m || j < 0 || j >= n 
+            || visited[i][j]
+            || grid[i][j] == kObstacle) {
+          continue;
+        }
+        visited[i][j] = true;
+        if (grid[i][j] == kBuilding) {
+          ++actualBuildingCount;
+          result += grid[x][y] + 1;
+        } else if (grid[i][j] == kLand) {
+          grid[i][j] = grid[x][y] + 1;
+          q.emplace(i, j);
+        }
+      }
+    }
+    return actualBuildingCount == buildingCount
+        ? result
+        : numeric_limits<int>::max();
+  }
+
+  static constexpr int kLand = 0;
+  static constexpr int kBuilding = -1;
+  static constexpr int kObstacle = -2;
+};
+
 // Date: 2017-10-24
 // Refer to the solution on 2016-12-25
 class Solution {

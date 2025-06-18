@@ -1,4 +1,61 @@
-// Copyright 2017 Qi Wang
+// 2025-06-17
+// Method 2: refer to solution in 2017
+class Solution {
+ public:
+  int maxPathSum(TreeNode* root) {
+    int result = root->val;
+    MaxPathSum(root, result);
+    return result;
+  }
+ 
+ private:
+  int MaxPathSum(TreeNode* root, int& result) {
+    if (root == nullptr) {
+      return 0;
+    }
+    int l = max(0, MaxPathSum(root->left, result));
+    int r = max(0, MaxPathSum(root->right, result));
+    result = max(result, root->val + l + r);
+    return root->val + max(l, r);
+  }
+};
+
+// 2025-06-17
+// Method 1
+struct Result {
+  int oneSidedSum = 0;
+  int localMax = numeric_limits<int>::min();
+};
+
+class Solution {
+ public:
+  int maxPathSum(TreeNode* root) {
+    return f(root).localMax;
+  }
+
+ private:
+  Result f(TreeNode* root) {
+    Result l, r;
+    if (root->left != nullptr) {
+      l = f(root->left);
+    }
+    if (root->right != nullptr) {
+      r = f(root->right);
+    }
+    int oneSidedSum = max(root->val, root->val + max(l.oneSidedSum, r.oneSidedSum));
+    vector<int> localMaxCandidates {
+      oneSidedSum,
+      root->val + l.oneSidedSum + r.oneSidedSum,
+      l.localMax,
+      r.localMax
+    };
+    return Result {
+      .oneSidedSum = oneSidedSum,
+      .localMax = *max_element(localMaxCandidates.begin(), localMaxCandidates.end())
+    };
+  }
+};
+
 // Date: 2017-10-26
 class Solution {
  public:
