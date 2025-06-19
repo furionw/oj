@@ -1,4 +1,44 @@
-// Copyright 2017 Qi Wang
+// 2025-06-18
+class Solution {
+ public:
+  vector<vector<int>> verticalOrder(TreeNode* root) {
+    if (root == nullptr) {
+      return {};
+    }
+    int l = 0, r = 0; 
+    exploreBoundary(root, 0 /*cur*/, l, r);
+
+    vector<vector<int>> result(r - l + 1, vector<int>{});
+    queue<pair<TreeNode*, int>> q;
+    q.emplace(root, 0 /*cur*/);
+    while (!q.empty()) {
+      auto [node, cur] = q.front();
+      q.pop();
+      result[cur - l].push_back(node->val);
+      if (node->left != nullptr) {
+        q.emplace(node->left, cur - 1);
+      }
+      if (node->right != nullptr) {
+        q.emplace(node->right, cur + 1);
+      }
+    }
+
+    return result;
+  }
+
+ private:
+  void exploreBoundary(TreeNode* node, int cur, int& l, int& r) {
+    if (node == nullptr) {
+      return;
+    }
+    l = min(l, cur);
+    r = max(r, cur);
+    exploreBoundary(node->left, cur - 1, l, r);
+    exploreBoundary(node->right, cur + 1, l, r);
+  }
+};
+
+
 // Date: 2017-10-31
 class Solution {
  public:
