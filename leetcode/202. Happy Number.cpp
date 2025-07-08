@@ -1,3 +1,20 @@
+// 2025-06-24
+class Solution {
+ public:
+  bool isHappy(int n) {
+    unordered_set<int> visited;
+    while (n != 1 && !visited.contains(n)) {
+      visited.insert(n);
+      int newN = 0;
+      for (; n > 0; n /= 10) {
+        newN += pow(n % 10, 2);
+      }
+      n = newN;
+    }
+    return n == 1;
+  }
+};
+
 class Solution 
 {
 public:
