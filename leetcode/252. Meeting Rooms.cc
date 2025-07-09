@@ -1,4 +1,19 @@
-// Copyright 2017 Qi Wang
+// 2025-07-08
+class Solution {
+ public:
+  bool canAttendMeetings(vector<vector<int>>& ints) {
+    sort(ints.begin(), ints.end());
+    int last = 0;
+    for (const auto& v : ints) {
+      if (v[0] < last) {
+        return false;
+      }
+      last = v[1];
+    }
+    return true;
+  }
+};
+
 // Date: 2017-10-24
 // Case 1: []
 // Case 2: [[1, 2], [2, 3], [4, 5]]

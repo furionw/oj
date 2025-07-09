@@ -1,4 +1,19 @@
-// Copyright 2017 Qi Wang
+// 2025-07-08
+class Solution {
+ public:
+  int minMeetingRooms(vector<vector<int>>& ints) {
+    sort(ints.begin(), ints.end());
+    priority_queue<int, vector<int>, greater<int>> pq;
+    int result = 0;
+    for (const auto& v : ints) {
+      for (; !pq.empty() && pq.top() <= v[0]; pq.pop()) {}
+      pq.push(v[1]);
+      result = max(result, int(pq.size()));
+    }
+    return result;
+  }
+};
+
 // Date: 2017-10-25
 // Case 1: []
 // Case 2: [[1, 3], [3, 5], [4, 6]]
