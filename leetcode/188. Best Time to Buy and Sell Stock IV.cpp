@@ -1,4 +1,27 @@
-// Copyright 2016 Qi Wang
+// 2025-07-14
+class Solution {
+ public:
+  int maxProfit(int k, vector<int>& prices) {
+    int n = prices.size();
+    vector<vector<vector<int>>> dp(
+      n + 1,
+      vector<vector<int>>(k + 1, vector<int>(2, 0))
+    );
+    for (int i = 0; i <= n; ++i) {
+      for (int j = 0; j <= k; ++j) {
+        dp[i][j][0] = -1e6;
+      }
+    }
+    for (int i = 1; i <= n; ++i) {
+      for (int j = 1; j <= k; ++j) {
+        dp[i][j][0] = max(dp[i - 1][j][0], dp[i - 1][j - 1][1] - prices[i - 1]);
+        dp[i][j][1] = max(dp[i - 1][j][1], dp[i - 1][j][0] + prices[i - 1]);
+      }
+    }
+    return dp[n][k][1];
+  }
+};
+
 // Reference: http://liangjiabin.com/blog/2015/04/leetcode-best-time-to-buy-and-sell-stock.html
 // I think we can make a transaction within a day -- buy and sell stock in the same day
 // Date: 2016-10-06
