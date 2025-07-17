@@ -1,4 +1,24 @@
-// Copyright 2017 Qi Wang
+// 2025-07-16
+class MovingAverage {
+ public:
+  MovingAverage(int size): size_(size) {}
+    
+  double next(int val) {
+    vals_.push_back(val);
+    sum_ += val;
+    if (vals_.size() > size_) {
+      sum_ -= vals_.front();
+      vals_.pop_front();
+    }
+    return sum_ / vals_.size();
+  }
+
+ private:
+  list<double> vals_;
+  double sum_ = 0;
+  int size_;
+};
+
 // Date: 2016-12-23
 // Revisit on 2017-09-12
 class MovingAverage {
