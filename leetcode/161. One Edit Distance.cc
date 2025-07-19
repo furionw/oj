@@ -1,4 +1,65 @@
-// Copyright 2017 Qi Wang
+// 2025-07-18
+// Method 1
+class Solution {
+ public:
+  bool isOneEditDistance(string s, string t) {
+    int m = s.size();
+    int n = t.size();
+    if (abs(m - n) > 1) {
+      return false;
+    }
+    bool edited = false;
+    int i = 0;
+    int j = 0;
+    while (i < m && j < n) {
+      if (s[i] == t[j]) {
+        ++i;
+        ++j;
+      } else if (edited) {
+        return false;
+      } else {
+        edited = true;
+        if (m < n) {
+          ++j;
+        } else if (m > n) {
+          ++i;
+        } else {
+          ++i;
+          ++j;
+        }
+      }
+    }
+    // readed end (false) ^ edited (true) = true
+    // not reached (true) ^ unedited (false) = true
+    return (i != m || j != n) ^ edited;
+  }
+};
+
+
+// 2025-07-18
+// Method 2: refer to the previous method
+class Solution {
+ public:
+  bool isOneEditDistance(string s, string t) {
+    if (s.size() > t.size()) {
+      swap(s, t);
+    }
+    // s.size() < t.size()
+    for (int i = 0; i < s.size(); ++i) {
+      if (s[i] != t[i]) {
+        return s.size() == t.size()
+            // change and move on
+            ? s.substr(i + 1) == t.substr(i + 1)
+            // delete `t[i]` (aka insert into s)
+            : s.substr(i) == t.substr(i + 1);
+      }
+    }
+    return t.size() - s.size() == 1;
+  }
+};
+
+
+
 // Date: 2017-11-06
 // Case 1: "ab", "ab" -> false
 // Case 2: "abc", "bbc" -> true
