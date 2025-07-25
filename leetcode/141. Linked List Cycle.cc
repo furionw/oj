@@ -1,4 +1,23 @@
-// Copyright 2017 Qi Wang
+// 2025-07-23
+class Solution {
+ public:
+  bool hasCycle(ListNode *head) {
+    auto fast = head;
+    while (fast != nullptr) {
+      fast = fast->next;
+      if (fast == nullptr) {
+        return false;
+      }
+      fast = fast->next;
+      head = head->next;
+      if (head == fast) {
+        return true;
+      }
+    }
+    return false;
+  }
+};
+
 // Date: 2017-08-22
 class Solution {
  public:
