@@ -1,4 +1,60 @@
-// Copyright 2017 Qi Wang
+// 2025-07-27
+// There is a O(n) solution. Refer to your Java code.
+
+// 2025-07-27
+// Method 1
+struct WaitingTask {
+  int nextTime;
+  int cnt;
+
+  bool operator<(const WaitingTask& other) const {
+    return nextTime != other.nextTime
+        ? nextTime > other.nextTime
+        : cnt < other.cnt;
+  }
+};
+
+class Solution {
+ public:
+  int leastInterval(vector<char>& tasks, int n) {
+    priority_queue<int> ready;
+
+    vector<int> cnts(26, 0);
+    for (char t: tasks) {
+      ++cnts[t - 'A'];
+    }
+
+    for (int cnt : cnts) {
+      if (cnt > 0) {
+        ready.push(cnt);
+      }
+    }
+
+    int currentTime = 1;
+    priority_queue<WaitingTask> waiting;
+
+    for (; !ready.empty() || !waiting.empty(); ++currentTime) {
+      while (!waiting.empty() && waiting.top().nextTime == currentTime) {
+        ready.push(waiting.top().cnt);
+        waiting.pop();
+      }
+      if (ready.empty()) {
+        continue;
+      }
+      int cnt = ready.top() - 1;
+      ready.pop();
+      if (cnt > 0) {
+        waiting.push({
+          .nextTime = currentTime + n + 1,
+          .cnt = cnt
+        });
+      }
+    }
+
+    return currentTime - 1;
+  }
+};
+
 // Date: 2017-08-07
 // Refer to the previous solution
 class Solution {
