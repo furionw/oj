@@ -1,3 +1,69 @@
+// 2025-08-04
+// Method 2: two pointers. refer to the Editorial
+class Solution {
+ public:
+  int trap(vector<int>& height) {
+    int n = height.size();
+    int leftmost = height[0];
+    int rightmost = height.back();
+    int result = 0;
+    for (int l = 1, r = n - 2; l <= r; ) {
+      if (leftmost <= rightmost) {
+        result += max(0, leftmost - height[l]);
+        leftmost = max(leftmost, height[l]);
+        ++l;
+      } else {
+        result += max(0, rightmost - height[r]);
+        rightmost = max(rightmost, height[r]);
+        --r;
+      }
+    }
+    return result;
+  }
+};
+
+// 2025-08-04
+// Method 1: array
+class Solution {
+ public:
+  int trap(vector<int>& height) {
+    int n = height.size();
+    vector<int> leftmost(n, 0);
+    for (int i = 1; i < n; ++i) {
+      leftmost[i] = max(leftmost[i - 1], height[i - 1]);
+    }
+    int result = 0;
+    int rightmost = 0;
+    for (int i = n - 2; i >= 0; --i) {
+      rightmost = max(rightmost, height[i + 1]);
+      result += max(0, min(leftmost[i], rightmost) - height[i]);
+    }
+    return result;
+  }
+};
+
+// 2025-08-04
+class Solution {
+ public:
+  int trap(vector<int>& height) {
+    int n = height.size();
+    vector<int> leftmost(n, 0);
+    auto rightmost = leftmost;
+    for (int i = 1; i < n; ++i) {
+      leftmost[i] = max(leftmost[i - 1], height[i - 1]);
+    }
+    for (int i = n - 2; i >= 0; --i) {
+      rightmost[i] = max(rightmost[i + 1], height[i + 1]);
+    }
+
+    int result = 0;
+    for (int i = 1; i < n - 1; ++i) {
+      result += max(0, min(leftmost[i], rightmost[i]) - height[i]);
+    }
+    return result;
+  }
+};
+
 // Date: 2022-11-04
 class Solution {
  public:
