@@ -1,4 +1,55 @@
-// Copyright 2017 Qi Wang
+// 2025-08-07
+// Taught by Gemini
+class Solution {
+ public:
+  double findMaxAverage(vector<int>& nums, int k) {
+    double l = nums[0];
+    double r = nums[0];
+    for (double num : nums) {
+      l = min(l, num);
+      r = max(r, num);
+    }
+    double error = r - l;
+    while (error >= 1e-5) {
+      double mid = (l + r) / 2;
+      if (check(nums, k, mid)) {
+        l = mid;
+      } else {
+        r = mid;
+      }
+      error = r - l;
+    }
+    return r;
+  }
+
+ private:
+  bool check(const vector<int>& nums, int k, double mid) {
+    double sum = 0;
+    for (int i = 0; i < k; ++i) {
+      sum += nums[i] - mid;
+    }
+    if (sum >= 0) {
+      return true;
+    }
+    double prevSum = 0;
+    for (int i = k; i < nums.size(); ++i) {
+      sum += nums[i] - mid;
+      if (sum >= 0) {
+        return true;
+      }
+      prevSum += nums[i - k] - mid;
+      if (prevSum < 0) {
+        sum -= prevSum;
+        if (sum >= 0) {
+          return true;
+        }
+        prevSum = 0;
+      }
+    }
+    return false;
+  }
+};
+
 // Date: 2017-09-11
 // Refer to the previous solution
 class Solution {

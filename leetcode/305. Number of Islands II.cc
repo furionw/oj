@@ -1,4 +1,58 @@
-// Copyright 2017 Qi Wang
+// 2025-08-07
+class Solution {
+ public:
+  vector<int> numIslands2(int m, int n, vector<vector<int>>& positions) {
+    vector<int> parents(m * n);
+    for (int i = 0; i < m * n; ++i) {
+      parents[i] = i;
+    }
+    vector<vector<int>> grid(m, vector<int>(n, 0));
+
+    int k = positions.size();
+    vector<int> result(k, 0);
+    int count = 0;
+    for (int i = 0; i < k; ++i) {
+      const auto& position = positions[i];
+      int x = position[0];
+      int y = position[1];
+      if (grid[x][y]) {
+        result[i] = count;
+        continue;
+      }
+
+      ++count;
+      grid[x][y] = 1;
+
+      int u = x * n + y;
+      static vector<int> deltas {-1, 0, 1, 0, -1};
+      for (int d = 0; d < 4; ++d) {
+        int nextX = x + deltas[d];
+        int nextY = y + deltas[d + 1];
+        if (nextX < 0 || nextX >= m || nextY < 0 || nextY >= n ||
+            grid[nextX][nextY] == 0) {
+          continue;
+        }
+        int v = nextX * n + nextY;
+        int pv = find(parents, v);
+        if (u != pv) {
+          --count;
+          parents[pv] = u;
+        }
+      }
+      result[i] = count;
+    }
+    return result;
+  }
+
+ private:
+  int find(vector<int>& p, int u) {
+    int pu = p[u];
+    return pu == u
+        ? pu
+        : p[u] = find(p, pu);
+  }
+};
+
 // Date: 2017-01-02
 class Solution {
  private:
