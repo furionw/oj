@@ -1,4 +1,36 @@
-// Copyright 2017 Qi Wang
+// 2025-08-08
+class Solution {
+ public:
+  double myPow(double x, int n) {
+    if (x == 0) {
+      return 0;
+    }
+
+    bool carry = false;
+    bool positive = n > 0;
+    if (!positive) {
+      if (n == numeric_limits<int>::min()) {
+        carry = true;
+        n = numeric_limits<int>::max();
+      } else {
+        n = -n;
+      }
+    }
+
+    double result = 1;
+    double val = x;
+    for (int i = 0; i <= 30; ++i) {
+      if ((1 << i) & n) {
+        result *= val;
+      }
+      val *= val;
+    }
+    return positive
+        ? result :
+        1 / (carry ? result * x : result);
+  }
+};
+
 // Date: 2017-11-10
 class Solution {
  public:
