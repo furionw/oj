@@ -1,4 +1,14 @@
-// Copyright 2017 Qi Wang
+// 2025-08-09
+class Solution {
+ public:
+  bool isPowerOfTwo(int n) {
+    if (n <= 0) {
+      return false;
+    }
+    return (n & -n) == n;
+  }
+};
+
 // Date: 2017-01-04
 class Solution {
  public:
